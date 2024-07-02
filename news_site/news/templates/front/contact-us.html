@@ -1,0 +1,105 @@
+{% extends 'front/panel.html' %}
+{% load static %}
+{% block settings_tab_name %}
+<title>{{settings.tab_name}} | تماس با ما</title>
+{% endblock settings_tab_name %}
+{% block contentpanel %}
+<!-- =======================
+Inner intro START -->
+<section>
+	<div class="container">
+		<div class="row">
+      <div class="col-md-9 mx-auto text-center">
+        <h1 class="display-5">تماس با ما</h1>
+        <!-- breadcrumb -->
+        <nav class="d-flex justify-content-center" aria-label="breadcrumb">
+          <ol class="breadcrumb breadcrumb-dots mb-0">
+            <li class="breadcrumb-item"><a href="index.html"><i class="bi bi-house me-1"></i> خانه</a></li>
+            <li class="breadcrumb-item active">تماس با ما</li>
+          </ol>
+        </nav>      
+      </div>
+    </div>
+	</div>
+</section>
+<!-- =======================
+Inner intro END -->
+
+<!-- =======================
+Contact info START -->
+<section class="pt-4">
+	<div class="container">
+		<div class="row">
+      <div class="col-xl-9 mx-auto">
+        
+        <div class="row mt-5">
+          <div class="col-sm-6 mb-5 mb-sm-0">
+            <h3>تبلیغات / حمایت مالی</h3>
+            <p>جهت دریافت مشاوره برای تبلیغات با ما تماس بگیرید.</p>
+            <address>تهران، میدان هفت تیر، مجمتع صدف پلاک 82</address>
+            <p>شماره تماس: <a href="#" class="text-reset"><u>469-537-2410</u></a></p>
+            <p>خبر الکترونیکی: <a href="#" class="text-reset"><u>advertise@example.com</u></a></p>
+            <p>ساعات کار: شنبه تا چهارشنبه 
+              <br>
+              9:30 صبح تا 18:30 بعد از ظهر
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <h3>{{contact_us.title}}</h3>
+            <address>{{contact_us.address}}</address>
+            <p>شماره تماس: <a href="#" class="text-reset"><u>{{contact_us.number}}</u></a></p>
+            <p>خبر الکترونیکی: <a href="#" class="text-reset"><u>{{contact_us.email}}</u></a></p>
+            <p>ساعات کار: {{contact_us.hours_of_work}}
+              <br>
+            </p>
+          </div>
+        </div>
+        
+        <hr class="my-5">
+        
+        <div class="row">
+          <div class="col-12">
+          <h2>تماس با ما</h2>
+          <p>لطفا فرم زیر را پر کنید و به زودی با شما تماس خواهیم گرفت. آدرس ایمیل شما منتشر نخواهد شد.</p>
+          <!-- Form START -->
+          <form class="contact-form" id="contact-form" name="contactform" method="POST">
+            <!-- Main form -->
+            <div class="row">
+              <div class="col-md-6">
+                <!-- name -->
+                <div class="mb-3">
+                  <input required id="con-name" name="name" type="text" class="form-control" placeholder="نام خانوادگی">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <!-- email -->
+                <div class="mb-3">
+                  <input required id="con-email" name="email" type="email" class="form-control" placeholder="ایمیل">
+                </div>
+              </div>
+              <div class="col-md-12">
+                <!-- Subject -->
+                <div class="mb-3">
+                  <input required id="con-subject" name="subject" type="text" class="form-control" placeholder="عنوان">
+                </div>
+              </div>
+              <div class="col-md-12">
+                <!-- Message -->
+                <div class="mb-3">
+                  <textarea required id="con-message" name="message" cols="40" rows="6" class="form-control" placeholder="متن درخواست"></textarea>
+                </div>
+              </div>
+              <!-- submit button -->
+              <div class="col-md-12 text-start"><button class="btn btn-primary w-100" type="submit">ارسال پیام</button></div>
+            </div>
+          </form>
+			  	<!-- Form END -->
+          </div>
+        </div>
+      </div>  <!-- Col END -->
+     </div>
+  </div>
+</section>
+<!-- =======================
+Contact info END -->
+{% endblock contentpanel %}

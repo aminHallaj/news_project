@@ -1,0 +1,90 @@
+{% extends 'front/panel.html' %}
+{% load static %}
+{% block settings_tab_name %}
+<title>{{settings.tab_name}} | خبرها</title>
+{% endblock settings_tab_name %}
+{% block contentpanel %}
+<!-- =======================
+Inner intro START -->
+<section class="pt-4">
+	<div class="container">
+		<div class="row">
+      		<div class="col-12">
+				<div class="bg-warning bg-opacity-10 text-center rounded-3 p-4"> 
+					{% if category_list %}
+					<h1 class="" style="color: {{ category_list.coler }};">{{category_list.title}}</h1>
+					{% else %}
+					<h1 class="text-warning">{{category_list.title}}</h1>
+					{% endif %}
+					<nav class="d-flex justify-content-center" aria-label="breadcrumb">
+						<ol class="breadcrumb breadcrumb-dots mb-0">
+							<li class="breadcrumb-item"><a href="/"><i class="bi bi-house me-1"></i> خانه</a></li>
+							<li class="breadcrumb-item active">{{category_list.title}}</li>
+						</ol>
+					</nav>
+				</div>
+      		</div>
+    	</div>
+	</div>
+</section>
+<!-- =======================
+Inner intro END -->
+
+<!-- =======================
+Main content START -->
+<section class="position-relative pt-0">
+	<div class="container">
+		<div class="row">
+			<!-- Card item START -->
+			{% for i in news_list %}
+			<div class="col-sm-6 col-lg-3">
+				<div class="card mb-4">
+					<!-- Card img -->
+					<div class="card-fold position-relative">
+						<img class="card-img" src="{{i.img.url}}" alt="Card image">
+					</div>
+					<div class="card-body px-0 pt-3">
+						<h5 class="card-title"><a href="{% url 'front_post_single' id=i.id %}" class="btn-link text-reset stretched-link">{{i.title}}</a></h5>
+						<!-- Card info -->
+						<ul class="nav nav-divider align-items-center text-uppercase small">
+							<li class="nav-item">
+								<a href="#" class="nav-link text-reset btn-link">{{i.author.get_full_name}}</a>
+							</li>
+							<li class="nav-item">{{i.jdate}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			<!-- Card item END -->
+		</div> <!-- Row end -->
+
+    <!-- Pagination START -->
+    <nav class="mb-5 d-flex justify-content-center" aria-label="navigation">
+      <ul class="pagination pagination-bordered ">
+        <li class="page-item disabled">
+			{% if news_list.has_previous %}
+          <a class="page-link" href="?page={{news_list.previous_page_number}}" title="Previous" tabindex="-1" aria-disabled="true">قبل</a>
+		  	{% endif %}
+        </li>
+		{% for i in news_list.paginator.page_range %}
+		{% if news_list.number == i %}
+		<li class="page-item"><a class="page-link" title="{{Disables}}" value="submit" onclick="return false;"  href="#"> {{i}}</a></li>
+		{% else %}
+		<li class="page-item"><a class="" title="{{i}}" value="submit"  href="?page={{i}}"> {{i}}</a></li>
+		{% endif %}
+		{% endfor %}
+        <li class="page-item">
+			{% if news_list.has_next%}
+			<a class="" title="Next" value="submit" href="?page={{news_list.next_page_number}}"> بعدی</a>
+			{% endif %}
+        </li>
+      </ul>
+    </nav>
+    <!-- Pagination END -->
+	</div>
+</section>
+<!-- =======================
+Main content END -->
+
+{% endblock contentpanel %}

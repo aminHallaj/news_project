@@ -265,9 +265,13 @@ Header START -->
 									<div class="col-12">
 										<ul class="list-inline mt-3">
 											<li class="list-inline-item">دسته بندی ها:</li>
-
-											<li class="list-inline-item"><a href="#" class="btn btn-sm btn-primary-soft">گردشگری</a></li>
-
+											{% for i in category_menu2 %}
+												{% if i.coler %}
+											<li class="list-inline-item"><a href="{% url 'front_post_list' id=i.id %}" class="btn btn-sm" style="background-color: {{ i.coler }}; color: #fff">{{i.title}}</a></li>
+												{% else %}
+												<li class="list-inline-item"><a href="{% url 'front_post_list' id=i.id %}" class="btn btn-sm btn-warning-soft">{{i.title}}</a></li>
+												{% endif %}
+											{% endfor %}
 										</ul>
 									</div>
 								</div> <!-- Row END -->
@@ -280,10 +284,6 @@ Header START -->
 
 			<!-- Nav right START -->
 			<div class="nav flex-nowrap align-items-center">
-				<!-- Nav Button -->
-				<div class="nav-item d-none d-md-block">
-					<a href="#" class="btn btn-sm btn-danger mb-0 mx-2">خبرنامه</a>
-				</div>
 				<!-- Nav Search -->
 				<div class="nav-item dropdown dropdown-toggle-icon-none nav-search">
 					<a class="nav-link dropdown-toggle" role="button" href="#" id="navSearch" data-bs-toggle="dropdown" aria-expanded="false">

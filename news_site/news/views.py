@@ -10,7 +10,10 @@ from django.core.paginator import Paginator , EmptyPage , PageNotAnInteger
 def front_index(request):
 
     settings = Settings.objects.get(id=1)
+
     category_menu = Category.objects.all()
+
+    category_menu2 = Category.objects.all()[:12]
     
     popular = News.objects.all().order_by('-id')[:4]
 
@@ -22,7 +25,7 @@ def front_index(request):
 
     menu_news_list = News.objects.all().order_by('-id')[:4]
 
-    return render(request, 'front/index.html',{"menu_news_list":menu_news_list, "news_slider2":news_slider2,"news_slider":news_slider,'popular':popular,'settings':settings,'news_list':news_list,"category_menu":category_menu})
+    return render(request, 'front/index.html',{"category_menu2":category_menu2, "menu_news_list":menu_news_list, "news_slider2":news_slider2,"news_slider":news_slider,'popular':popular,'settings':settings,'news_list':news_list,"category_menu":category_menu})
 
 
 def front_about_us(request):

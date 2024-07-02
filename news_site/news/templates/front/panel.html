@@ -240,48 +240,34 @@ Header START -->
 							<div class="container">
 								<div class="row g-4 p-3 flex-fill">
 									<!-- Card item START -->
+									{% for i in menu_news_list %}
 									<div class="col-sm-6 col-lg-3">
 										<div class="card bg-transparent">
 											<!-- Card img -->
-											<img class="card-img rounded" src="{% static 'front/' %}images/blog/16by9/small/01.jpg" alt="Card image">
+											<img class="card-img rounded" src="{{i.img.url}}" alt="Card image">
 											<div class="card-body px-0 pt-3">
-												<h6 class="card-title mb-0"><a href="#" class="btn-link text-reset">7 دیدگاه اشتباهاتی که همه در سفر مرتکب می شوند؟</a></h6>
+												<h6 class="card-title mb-0"><a href="{% url 'front_post_single' id=i.id %}" class="btn-link text-reset">{{i.title}}</a></h6>
 												<!-- Card info -->
 												<ul class="nav nav-divider align-items-center text-uppercase small mt-2">
 													<li class="nav-item">
-														<a href="#" class="text-reset btn-link">الناز حسینی</a>
+														<a href="#" class="text-reset btn-link">{{i.author.get_full_name}}</a>
 													</li>
-													<li class="nav-item">15 بهمن، 1400</li>
+													<li class="nav-item">{{i.jdate}}</li>
 												</ul>
 											</div>
 										</div>
 									</div>
-									<!-- Card item END -->
-									<!-- Card item START -->
-									<div class="col-sm-6 col-lg-3">
-										<div class="bg-primary bg-opacity-10 p-4 text-center h-100 w-100 rounded">
-											<span>پیشنهاد Blogzine</span>
-											<h3>خرید پکیج اقتصادی</h3>
-											<p>عضویت در خبرنامه</p>
-											<a href="#" class="btn btn-warning">خرید و فعالسازی</a>
-										</div>
-									</div>
+									{% endfor %}
 									<!-- Card item END -->
 								</div> <!-- Row END -->
 								<!-- Trending tags -->
 								<div class="row px-3">
 									<div class="col-12">
 										<ul class="list-inline mt-3">
-											<li class="list-inline-item">برچسب ها:</li>
+											<li class="list-inline-item">دسته بندی ها:</li>
+
 											<li class="list-inline-item"><a href="#" class="btn btn-sm btn-primary-soft">گردشگری</a></li>
-											<li class="list-inline-item"><a href="#" class="btn btn-sm btn-warning-soft">کسب و کار</a></li>
-											<li class="list-inline-item"><a href="#" class="btn btn-sm btn-success-soft">فناوری</a></li>
-											<li class="list-inline-item"><a href="#" class="btn btn-sm btn-danger-soft">گجت</a></li>
-											<li class="list-inline-item"><a href="#" class="btn btn-sm btn-info-soft">سبک زندگی</a></li>
-											<li class="list-inline-item"><a href="#" class="btn btn-sm btn-primary-soft">واکسن</a></li>
-											<li class="list-inline-item"><a href="#" class="btn btn-sm btn-success-soft">ورزشی</a></li>
-											<li class="list-inline-item"><a href="#" class="btn btn-sm btn-danger-soft">کووید</a></li>
-											<li class="list-inline-item"><a href="#" class="btn btn-sm btn-info-soft">پوشاک</a></li>
+
 										</ul>
 									</div>
 								</div> <!-- Row END -->

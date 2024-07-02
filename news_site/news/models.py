@@ -48,3 +48,8 @@ class News(models.Model):
             return '-'
 
 
+class NewsLetters(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="newsletters")
+    email=models.CharField(max_length=500)
+
+

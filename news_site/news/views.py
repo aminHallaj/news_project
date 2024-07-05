@@ -25,7 +25,14 @@ def front_index(request):
 
     menu_news_list = News.objects.all().order_by('-id')[:4]
 
-    return render(request, 'front/index.html',{"category_menu2":category_menu2, "menu_news_list":menu_news_list, "news_slider2":news_slider2,"news_slider":news_slider,'popular':popular,'settings':settings,'news_list':news_list,"category_menu":category_menu})
+    list_index = {
+        "category_menu2":category_menu2, "menu_news_list":menu_news_list,
+        "news_slider2":news_slider2,"news_slider":news_slider,
+        'popular':popular,'settings':settings,
+        'news_list':news_list,"category_menu":category_menu
+    }
+
+    return render(request, 'front/index.html', list_index)
 
 
 def front_about_us(request):
@@ -33,7 +40,12 @@ def front_about_us(request):
     settings=Settings.objects.get(id=1)
     category_menu=Category.objects.all()
 
-    return render(request, 'front/about-us.html',{'settings':settings,"category_menu":category_menu})
+
+    list_about_us = {
+        'settings':settings,"category_menu":category_menu
+    }
+
+    return render(request, 'front/about-us.html', list_about_us)
 
 
 def front_contact_us(request):
@@ -43,7 +55,12 @@ def front_contact_us(request):
 
     contact_us=ContactUsSettings.objects.get(id=1)
 
-    return render(request, 'front/contact-us.html',{'settings':settings,"category_menu":category_menu,"contact_us":contact_us})
+
+    list_contact_us = {
+        'settings':settings,"category_menu":category_menu,"contact_us":contact_us
+    }
+
+    return render(request, 'front/contact-us.html', list_contact_us)
 
 
 def front_post_single(request,id):
@@ -53,7 +70,12 @@ def front_post_single(request,id):
 
     news_show=News.objects.get(id=id)
 
-    return render(request, 'front/post-single.html',{"id":id,'settings':settings,'news_show':news_show,"category_menu":category_menu})
+
+    list_post_single = {
+        "id":id,'settings':settings,'news_show':news_show,"category_menu":category_menu
+    }
+
+    return render(request, 'front/post-single.html', list_post_single)
 
 
 def front_post_list(request,id):
@@ -83,4 +105,11 @@ def front_post_list(request,id):
         news_list=paginator.page(1)
 
 
-    return render(request, 'front/post-grid.html',{"news_list_all":news_list_all,"news_list":news_list,'id':id,'settings':settings,"category_menu":category_menu,"category_list":category_list})
+    list_post_list = {
+        "news_list_all":news_list_all,"news_list":news_list,'id':id,
+        'settings':settings,"category_menu":category_menu,
+        "category_list":category_list
+    }
+
+
+    return render(request, 'front/post-grid.html', list_post_list)

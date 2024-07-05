@@ -341,8 +341,7 @@ Footer START -->
 					<div class="col-12">
 						<button type="submit" class="btn btn-primary m-0">عضویت</button>
 					</div>
-					<div class="form-text mt-2">با عضویت در خبرنامه
-						<a href="#" class="text-decoration-underline text-reset">شرایط و قوانین</a> را خواهید پذیرفت.
+					<div class="form-text mt-2">با عضویت در خبرنامه از خبرهای روز ما باخبر شوید.
 					</div>
 				</form>
 			</div>
@@ -369,18 +368,6 @@ Footer START -->
 						<li class="nav-item">6 مهر، 1400</li>
 					</ul>
 				</div>
-				<!-- Item -->
-				<div class="mb-4 position-relative">
-					<div><a href="#" class="badge text-bg-info mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>فرهنگ</a></div>
-					<a href="post-single-3.html" class="btn-link text-white fw-normal">احتمال آغاز موج هشتم کرونا در کشور</a>
-					<ul class="nav nav-divider align-items-center small mt-2 text-muted">
-						<li class="nav-item position-relative">
-							<div class="nav-link">با <a href="#" class="stretched-link text-reset btn-link">ادمین</a>
-							</div>
-						</li>
-						<li class="nav-item">29 اسفند، 1400</li>
-					</ul>
-				</div>
 			</div>
 
 			<!-- Footer Widget -->
@@ -389,7 +376,9 @@ Footer START -->
 				<div class="row">
 					<div class="col-6">
 						<ul class="nav flex-column text-primary-hover">
-							<li class="nav-item"><a class="nav-link pt-0" href="#">قیمت ارز</a></li>
+							<li class="nav-item"><a class="nav-link pt-0" href="/">خانه</a></li>
+							<li class="nav-item"><a class="nav-link pt-0" href="{% url 'front_about_us' %}">درباره ما</a></li>
+							<li class="nav-item"><a class="nav-link pt-0" href="{% url 'front_contact_us' %}">تماس با ما</a></li>
 						</ul>
 					</div>
 				</div>
@@ -397,11 +386,11 @@ Footer START -->
 
 			<!-- Footer Widget -->
 			<div class="col-sm-6 col-lg-4 mb-4">
-				<h5 class="mb-4 text-white">دریافت بروزسانی ها</h5>
+				<h5 class="mb-4 text-white">شبکه های اجتماعی </h5>
 				<ul class="nav flex-column text-primary-hover">
-					<li class="nav-item"><a class="nav-link pt-0" href="#"><i class="fab fa-whatsapp fa-fw me-2"></i>واتساپ</a></li>
-					<li class="nav-item"><a class="nav-link" href="#"><i class="fab fa-youtube fa-fw me-2"></i>یوتیوب</a></li>
-					<li class="nav-item"><a class="nav-link" href="#"><i class="far fa-bell fa-fw me-2"></i>وب سایت</a></li>
+					<li class="nav-item"><a class="nav-link pt-0" href="{{settings.whatsapp_url}}"><i class="fab fa-whatsapp fa-fw me-2"></i>واتساپ</a></li>
+					<li class="nav-item"><a class="nav-link" href="{{settings.telegram_url}}"><i class="fab fa-telegram fa-fw me-2"></i>تلگرام</a></li>
+					<li class="nav-item"><a class="nav-link" href="{{settings.instagram_url}}"><i class="fab fa-instagram fa-fw me-2"></i>اینستاگرام</a></li>
 				</ul>
 			</div>
 		</div>
@@ -409,7 +398,7 @@ Footer START -->
 
 		<!-- Hot topics START -->
 		<div class="row">
-			<h5 class="mb-2 text-white">پربیننده ترین</h5>
+			<h5 class="mb-2 text-white">دسته بندی ها</h5>
 			<ul class="list-inline text-primary-hover lh-lg">
 				<li class="list-inline-item"><a href="#">کووید</a></li>
 			</ul>

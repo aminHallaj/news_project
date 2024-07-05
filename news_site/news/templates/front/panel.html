@@ -357,17 +357,25 @@ Footer START -->
 			<div class="col-md-6 col-lg-4 mb-4">
 				<h5 class="mb-4 text-white">اخبار اخیر</h5>
 				<!-- Item -->
+				{% for i in footer_news_list %}
 				<div class="mb-4 position-relative">
-					<div><a href="#" class="badge text-bg-danger mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>اقتصاد</a></div>
-					<a href="post-single-3.html" class="btn-link text-white fw-normal">تقویم آزمون‌های علوم پزشکی</a>
+					<div>
+						{% if i.sub_category.category %}
+						<a href="#" class="badge mb-2" style="background-color: {{ i.sub_category.category.coler }};"><i class="fas fa-circle me-2 small fw-bold"></i>{{i.sub_category.category}}</a>
+						{% else %}
+						<a href="#" class="badge text-bg-warning mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>{{i.sub_category.category}}</a>
+						{% endif %}
+					</div>
+					<a href="{% url 'front_post_single' id=i.id %}" class="btn-link text-white fw-normal">{{i.title}}</a>
 					<ul class="nav nav-divider align-items-center small mt-2 text-muted">
 						<li class="nav-item position-relative">
-							<div class="nav-link">با <a href="#" class="stretched-link text-reset btn-link">نازنین لطفی</a>
+							<div class="nav-link">با <a href="#" class="stretched-link text-reset btn-link">{{i.author.get_full_name}}</a>
 							</div>
 						</li>
-						<li class="nav-item">6 مهر، 1400</li>
+						<li class="nav-item">{{i.jdate}}</li>
 					</ul>
 				</div>
+				{% endfor %}
 			</div>
 
 			<!-- Footer Widget -->
@@ -400,7 +408,9 @@ Footer START -->
 		<div class="row">
 			<h5 class="mb-2 text-white">دسته بندی ها</h5>
 			<ul class="list-inline text-primary-hover lh-lg">
-				<li class="list-inline-item"><a href="#">کووید</a></li>
+				{% for i in category_menu2 %}
+				<li class="list-inline-item"><a href="{% url 'front_post_list' id=i.id %}">{{i.title}} /</a></li>
+				{% endfor %}
 			</ul>
 		</div>
 		<!-- Hot topics END -->

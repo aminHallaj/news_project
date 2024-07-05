@@ -52,4 +52,16 @@ class NewsLetters(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="newsletters")
     email=models.CharField(max_length=500)
 
+    def __str__(self):
+            return f"{self.email}"
+
+
+class PointOfView(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="pointofview")
+    first_name_and_last_name=models.CharField(max_length=500)
+    email=models.CharField(max_length=500)
+    text=models.TextField(null=True , blank=True)
+
+    def __str__(self):
+            return f"{self.first_name_and_last_name} | {self.email}"
 

@@ -107,6 +107,44 @@ def front_post_single(request,id):
     return render(request, 'front/post-single.html', list_post_single)
 
 
+def front_all_post_list(request):
+
+    settings=Settings.objects.get(id=1)
+
+    category_menu=Category.objects.all()
+
+    category_menu2 = Category.objects.all()[:12]
+
+    menu_news_list = News.objects.all().order_by('-id')[:4]
+
+    news_list=News.objects.all().order_by('-id')
+
+    footer_news_list = News.objects.all().order_by('-id')[:2]
+
+
+    paginator = Paginator (news_list,8)
+    page = request.GET.get('page')
+
+    try:
+        news_list= paginator.page(page)
+        
+    except EmptyPage:
+        news_list=paginator.page(paginator.num_page)
+
+    except PageNotAnInteger:
+        news_list=paginator.page(1)
+
+
+    list_all_post_list = {
+        "news_list":news_list, 'settings':settings,"category_menu":category_menu,
+        "menu_news_list":menu_news_list,"category_menu2":category_menu2, 
+        'footer_news_list':footer_news_list,
+    }
+
+
+    return render(request, 'front/post-grid.html', list_all_post_list)
+
+
 def front_post_list(request,id):
 
     settings=Settings.objects.get(id=1)

@@ -227,7 +227,7 @@ Header START -->
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="postMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">دسته بندی</a>
 						<ul class="dropdown-menu" aria-labelledby="postMenu">
-							<li> <a class="dropdown-item" href="/">همه خبرها</a> </li>
+							<li> <a class="dropdown-item" href="{% url 'front_all_post_list' %}">همه خبرها</a> </li>
 							{% for i in category_menu %}
 							<li> <a class="dropdown-item" href="{% url 'front_post_list' id=i.id %}">{{i.title}}</a> </li>
 							{% endfor %}

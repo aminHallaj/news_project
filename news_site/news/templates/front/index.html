@@ -217,10 +217,10 @@
 					<div class="mb-4">
 						<h2 class="m-0"><i class="bi bi-hourglass-top me-2"></i>سایر اخبار مهم</h2>
 					</div>
-					<div class="row gy-4">
+					<div class="row gy-4" id="news-container">
 						<!-- Card item START -->
 						{% for i in news_list %}
-						<div class="col-sm-6">
+						<div class="col-sm-6 news-item">
 							<div class="card">
 								<!-- Card img -->
 								<div class="position-relative">
@@ -267,7 +267,7 @@
 						<!-- Card item END -->
 						<!-- Load more START -->
 						<div class="col-12 text-center mt-5">
-							<button type="button" class="btn btn-primary-soft">مشاهده بیشتر <i class="bi bi-arrow-down-circle ms-2 align-middle"></i></button>
+							<button type="button" id="load-more" class="btn btn-primary-soft">مشاهده بیشتر <i class="bi bi-arrow-down-circle ms-2 align-middle"></i></button>
 						</div>
 						<!-- Load more END -->
 					</div>
@@ -325,7 +325,7 @@
 					<!-- Title -->
 					<div class="mb-4 d-md-flex justify-content-between align-items-center">
 						<h2 class="m-0"><i class="bi bi-megaphone"></i> مطالب پیشنهادی</h2>
-						<a href="#" class="text-body small"><u>مشاهده همه</u></a>
+						<a href="{% url 'front_all_post_list' %}" class="text-body small"><u>مشاهده همه</u></a>
 					</div>
 					<div class="tiny-slider arrow-hover arrow-blur arrow-dark arrow-round">
 						<div class="tiny-slider-inner"
@@ -389,5 +389,37 @@
 	</section>
 	<!-- =======================
 	Section END -->
-	
+	<script>
+
+		const loadMoreButton = document.getElementById('load-more');
+		const newsContainer = document.getElementById('news-container');
+		const newsItems = newsContainer.querySelectorAll('.news-item');
+		let currentIndex = 0;
+		const itemsPerPage = 6; // تعداد خبرهایی که می‌خواهید در هر صفحه نمایش دهید
+
+		// ابتدا تمام خبرها را مخفی کنید
+		newsItems.forEach(item => item.style.display = 'none');
+
+		// تابع برای نمایش خبرها
+		function showNewsItems() {
+			const maxIndex = currentIndex + itemsPerPage;
+			for (let i = currentIndex; i < maxIndex && i < newsItems.length; i++) {
+				newsItems[i].style.display = 'block';
+			}
+			currentIndex = maxIndex;
+
+			// اگر همه خبرها نمایش داده شدند، دکمه را غیرفعال کنید
+			if (currentIndex >= newsItems.length) {
+				loadMoreButton.disabled = true;
+			}
+		}
+
+		// نمایش خبرهای اولیه
+		showNewsItems();
+
+		// رویداد کلیک روی دکمه
+		loadMoreButton.addEventListener('click', showNewsItems);
+
+	</script>
+
 {% endblock contentpanel %}

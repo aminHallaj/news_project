@@ -21,7 +21,7 @@ def front_index(request):
 
     news_slider2 = News.objects.all().order_by('-id')[:4]
 
-    news_list = News.objects.all()
+    news_list = News.objects.all().order_by('-id')
 
     menu_news_list = News.objects.all().order_by('-id')[:4]
 
@@ -121,9 +121,9 @@ def front_post_list(request,id):
 
     subcategories = category_list.subcategory.all()
 
-    news_list = News.objects.filter(sub_category__in=subcategories)
+    news_list = News.objects.filter(sub_category__in=subcategories).order_by('-id')
 
-    news_list_all=News.objects.all()
+    news_list_all=News.objects.all().order_by('-id')
 
     footer_news_list = News.objects.all().order_by('-id')[:2]
 

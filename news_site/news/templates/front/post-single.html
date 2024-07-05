@@ -62,7 +62,7 @@ Main START -->
       	<p style="text-align: justify;">{{news_show.text}}</p>
 
 				<!-- Author info START -->
-				<div class="d-flex p-2 p-md-4 my-3 bg-primary bg-opacity-10 rounded">
+				{% comment %} <div class="d-flex p-2 p-md-4 my-3 bg-primary bg-opacity-10 rounded">
 					<!-- Avatar -->
 					<a href="#">
 						{% if news_show.author.profile_image %}
@@ -79,10 +79,9 @@ Main START -->
 					<div>
 						<div class="d-sm-flex align-items-center justify-content-between">
 							<div>
-<h4 class="m-0"><a href="#" class="text-reset">{{news_show.author.get_full_name}}</a></h4>
-								<small>روزنامه نگار سایت Blogzine</small>
+								<h4 class="m-0"><a href="#" class="text-reset">{{news_show.author.get_full_name}}</a></h4>
+								<small>روزنامه نگار سایت</small>
 							</div>
-							<a href="#" class="btn btn-xs btn-primary-soft">مشاهده اخبار</a>
 						</div>
 						<p class="my-2">مریم حسینی سردبیر ارشد این وبلاگ است و همچنین اخبار فوری مستقر در لندن را گزارش می دهد. او از سال 2015 درباره دولت، عدالت کیفری و نقش پول در سیاست نوشته است.</p>
 						<!-- Social icons -->
@@ -98,7 +97,7 @@ Main START -->
 							</li>
 						</ul>					
 					</div>
-				</div>
+				</div> {% endcomment %}
 				<!-- Author info END -->
 
 				<!-- Comments START -->
@@ -157,26 +156,19 @@ Main START -->
           <!-- Categories -->
 	      	<div class="row g-2">
 						<h5>دسته بندی ها</h5>
+						{% for i in category_show_list %}
+						{% if i.coler %}
+						<div class="d-flex justify-content-between align-items-center bg-opacity-15 rounded p-2 position-relative" style="background-color: {{ i.coler }};">
+							<h6 class="m-0" style="background-color: {{ i.coler }}; color: #fff">{{i.title}}</h6>
+							<a href="{% url 'front_post_list' id=i.id %}" class="badge text-dark stretched-link"style="background-color: {{ i.coler }};">09</a>
+						</div>
+						{% else %}
 						<div class="d-flex justify-content-between align-items-center bg-warning bg-opacity-15 rounded p-2 position-relative">
-							<h6 class="m-0 text-warning">رسانه و هنر</h6>
-							<a href="#" class="badge bg-warning text-dark stretched-link">09</a>
+							<h6 class="m-0 text-warning">{{i.title}}</h6>
+							<a href="{% url 'front_post_list' id=i.id %}" class="badge bg-warning text-dark stretched-link">09</a>
 						</div>
-						<div class="d-flex justify-content-between align-items-center bg-info bg-opacity-10 rounded p-2 position-relative">
-							<h6 class="m-0 text-info">گردشگری</h6>
-							<a href="#" class="badge bg-info stretched-link">25</a>
-						</div>
-						<div class="d-flex justify-content-between align-items-center bg-danger bg-opacity-10 rounded p-2 position-relative">
-							<h6 class="m-0 text-danger">سیاست</h6>
-							<a href="#" class="badge bg-danger stretched-link">75</a>
-						</div>
-						<div class="d-flex justify-content-between align-items-center bg-primary bg-opacity-10 rounded p-2 position-relative">
-							<h6 class="m-0 text-primary">اقتصاد</h6>
-							<a href="#" class="badge bg-primary stretched-link">19</a>
-						</div>
-						<div class="d-flex justify-content-between align-items-center bg-success bg-opacity-10 rounded p-2 position-relative">
-							<h6 class="m-0 text-success">بین الملل</h6>
-							<a href="#" class="badge bg-success stretched-link">35</a>
-						</div>
+						{% endif %}
+						{% endfor %}
 					</div>
 					
 					<!-- Newsletter START -->
@@ -187,17 +179,16 @@ Main START -->
 								<input type="email" class="form-control" placeholder="ایمیل">
 							</div>
 							<button type="submit" class="btn btn-primary">عضویت</button>
-							<div class="form-text">ربات نیستم</div>
 						</form>
 					</div>
 					<!-- Newsletter END -->
 
 					<!-- Advertisement -->
-					<div class="mt-4">
+					{% comment %} <div class="mt-4">
 						<a href="#" class="d-block card-img-flash">
 							<img src="{% static 'front/' %}images/adv.png" alt="">
 						</a>
-					</div>
+					</div> {% endcomment %}
 				</div>
 			</div>
 			<!-- Right sidebar END -->

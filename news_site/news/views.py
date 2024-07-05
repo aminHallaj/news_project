@@ -91,6 +91,8 @@ def front_post_single(request,id):
 
     category_menu2 = Category.objects.all()[:12]
 
+    category_show_list=Category.objects.all()[:12]
+
     menu_news_list = News.objects.all().order_by('-id')[:4]
 
     news_show=News.objects.get(id=id)
@@ -101,7 +103,7 @@ def front_post_single(request,id):
     list_post_single = {
         "id":id,'settings':settings,'news_show':news_show, "category_menu2":category_menu2,
         "category_menu":category_menu, "menu_news_list":menu_news_list,
-        'footer_news_list':footer_news_list,
+        'footer_news_list':footer_news_list, 'category_show_list':category_show_list,
     }
 
     return render(request, 'front/post-single.html', list_post_single)

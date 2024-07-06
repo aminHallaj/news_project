@@ -85,17 +85,19 @@ def front_contact_us(request):
 
 def front_post_single(request,id):
 
-    settings=Settings.objects.get(id=1)
+    settings = Settings.objects.get(id=1)
 
-    category_menu=Category.objects.all()
+    category_menu = Category.objects.all()
 
     category_menu2 = Category.objects.all()[:12]
 
-    category_show_list=Category.objects.all()[:12]
+    category_show_list = Category.objects.all()[:12]
 
     menu_news_list = News.objects.all().order_by('-id')[:4]
 
-    news_show=News.objects.get(id=id)
+    news_show = News.objects.get(id=id)
+
+    comment_show = PointOfView.objects.filter(news_id=id).order_by('-id')
 
     footer_news_list = News.objects.all().order_by('-id')[:2]
 
@@ -104,6 +106,7 @@ def front_post_single(request,id):
         "id":id,'settings':settings,'news_show':news_show, "category_menu2":category_menu2,
         "category_menu":category_menu, "menu_news_list":menu_news_list,
         'footer_news_list':footer_news_list, 'category_show_list':category_show_list,
+        'comment_show':comment_show,
     }
 
     return render(request, 'front/post-single.html', list_post_single)
@@ -190,3 +193,4 @@ def front_post_list(request,id):
 
 
     return render(request, 'front/post-grid.html', list_post_list)
+

@@ -58,10 +58,20 @@ class NewsLetters(models.Model):
 
 class PointOfView(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="pointofview")
+    news=models.ForeignKey(News, on_delete=models.CASCADE, related_name="pointofview")
     first_name_and_last_name=models.CharField(max_length=500)
     email=models.CharField(max_length=500)
+    date = models.FloatField(null=True , blank=True)
     text=models.TextField(null=True , blank=True)
 
     def __str__(self):
-            return f"{self.first_name_and_last_name} | {self.email}"
+            return f"{self.first_name_and_last_name} | {self.email} | {self.text}"
+    
+
+    @property
+    def jdate(self):
+        try:
+            return  jdatetime.datetime.fromtimestamp(self.date).strftime("%Y/%m/%d")
+        except:
+            return '-'
 

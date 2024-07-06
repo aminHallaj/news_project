@@ -5,6 +5,10 @@ from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import  User , Permission
 from django.core.paginator import Paginator , EmptyPage , PageNotAnInteger
+from django.http import Http404, JsonResponse
+import time
+from datetime import date, datetime
+import jdatetime
 
 
 def front_index(request):
@@ -110,6 +114,39 @@ def front_post_single(request,id):
     }
 
     return render(request, 'front/post-single.html', list_post_single)
+
+
+def front_post_single_comment_submit(request, id):
+
+    if request.method == 'POST':
+
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        comment = request.POST.get('comment')
+
+        if not all([last_name, email, comment]):
+            messages.error(request, 'لطفا تمامی فیلد ها را پر کنید')
+
+        else:
+        
+            try:
+                PointOfView.objects.create(
+                    user = request.user,
+                    news_id = id,
+                    first_name_and_last_name = last_name,
+                    email = email,
+                    date = time.time(),
+                    text = comment,
+                )
+            
+                messages.success(request, 'خبر شما با موفقیت ثبت شد')
+
+            except:
+                messages.error(request, 'لطفا تمامی فیلد ها را پر کنید')
+
+
+    return redirect('front_post_single', id=id)
+
 
 
 def front_all_post_list(request):

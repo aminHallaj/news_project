@@ -125,12 +125,12 @@ def front_post_single_comment_submit(request, id):
         comment = request.POST.get('comment')
 
         if not all([last_name, email, comment]):
-            messages.error(request, 'لطفا تمامی فیلد ها را پر کنید')
+            return JsonResponse({"sucess":False, "message":"اطلاعات را کامل کنید", "data":{}},status=200)
 
         else:
         
             try:
-                PointOfView.objects.create(
+                comment_add = PointOfView.objects.create(
                     user = request.user,
                     news_id = id,
                     first_name_and_last_name = last_name,
@@ -138,12 +138,14 @@ def front_post_single_comment_submit(request, id):
                     date = time.time(),
                     text = comment,
                 )
-            
-                messages.success(request, 'خبر شما با موفقیت ثبت شد')
+
+                return JsonResponse({"success":True, "message":'نظر شما با موفقیت ثبت شد' , "data":{
+            'last_name':comment_add.first_name_and_last_name ,
+            'email':comment_add.email ,'comment':comment_add.text, 'id':comment_add.id }},status=200)
+
 
             except:
-                messages.error(request, 'لطفا تمامی فیلد ها را پر کنید')
-
+                return JsonResponse({"success":False, "message":'لطفا تمامی فیلد ها را پر کنید', "data":{}},status=200)
 
     return redirect('front_post_single', id=id)
 

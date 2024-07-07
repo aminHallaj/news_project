@@ -101,7 +101,7 @@ Main START -->
 				<!-- Author info END -->
 
 				<!-- Comments START -->
-				<div class="mt-5">
+				<div class="mt-5" id="all-section">
 					<h3>0 دیدگاه</h3>
 					<!-- Comment level 1-->
 					{% for i in comment_show %}
@@ -122,7 +122,7 @@ Main START -->
 				<div>
 					<h3>ثبت دیدگاه</h3>
 					<small>آدرس ایمیل شما منتشر نخواهد شد. فیلدهای الزامی علامت گذاری شده اند *</small>
-					<form class="row g-3 mt-2" action="{% url 'front_post_single_comment_submit' id=id %}" method="POST" id="form_comment">
+					<form class="row g-3 mt-2" action="{% url 'front_post_single_comment_submit' id=id %}" method="POST" id="form_all">
 						{% csrf_token %}
 					  <div class="col-md-6">
 					    <label class="form-label">نام *</label>

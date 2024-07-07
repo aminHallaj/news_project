@@ -83,6 +83,7 @@
 
 	<!-- Theme CSS -->
 	<link id="style-switch" rel="stylesheet" type="text/css" href="{% static 'front/' %}css/style-rtl.css">
+	<link id="style-switch" rel="stylesheet" type="text/css" href="{% static 'front/' %}css/toastr.css">
 	
 </head>
 
@@ -442,6 +443,8 @@ JS libraries, plugins and custom scripts -->
 <script src="{% static 'front/' %}vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Vendors -->
+<script src="{% static 'front/' %}js/jquery.js"></script>
+<script src="{% static 'front/' %}js/toastr.js"></script>
 <script src="{% static 'front/' %}vendor/tiny-slider/tiny-slider-rtl.js"></script>
 <script src="{% static 'front/' %}vendor/sticky-js/sticky.min.js"></script>
 <script src="{% static 'front/' %}vendor/plyr/plyr.js"></script>
@@ -453,6 +456,17 @@ JS libraries, plugins and custom scripts -->
 
 {% block link_ajax_js %}
 {% endblock link_ajax_js %}
+
+{% if  messages %}
+<script>
+toastr.options={
+"positionClass": "toast-bottom-left"
+}
+    {% for message in messages %} 
+    toastr.{{message.tags}}('{{message}}')
+    {% endfor %}
+</script>
+{% endif %}
 </body>
 
 </html>

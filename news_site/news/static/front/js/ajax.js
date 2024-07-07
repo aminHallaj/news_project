@@ -1,38 +1,48 @@
-$("#form_comment").on("submit", function (e) {
+/* این فایل برای تمامی فرم های که در صفحه فرانت است استفاده می شود */
 
+$("#form_all").on("submit", function (e) {
     e.preventDefault();
-
-
-    var form = $('#form_comment')[0];
-
+    var form = $('#form_all')[0];
     // Create an FormData object 
     var formdata = new FormData(form);
-
-
-    // It returns a array of object
-    formdata.append('ajax', 'y');
+    console.log(formdata);
 
     $.ajax({
-        type: "POST",
-        url: "{% url 'front_post_single_comment_submit' id=id %",
-        data: formdata,
-        processData: false,
-        contentType: false,
+      type: "POST",
+      url: $('#form_all').attr('action'),
+      data: formdata,
+      processData: false,
+      contentType: false,
 
-        success: function (data) {
-            if (data.success) {
-                
-                NioApp.Toast(data.message, 'success')
+      success: function (data) {
+        if (data.success) {
+          toastr.options = {
+            timeOut: 2e3,
+            progressBar: !0,
+            showMethod: "slideDown",
+            hideMethod: "slideUp",
+            showDuration: 200,
+            hideDuration: 200,
+            positionClass: "toast-top-center"
+          }
+        $('#all-section').load(window.location.href + ' #all-section');
+        toastr.success(data.message)
+        $('#form_all')[0].reset();
 
-                $('#tableid2').append(tr)
-                $('#dts_form_add').DataTable().ajax.reload();
-                $('#myform2').trigger('reset').find('select').trigger('change');
-                $('#build_forms').modal('hide');
-            }
-            else {
-                
-                NioApp.Toast(data.message, 'error')
-            }
         }
+        else {
+          toastr.options = {
+            timeOut: 2e3,
+            progressBar: !0,
+            showMethod: "slideDown",
+            hideMethod: "slideUp",
+            showDuration: 200,
+            hideDuration: 200,
+            positionClass: "toast-top-center"
+          }
+          toastr.error(data.message)
+        }
+      }
     });
-});
+  });
+

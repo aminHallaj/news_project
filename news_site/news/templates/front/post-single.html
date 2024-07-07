@@ -157,12 +157,12 @@ Main START -->
 						{% if i.coler %}
 						<div class="d-flex justify-content-between align-items-center rounded p-2 position-relative" style="background-color: {{ i.coler|hex_to_rgba:'0.15' }};">
 							<h6 class="m-0" style="color: {{ i.coler_text }};">{{i.title}}</h6>
-							<a href="{% url 'front_post_list' id=i.id %}" class="badge text-white stretched-link"style="background-color: {{ i.coler }}; opacity: 100%; "> {{ i|post_count }} </a>
+							<a href="{% url 'front_post_list' id=i.id %}" class="badge text-white stretched-link" style="background-color: {{ i.coler }}; opacity: 100%; "> {{ i|post_count }} </a>
 						</div>
 						{% else %}
-						<div class="d-flex justify-content-between align-items-center bg-warning rounded p-2 position-relative">
-							<h6 class="m-0 text-warning">{{i.title}}</h6>
-							<a href="{% url 'front_post_list' id=i.id %}" class="badge bg-warning text-dark stretched-link">00</a>
+						<div class="d-flex justify-content-between align-items-center rounded p-2 position-relative" style="background-color: {{ i.coler|hex_to_rgba:'0.15' }};">
+							<h6 class="m-0" style="color: {{ i.coler_text }};">{{i.title}}</h6>
+							<a href="{% url 'front_post_list' id=i.id %}" class="badge text-white stretched-link">{{ i|post_count }}</a>
 						</div>
 						{% endif %}
 						{% endfor %}

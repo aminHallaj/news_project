@@ -12,6 +12,7 @@ class Category(models.Model):
     title=models.CharField(max_length=500)
     img=models.FileField(upload_to='img_category',blank=True)
     coler=models.CharField(max_length=500)
+    coler_text=models.CharField(max_length=500)
 
     def __str__(self):
             return f"{self.title}"

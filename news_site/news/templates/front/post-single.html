@@ -1,5 +1,7 @@
 {% extends 'front/panel.html' %}
 {% load static %}
+{% load custom_tags %}
+{% load news_tags %}
 {% block settings_tab_name %}
 <title>{{settings.tab_name}} | خانه</title>
 {% endblock settings_tab_name %}
@@ -153,14 +155,14 @@ Main START -->
 						<h5>دسته بندی ها</h5>
 						{% for i in category_show_list %}
 						{% if i.coler %}
-						<div class="d-flex justify-content-between align-items-center bg-opacity-15 rounded p-2 position-relative" style="background-color: {{ i.coler }};">
-							<h6 class="m-0" style="background-color: {{ i.coler }}; color: #fff">{{i.title}}</h6>
-							<a href="{% url 'front_post_list' id=i.id %}" class="badge text-dark stretched-link"style="background-color: {{ i.coler }};">09</a>
+						<div class="d-flex justify-content-between align-items-center rounded p-2 position-relative" style="background-color: {{ i.coler|hex_to_rgba:'0.15' }};">
+							<h6 class="m-0" style="color: {{ i.coler_text }};">{{i.title}}</h6>
+							<a href="{% url 'front_post_list' id=i.id %}" class="badge text-white stretched-link"style="background-color: {{ i.coler }}; opacity: 100%; "> {{ i|post_count }} </a>
 						</div>
 						{% else %}
-						<div class="d-flex justify-content-between align-items-center bg-warning bg-opacity-15 rounded p-2 position-relative">
+						<div class="d-flex justify-content-between align-items-center bg-warning rounded p-2 position-relative">
 							<h6 class="m-0 text-warning">{{i.title}}</h6>
-							<a href="{% url 'front_post_list' id=i.id %}" class="badge bg-warning text-dark stretched-link">09</a>
+							<a href="{% url 'front_post_list' id=i.id %}" class="badge bg-warning text-dark stretched-link">00</a>
 						</div>
 						{% endif %}
 						{% endfor %}

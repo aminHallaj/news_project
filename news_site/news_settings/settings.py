@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'master',
     'customer',
     'settings_site',
+    'news.templatetags',
 ]
 
 MIDDLEWARE = [

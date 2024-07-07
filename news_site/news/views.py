@@ -141,6 +141,7 @@ def front_post_single(request,id):
 
     footer_news_list = News.objects.all().order_by('-id')[:2]
 
+    # category_post_counts = {category.id: category.news_set.count() for category in category_show_list}
 
     list_post_single = {
         "id":id,'settings':settings,'news_show':news_show, "category_menu2":category_menu2,

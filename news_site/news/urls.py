@@ -9,4 +9,5 @@ urlpatterns = [
     path('post/single/comment/<id>/submit/', views.front_post_single_comment_submit, name='front_post_single_comment_submit'),
     path('post/list/all/', views.front_all_post_list, name='front_all_post_list'),
     path('post/list/<id>/', views.front_post_list, name='front_post_list'),
+    path('post/news/letters/add/submit/', views.front_news_letters_submit, name='front_news_letters_submit'),
 ]

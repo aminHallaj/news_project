@@ -233,3 +233,28 @@ def front_post_list(request,id):
 
     return render(request, 'front/post-grid.html', list_post_list)
 
+
+def front_news_letters_submit(request, id=None):
+
+    if request.method == 'POST':
+
+        email = request.POST.get('email')
+
+        if not all([email]):
+            return JsonResponse({"sucess":False, "message":"اطلاعات را کامل کنید", "data":{}},status=200)
+
+        else:
+        
+            try:
+                news_letter_add = NewsLetters.objects.create(
+                    email = email,
+                )
+
+                return JsonResponse({"success":True, "message":'شما با موفقیت در خبرنامه عضو شدید' , "data":{
+                    'email':news_letter_add.email }},status=200)
+
+
+            except:
+                return JsonResponse({"success":False, "message":'لطفا تمامی فیلد ها را پر کنید', "data":{}},status=200)
+
+    return JsonResponse({"success":True, "message":'شما با موفقیت در خبرنامه عضو شدید', "data":{}},status=200)

@@ -102,7 +102,7 @@ Main START -->
 
 				<!-- Comments START -->
 				<div class="mt-5" id="all-section">
-					<h3>0 دیدگاه</h3>
+					<h3> {{ comment_show|length }} دیدگاه</h3>
 					<!-- Comment level 1-->
 					{% for i in comment_show %}
 					<div class="my-4 d-flex">
@@ -195,5 +195,5 @@ Main END -->
 
 {% endblock contentpanel %}
 {% block link_ajax_js %}
-<script src="{% static 'front/' %}js/ajax.js"></script>
+
 {% endblock link_ajax_js %}

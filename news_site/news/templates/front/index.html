@@ -282,7 +282,7 @@
 							<h4 class="mt-4 mb-3">دسته ها</h4>
 							{% for i in category_menu %}
 							<!-- Category item -->
-							<div class="text-center mb-3 card-bg-scale position-relative overflow-hidden rounded bg-dark-overlay-4 " style="background-image:url({{i.img.url}}); background-position: center left; background-size: cover;">
+							<div class="text-center mb-3 card-bg-scale position-relative overflow-hidden rounded bg-dark-overlay-4" style="background-image:url({{i.img.url}}); background-position: center left; background-size: cover;">
 								<div class="p-3">
 									<a href="{% url 'front_post_list' id=i.id %}" class="stretched-link btn-link text-white h5">{{i.title}}</a>
 								</div>
@@ -290,7 +290,7 @@
 							{% endfor %}
 							<!-- View All Category button -->
 							<div class="text-center mt-3">
-								<a href="#" class="text-body text-primary-hover"><u>مشاهده همه</u></a>
+								<a href="#" class="text-body text-primary-hover" id="load_more_all"><u>مشاهده همه</u></a>
 							</div>
 						</div>
 						<!-- Trending topics widget END -->

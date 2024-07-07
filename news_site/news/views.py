@@ -1,4 +1,4 @@
-from django.shortcuts import render , get_object_or_404 , redirect
+from django.shortcuts import render , get_object_or_404 , redirect , resolve_url
 from settings_site.models import *
 from .models import *
 from django.contrib import messages
@@ -270,7 +270,7 @@ def front_post_list(request,id):
     return render(request, 'front/post-grid.html', list_post_list)
 
 
-def front_news_letters_submit(request, id=None):
+def front_news_letters_submit(request):
 
     if request.method == 'POST':
 
@@ -278,6 +278,9 @@ def front_news_letters_submit(request, id=None):
 
         if not all([email]):
             return JsonResponse({"sucess":False, "message":"اطلاعات را کامل کنید", "data":{}},status=200)
+        
+        if NewsLetters.objects.filter(email= email ).count() != 0 :
+            return JsonResponse({"success":False, "message":'ایمیل وارد شده تکراری میباشد', "data":{}},status=200)
 
         else:
         
@@ -290,6 +293,5 @@ def front_news_letters_submit(request, id=None):
                     'email':news_letter_add.email }},status=200)
 
             except:
-                return JsonResponse({"success":False, "message":'لطفا تمامی فیلد ها را پر کنید', "data":{}},status=200)
+                return JsonResponse({"success":False, "message":'خطایی رخ داده است لطفا دوباره تلاش کنید', "data":{}},status=200)
 
-    return JsonResponse({"success":True, "message":'شما با موفقیت در خبرنامه عضو شدید', "data":{}},status=200)

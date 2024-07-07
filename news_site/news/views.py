@@ -226,7 +226,7 @@ def front_all_post_list(request):
     return render(request, 'front/post-grid.html', list_all_post_list)
 
 
-def front_post_list(request,id):
+def front_post_list(request,id=None):
 
     settings=Settings.objects.get(id=1)
 
@@ -235,14 +235,16 @@ def front_post_list(request,id):
     category_menu2 = Category.objects.all()[:12]
 
     menu_news_list = News.objects.all().order_by('-id')[:4]
+    if id:
+        category_list=Category.objects.get(id=id)
 
-    category_list=Category.objects.get(id=id)
+        subcategories = category_list.subcategory.all()
 
-    subcategories = category_list.subcategory.all()
+        news_list = News.objects.filter(sub_category__in=subcategories).order_by('-id')
+    else:
+        category_list = None
 
-    news_list = News.objects.filter(sub_category__in=subcategories).order_by('-id')
-
-    news_list_all=News.objects.all().order_by('-id')
+        news_list=News.objects.all().order_by('-id')
 
     footer_news_list = News.objects.all().order_by('-id')[:2]
 
@@ -261,7 +263,7 @@ def front_post_list(request,id):
 
 
     list_post_list = {
-        "news_list_all":news_list_all,"news_list":news_list,'id':id,
+        "news_list":news_list,'id':id,
         'settings':settings,"category_menu":category_menu,
         "category_list":category_list, "menu_news_list":menu_news_list,
         "category_menu2":category_menu2, 'footer_news_list':footer_news_list,

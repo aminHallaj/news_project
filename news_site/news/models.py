@@ -11,8 +11,8 @@ class Category(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="category")
     title=models.CharField(max_length=500)
     img=models.FileField(upload_to='img_category',blank=True)
-    coler=models.CharField(max_length=500, default='##86e2f4')
-    coler_text=models.CharField(max_length=500, default='#ffff')
+    coler=models.CharField(max_length=500, default='##f5f5f5')
+    coler_text=models.CharField(max_length=500, default='#333')
 
     def __str__(self):
             return f"{self.title}"

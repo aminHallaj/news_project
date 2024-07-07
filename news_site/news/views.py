@@ -87,6 +87,42 @@ def front_contact_us(request):
     return render(request, 'front/contact-us.html', list_contact_us)
 
 
+
+def front_contact_us_submit(request):
+
+    if request.method == 'POST':
+
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        title = request.POST.get('title')
+        text = request.POST.get('text')
+
+        if not all([last_name, email, text, title ]):
+            return JsonResponse({"sucess":False, "message":"اطلاعات را کامل کنید", "data":{}},status=200)
+
+        else:
+        
+            try:
+                send_masseges_contact_us = ContactUs.objects.create(
+                    user = request.user,
+                    first_name_and_last_name = last_name,
+                    email = email,
+                    title = title,
+                    text = text,
+                )
+
+                return JsonResponse({"success":True, "message":'پیام شما با موفقیت ارسال شد' , "data":{
+            'last_name':send_masseges_contact_us.first_name_and_last_name ,
+            'email':send_masseges_contact_us.email ,'text':send_masseges_contact_us.text,
+            'title':send_masseges_contact_us.title }},status=200)
+
+            except:
+                return JsonResponse({"success":False, "message":'لطفا تمامی فیلد ها را پر کنید', "data":{}},status=200)
+
+    return redirect('front_contact_us')
+
+
+
 def front_post_single(request,id):
 
     settings = Settings.objects.get(id=1)
@@ -252,7 +288,6 @@ def front_news_letters_submit(request, id=None):
 
                 return JsonResponse({"success":True, "message":'شما با موفقیت در خبرنامه عضو شدید' , "data":{
                     'email':news_letter_add.email }},status=200)
-
 
             except:
                 return JsonResponse({"success":False, "message":'لطفا تمامی فیلد ها را پر کنید', "data":{}},status=200)

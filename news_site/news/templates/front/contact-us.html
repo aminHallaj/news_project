@@ -62,13 +62,14 @@ Contact info START -->
           <h2>تماس با ما</h2>
           <p>لطفا فرم زیر را پر کنید و به زودی با شما تماس خواهیم گرفت. آدرس ایمیل شما منتشر نخواهد شد.</p>
           <!-- Form START -->
-          <form class="contact-form" id="contact-form" name="contactform" method="POST">
+          <form class="contact-form" action="{% url 'front_contact_us_submit' %}" id="form_all" name="contactform" method="POST">
+            {% csrf_token %}
             <!-- Main form -->
             <div class="row">
               <div class="col-md-6">
                 <!-- name -->
                 <div class="mb-3">
-                  <input required id="con-name" name="name" type="text" class="form-control" placeholder="نام خانوادگی">
+                  <input required id="last_name" name="last_name" type="text" class="form-control" placeholder="نام خانوادگی">
                 </div>
               </div>
               <div class="col-md-6">
@@ -80,13 +81,13 @@ Contact info START -->
               <div class="col-md-12">
                 <!-- Subject -->
                 <div class="mb-3">
-                  <input required id="con-subject" name="subject" type="text" class="form-control" placeholder="عنوان">
+                  <input required id="title" name="title" type="text" class="form-control" placeholder="عنوان">
                 </div>
               </div>
               <div class="col-md-12">
                 <!-- Message -->
                 <div class="mb-3">
-                  <textarea required id="con-message" name="message" cols="40" rows="6" class="form-control" placeholder="متن درخواست"></textarea>
+                  <textarea required id="text" name="text" cols="40" rows="6" class="form-control" placeholder="متن درخواست"></textarea>
                 </div>
               </div>
               <!-- submit button -->
@@ -102,4 +103,8 @@ Contact info START -->
 </section>
 <!-- =======================
 Contact info END -->
+{% block link_ajax_js %}
+<script src="{% static 'front/' %}js/ajax.js"></script>
+{% endblock link_ajax_js %}
+
 {% endblock contentpanel %}

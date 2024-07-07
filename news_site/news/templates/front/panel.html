@@ -338,7 +338,7 @@ Footer START -->
 				<form class="row row-cols-lg-auto g-2 align-items-center justify-content-end" action="{% url 'front_news_letters_submit' %}" method="POST" id="form_all">
 					{% csrf_token %}
 					<div class="col-12">
-						<input type="email" id="email" name="email" class="form-control" placeholder="ایمیل">
+						<input type="email" id="email" name="email" class="form-control" placeholder="ایمیل" required>
 					</div>
 					<div class="col-12">
 						<button type="submit" class="btn btn-primary m-0">عضویت</button>
@@ -454,7 +454,7 @@ JS libraries, plugins and custom scripts -->
 <script src="{% static 'front/' %}js/functions.js"></script>
 <!-- rtl-theme script-->
 <script src="https://files-de.rtl-theme.com/jsdemos/79df7d11747f944da7628dfc1c76f709661cfe8f.js?pid=254067"></script>
-<script src="{% static 'front/' %}js/ajax.js"></script>
+{% comment %} <script src="{% static 'front/' %}js/ajax.js"></script> {% endcomment %}
 
 {% block link_ajax_js %}
 {% endblock link_ajax_js %}

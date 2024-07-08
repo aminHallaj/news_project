@@ -280,17 +280,20 @@
 						<!-- Trending topics widget START -->
 						<div>
 							<h4 class="mt-4 mb-3">دسته ها</h4>
-							{% for i in category_menu %}
-							<!-- Category item -->
-							<div class="text-center mb-3 card-bg-scale position-relative overflow-hidden rounded bg-dark-overlay-4" style="background-image:url({{i.img.url}}); background-position: center left; background-size: cover;">
-								<div class="p-3">
-									<a href="{% url 'front_post_list' id=i.id %}" class="stretched-link btn-link text-white h5">{{i.title}}</a>
+							<div id="category-container">
+								{% for i in category_menu %}
+								<!-- Category item -->
+								<div class="text-center mb-3 card-bg-scale position-relative overflow-hidden rounded bg-dark-overlay-4 category-item" style="background-image:url({{i.img.url}}); background-position: center left; background-size: cover;">
+									<div class="p-3">
+										<a href="{% url 'front_post_list' id=i.id %}" class="stretched-link btn-link text-white h5">{{i.title}}</a>
+									</div>
 								</div>
+								{% endfor %}
 							</div>
-							{% endfor %}
-							<!-- View All Category button -->
+							<!-- Load more button -->
+							
 							<div class="text-center mt-3">
-								<a href="#" class="text-body text-primary-hover" id="load_more_all"><u>مشاهده همه</u></a>
+								<a class="btn text-body text-primary-hover" id="load-more-categories"><u>مشاهده بیشتر</u></a>
 							</div>
 						</div>
 						<!-- Trending topics widget END -->
@@ -391,35 +394,13 @@
 	Section END -->
 	<script>
 
-		const loadMoreButton = document.getElementById('load-more');
-		const newsContainer = document.getElementById('news-container');
-		const newsItems = newsContainer.querySelectorAll('.news-item');
-		let currentIndex = 0;
-		const itemsPerPage = 6; // تعداد خبرهایی که می‌خواهید در هر صفحه نمایش دهید
-
-		// ابتدا تمام خبرها را مخفی کنید
-		newsItems.forEach(item => item.style.display = 'none');
-
-		// تابع برای نمایش خبرها
-		function showNewsItems() {
-			const maxIndex = currentIndex + itemsPerPage;
-			for (let i = currentIndex; i < maxIndex && i < newsItems.length; i++) {
-				newsItems[i].style.display = 'block';
-			}
-			currentIndex = maxIndex;
-
-			// اگر همه خبرها نمایش داده شدند، دکمه را غیرفعال کنید
-			if (currentIndex >= newsItems.length) {
-				loadMoreButton.disabled = true;
-			}
-		}
-
-		// نمایش خبرهای اولیه
-		showNewsItems();
-
-		// رویداد کلیک روی دکمه
-		loadMoreButton.addEventListener('click', showNewsItems);
+		
 
 	</script>
+
+{% block link_more_js %}
+<script src="{% static 'front/' %}js/more-news.js"></script>
+<script src="{% static 'front/' %}js/more-category.js"></script>
+{% endblock link_more_js %}
 
 {% endblock contentpanel %}

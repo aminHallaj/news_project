@@ -1,0 +1,96 @@
+
+				<div class="col-lg-9">
+					<!-- Title -->
+					<div class="mb-4">
+						<h2 class="m-0"><i class="bi bi-hourglass-top me-2"></i>سایر اخبار مهم</h2>
+					</div>
+					<div class="row gy-4" id="news-container">
+						<!-- Card item START -->
+						{% for i in news_list %}
+						<div class="col-sm-6 news-item">
+							<div class="card">
+								<!-- Card img -->
+								<div class="position-relative">
+									<img class="card-img" src="{{i.img.url}}" alt="Card image">
+									<div class="card-img-overlay d-flex align-items-start flex-column p-3">
+										<!-- Card overlay bottom -->
+										<div class="w-100 mt-auto">
+											<!-- Card category -->
+											{% if i.sub_category.category %}
+											<a href="#" class="badge mb-2" style="background-color: {{ i.sub_category.category.coler }};"><i class="fas fa-circle me-2 small fw-bold"></i>{{i.sub_category.category}}</a>
+											{% else %}
+											<a href="#" class="badge text-bg-warning mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>{{i.sub_category.category}}</a>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+								<div class="card-body px-0 pt-3">
+									<h4 class="card-title mt-2"><a href="{% url 'front_post_single' id=i.id %}" class="btn-link text-reset">{{i.title}}</a></h4>
+									<p class="card-text">{{i.text|truncatewords:35}}</p>
+									<!-- Card info -->
+									<ul class="nav nav-divider align-items-center d-none d-sm-inline-block">
+										<li class="nav-item">
+											<div class="nav-link">
+												<div class="d-flex align-items-center position-relative">
+													{% if i.author.profile_image %}
+													<div class="avatar avatar-xs">
+														<img class="avatar-img rounded-circle" src="{{i.author.profile_image.url}}" alt="avatar">
+													</div>
+													{% else %}
+													<div class="avatar avatar-xs">
+														<img class="avatar-img rounded-circle" src="{% static 'front/' %}images/admin-news.png" alt="avatar">
+													</div>
+													{% endif %}
+													<span class="ms-3">با <a href="#" class="stretched-link text-reset btn-link">{{i.author.get_full_name}}</a></span>
+												</div>
+											</div>
+										</li>
+										<li class="nav-item">{{i.jdate}}</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+						<!-- Card item END -->
+						<!-- Load more START -->
+						<div class="col-12 text-center mt-5">
+							<button type="button" id="load-more" class="btn btn-primary-soft">مشاهده بیشتر <i class="bi bi-arrow-down-circle ms-2 align-middle"></i></button>
+						</div>
+						<!-- Load more END -->
+					</div>
+				</div>
+				
+	<script>
+
+		const loadMoreButton = document.getElementById('load-more');
+		const newsContainer = document.getElementById('news-container');
+		const newsItems = newsContainer.querySelectorAll('.news-item');
+		let currentIndex = 0;
+		const itemsPerPage = 6; // تعداد خبرهایی که می‌خواهید در هر صفحه نمایش دهید
+
+		// ابتدا تمام خبرها را مخفی کنید
+		newsItems.forEach(item => item.style.display = 'none');
+
+		// تابع برای نمایش خبرها
+		function showNewsItems() {
+			const maxIndex = currentIndex + itemsPerPage;
+			for (let i = currentIndex; i < maxIndex && i < newsItems.length; i++) {
+				newsItems[i].style.display = 'block';
+			}
+			currentIndex = maxIndex;
+
+			// اگر همه خبرها نمایش داده شدند، دکمه را غیرفعال کنید
+			if (currentIndex >= newsItems.length) {
+				loadMoreButton.disabled = true;
+			}
+		}
+
+		// نمایش خبرهای اولیه
+		showNewsItems();
+
+		// رویداد کلیک روی دکمه
+		loadMoreButton.addEventListener('click', showNewsItems);
+
+	</script>
+
+{% endblock contentpanel %}

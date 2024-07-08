@@ -111,7 +111,7 @@ def front_contact_us_submit(request):
                     text = text,
                 )
 
-                return JsonResponse({"success":True, "message":'پیام شما با موفقیت ارسال شد' , "data":{
+                return JsonResponse({"success":True, "message":' پیام شما با موفقیت ارسال شد به زودی با شما تماس خواهیم گرفت.' , "data":{
             'last_name':send_masseges_contact_us.first_name_and_last_name ,
             'email':send_masseges_contact_us.email ,'text':send_masseges_contact_us.text,
             'title':send_masseges_contact_us.title }},status=200)

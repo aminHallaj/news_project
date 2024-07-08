@@ -169,15 +169,16 @@ Main START -->
 					</div>
 					
 					<!-- Newsletter START -->
-					{% comment %} <div class="bg-light p-4 mt-4 rounded-3 text-center">
+					<div class="bg-light p-4 mt-4 rounded-3 text-center">
 						<h4>عضویت در خبرنامه</h4>
-						<form>
+						<form id="newsletter-form2">
+							{% csrf_token %}
 							<div class="mb-3">
-								<input type="email" class="form-control" placeholder="ایمیل">
+								<input type="email" id="email" name="email" class="form-control" placeholder="ایمیل" required>
 							</div>
 							<button type="submit" class="btn btn-primary">عضویت</button>
 						</form>
-					</div> {% endcomment %}
+					</div>
 					<!-- Newsletter END -->
 
 					<!-- Advertisement -->

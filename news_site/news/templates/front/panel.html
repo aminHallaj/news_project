@@ -335,7 +335,7 @@ Footer START -->
 			</div>
 			<div class="col-md-4">
 				<!-- Form -->
-				<form class="row row-cols-lg-auto g-2 align-items-center justify-content-end" action="{% url 'front_news_letters_submit' %}" method="POST" id="form_all">
+				<form id="newsletter-form" class="row row-cols-lg-auto g-2 align-items-center justify-content-end">
 					{% csrf_token %}
 					<div class="col-12">
 						<input type="email" id="email" name="email" class="form-control" placeholder="ایمیل" required>
@@ -343,8 +343,7 @@ Footer START -->
 					<div class="col-12">
 						<button type="submit" class="btn btn-primary m-0">عضویت</button>
 					</div>
-					<div class="form-text mt-2">با عضویت در خبرنامه از خبرهای روز ما باخبر شوید.
-					</div>
+					<div class="form-text mt-2">با عضویت در خبرنامه از خبرهای روز ما باخبر شوید.</div>
 				</form>
 			</div>
 		</div>
@@ -447,6 +446,7 @@ JS libraries, plugins and custom scripts -->
 <script src="{% static 'front/' %}js/jquery.js"></script>
 <script src="{% static 'front/' %}js/toastr.js"></script>
 <script src="{% static 'front/' %}js/ajax.js"></script>
+<script src="{% static 'front/' %}js/newsletter.js"></script>
 <script src="{% static 'front/' %}vendor/tiny-slider/tiny-slider-rtl.js"></script>
 <script src="{% static 'front/' %}vendor/sticky-js/sticky.min.js"></script>
 <script src="{% static 'front/' %}vendor/plyr/plyr.js"></script>

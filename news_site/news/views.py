@@ -42,6 +42,7 @@ def front_index(request):
     return render(request, 'front/index.html', list_index)
 
 
+
 def front_about_us(request):
 
     settings=Settings.objects.get(id=1)
@@ -226,6 +227,7 @@ def front_all_post_list(request):
     return render(request, 'front/post-grid.html', list_all_post_list)
 
 
+
 def front_post_list(request,id=None):
 
     settings=Settings.objects.get(id=1)
@@ -274,27 +276,19 @@ def front_post_list(request,id=None):
 
 
 def front_news_letters_submit(request):
-
     if request.method == 'POST':
-
         email = request.POST.get('email')
 
-        if not all([email]):
-            return JsonResponse({"sucess":False, "message":"اطلاعات را کامل کنید", "data":{}},status=200)
-        
-        if NewsLetters.objects.filter(email= email ).count() != 0 :
-            return JsonResponse({"success":False, "message":'ایمیل وارد شده تکراری میباشد', "data":{}},status=200)
+        if not email:
+            return JsonResponse({"success": False, "message": "اطلاعات را کامل کنید"}, status=200)
 
-        else:
-        
-            try:
-                news_letter_add = NewsLetters.objects.create(
-                    email = email,
-                )
+        if NewsLetters.objects.filter(email=email).exists():
+            return JsonResponse({"success": False, "message": 'ایمیل وارد شده تکراری میباشد'}, status=200)
 
-                return JsonResponse({"success":True, "message":'شما با موفقیت در خبرنامه عضو شدید' , "data":{
-                    'email':news_letter_add.email }},status=200)
+        try:
+            news_letter_add = NewsLetters.objects.create(email=email)
+            return JsonResponse({"success": True, "message": 'شما با موفقیت در خبرنامه عضو شدید', "data": {"email": news_letter_add.email}}, status=200)
+        except:
+            return JsonResponse({"success": False, "message": 'خطایی رخ داده است لطفا دوباره تلاش کنید'}, status=200)
 
-            except:
-                return JsonResponse({"success":False, "message":'خطایی رخ داده است لطفا دوباره تلاش کنید', "data":{}},status=200)
-
+    return JsonResponse({"success": False, "message": 'درخواست نامعتبر'}, status=200)

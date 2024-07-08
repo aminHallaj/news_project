@@ -18,7 +18,7 @@ Inner intro START -->
             <div class="w-100 my-auto">
               <!-- Card category -->
 			  {% if news_show.sub_category.category %}
-			  <a href="#" class="badge mb-2" style="background-color: {{news_show.sub_category.category.coler}};"><i class="fas fa-circle me-2 small fw-bold"></i>{{news_show.sub_category.category}}</a>
+			  <a href="#" class="badge mb-2" style="background-color: {{news_show.sub_category.category.color}};"><i class="fas fa-circle me-2 small fw-bold"></i>{{news_show.sub_category.category}}</a>
 			  {% else %}
 			  <a href="#" class="badge text-bg-warning mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>{{news_show.sub_category.category}}</a>
 			  {% endif %}
@@ -154,14 +154,14 @@ Main START -->
 	      	<div class="row g-2">
 						<h5>دسته بندی ها</h5>
 						{% for i in category_show_list %}
-						{% if i.coler %}
-						<div class="d-flex justify-content-between align-items-center rounded p-2 position-relative" style="background-color: {{ i.coler|hex_to_rgba:'0.15' }};">
-							<h6 class="m-0" style="color: {{ i.coler_text }};">{{i.title}}</h6>
-							<a href="{% url 'front_post_list' id=i.id %}" class="badge text-white stretched-link" style="background-color: {{ i.coler }}; opacity: 100%; "> {{ i|post_count }} </a>
+						{% if i.color %}
+						<div class="d-flex justify-content-between align-items-center rounded p-2 position-relative" style="background-color: {{ i.color|hex_to_rgba:'0.15' }};">
+							<h6 class="m-0" style="color: {{ i.color_text }};">{{i.title}}</h6>
+							<a href="{% url 'front_post_list' id=i.id %}" class="badge text-white stretched-link" style="background-color: {{ i.color }}; opacity: 100%; "> {{ i|post_count }} </a>
 						</div>
 						{% else %}
-						<div class="d-flex justify-content-between align-items-center rounded p-2 position-relative" style="background-color: {{ i.coler|hex_to_rgba:'0.15' }};">
-							<h6 class="m-0" style="color: {{ i.coler_text }};">{{i.title}}</h6>
+						<div class="d-flex justify-content-between align-items-center rounded p-2 position-relative" style="background-color: {{ i.color|hex_to_rgba:'0.15' }};">
+							<h6 class="m-0" style="color: {{ i.color_text }};">{{i.title}}</h6>
 							<a href="{% url 'front_post_list' id=i.id %}" class="badge text-white stretched-link">{{ i|post_count }}</a>
 						</div>
 						{% endif %}

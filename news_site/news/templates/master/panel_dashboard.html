@@ -72,13 +72,14 @@
 	</script>
 
 	<!-- Plugins CSS -->
-	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}assets/vendor/font-awesome/css/all.min.css">
-	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}assets/vendor/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}assets/vendor/apexcharts/css/apexcharts.css">
-	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}assets/vendor/overlay-scrollbar/css/OverlayScrollbars.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}vendor/font-awesome/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}vendor/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}vendor/apexcharts/css/apexcharts.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}vendor/overlay-scrollbar/css/OverlayScrollbars.min.css">
 
 	<!-- Theme CSS -->
-	<link id="style-switch" rel="stylesheet" type="text/css" href="{% static 'master/' %}assets/css/style-rtl.css">
+	<link id="style-switch" rel="stylesheet" type="text/css" href="{% static 'master/' %}css/style-rtl.css">
+	<link id="style-switch" rel="stylesheet" type="text/css" href="{% static 'master/' %}css/toastr.css">
 	 
 </head>
 
@@ -99,8 +100,8 @@ Header START -->
 		<div class="container">
 			<!-- Logo START -->
 			<a class="navbar-brand me-3" href="index.html">
-				<img class="navbar-brand-item light-mode-item" src="{% static 'master/' %}assets/images/logo.svg" alt="logo">			
-				<img class="navbar-brand-item dark-mode-item" src="{% static 'master/' %}assets/images/logo-light.svg" alt="logo">			
+				<img class="navbar-brand-item light-mode-item" src="{% static 'master/' %}images/logo.svg" alt="logo">			
+				<img class="navbar-brand-item dark-mode-item" src="{% static 'master/' %}images/logo-light.svg" alt="logo">			
 			</a>
 			<!-- Logo END -->
 
@@ -187,7 +188,7 @@ Header START -->
 										<a href="#" class="list-group-item-action border-0 border-bottom d-flex p-3">
 											<div class="me-3">
 												<div class="avatar avatar-sm">
-													<img class="avatar-img rounded-circle" src="{% static 'master/' %}assets/images/avatar/08.jpg" alt="avatar">
+													<img class="avatar-img rounded-circle" src="{% static 'master/' %}images/avatar/08.jpg" alt="avatar">
 												</div>
 											</div>
 											<div>
@@ -202,7 +203,7 @@ Header START -->
 										<a href="#" class="list-group-item-action border-0 border-bottom d-flex p-3">
 											<div class="me-3">
 												<div class="avatar avatar-sm">
-													<img class="avatar-img rounded-circle" src="{% static 'master/' %}assets/images/avatar/02.jpg" alt="avatar">
+													<img class="avatar-img rounded-circle" src="{% static 'master/' %}images/avatar/02.jpg" alt="avatar">
 												</div>
 											</div>
 											<div>
@@ -217,7 +218,7 @@ Header START -->
 										<a href="#" class="list-group-item-action border-0 border-bottom d-flex p-3">
 											<div class="me-3">
 												<div class="avatar avatar-sm">
-													<img class="avatar-img rounded-circle" src="{% static 'master/' %}assets/images/avatar/05.jpg" alt="avatar">
+													<img class="avatar-img rounded-circle" src="{% static 'master/' %}images/avatar/05.jpg" alt="avatar">
 												</div>
 											</div>
 											<div>
@@ -232,7 +233,7 @@ Header START -->
 										<a href="#" class="list-group-item-action border-0 border-bottom d-flex p-3">
 											<div class="me-3">
 												<div class="avatar avatar-sm">
-													<img class="avatar-img rounded-circle" src="{% static 'master/' %}assets/images/avatar/03.jpg" alt="avatar">
+													<img class="avatar-img rounded-circle" src="{% static 'master/' %}images/avatar/03.jpg" alt="avatar">
 												</div>
 											</div>
 											<div>
@@ -257,7 +258,7 @@ Header START -->
 				<div class="nav-item ms-2 ms-md-3 dropdown">
 					<!-- Avatar -->
 					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-circle" src="{% static 'master/' %}assets/images/avatar/03.jpg" alt="avatar">
+						<img class="avatar-img rounded-circle" src="{% static 'master/' %}images/avatar/03.jpg" alt="avatar">
 					</a>
 
 					<!-- Profile dropdown START -->
@@ -267,7 +268,7 @@ Header START -->
 							<div class="d-flex align-items-center">
 								<!-- Avatar -->
 								<div class="avatar me-3">
-									<img class="avatar-img rounded-circle shadow" src="{% static 'master/' %}assets/images/avatar/03.jpg" alt="avatar">
+									<img class="avatar-img rounded-circle shadow" src="{% static 'master/' %}images/avatar/03.jpg" alt="avatar">
 								</div>
 								<div>
 									<a class="h6 mt-2 mt-sm-0" href="#"> علیرضا مرادی</a>
@@ -280,7 +281,7 @@ Header START -->
 						<li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>ویرایش</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>تنظیمات</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>راهنما</a></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-power fa-fw me-2"></i>خروج</a></li>
+						<li><a class="dropdown-item" href="{% url 'master_logout' %}"><i class="bi bi-power fa-fw me-2"></i>خروج</a></li>
 						<li class="dropdown-divider mb-3"></li>
 						<li>
 							<div class="dropdown-item">
@@ -354,14 +355,33 @@ Footer END -->
 JS libraries, plugins and custom scripts -->
 
 <!-- Bootstrap JS -->
-<script src="{% static 'master/' %}assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'master/' %}js/jquery.js"></script>
+<script src="{% static 'master/' %}js/toastr.js"></script>
+<script src="{% static 'master/' %}vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Vendors -->
-<script src="{% static 'master/' %}assets/vendor/apexcharts/js/apexcharts.min.js"></script>
-<script src="{% static 'master/' %}assets/vendor/overlay-scrollbar/js/OverlayScrollbars.min.js"></script>
+<script src="{% static 'master/' %}vendor/apexcharts/js/apexcharts.min.js"></script>
+<script src="{% static 'master/' %}vendor/overlay-scrollbar/js/OverlayScrollbars.min.js"></script>
 
 <!-- Template Functions -->
-<script src="{% static 'master/' %}assets/js/functions.js"></script>
+<script src="{% static 'master/' %}js/functions.js"></script>
+
+{% if  messages %}
+<script>
+	toastr.options = {
+		timeOut: 2e3,
+		progressBar: !0,
+		showMethod: "slideDown",
+		hideMethod: "slideUp",
+		showDuration: 200,
+		hideDuration: 200,
+		positionClass: "toast-top-center"
+	}
+    {% for message in messages %} 
+    toastr.{{message.tags}}('{{message}}')
+    {% endfor %}
+</script>
+{% endif %}
 
 </body>
 

@@ -58,3 +58,20 @@ def master_logout(request):
 
     logout(request)
     return redirect("master_signin")
+
+
+
+def master_post_create(request):
+
+    settings = Settings.objects.get(id=1)
+
+    list_post_create = {
+        "settings":settings,
+    }
+
+    return render(request, 'master/dashboard-post-create.html', list_post_create)
+
+
+
+def master_post_create_submit(request):
+    pass

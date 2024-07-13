@@ -1,8 +1,8 @@
 {% extends 'master/panel_dashboard.html' %}
 {% load static %}
-{% comment %} {% block settings_tab_name %}
-<title>{{settings.tab_name}} | خانه</title>
-{% endblock settings_tab_name %} {% endcomment %}
+{% block settings_tab_name %}
+<title>{{settings.tab_name}} | مدیریت</title>
+{% endblock settings_tab_name %} 
 {% block contentpanel_dashboard %}
 <!-- =======================
 Main contain START -->
@@ -116,43 +116,19 @@ Main contain START -->
 
 						<div class="row">
 							<!-- Blog item -->
+							{% for i in show_news_list %}
 							<div class="col-12">
 								<div class="d-flex align-items-center position-relative">
-								<img class="w-60 rounded" src="{% static 'master/' %}images/blog/1by1/01.jpg" alt="product">
+								<img class="w-60 rounded" src="{{i.img.url}}" alt="product">
 									<div class="ms-3">
-										<a href="#" class="h6 stretched-link">رازهای کوچک کثیف در مورد صنعت تجارت</a>
-										<p class="small mb-0">17 تیر، 1400</p>
+										<a href="{% url 'front_post_single' id=i.id %}" class="h6 stretched-link">{{i.title}}</a>
+										<p class="small mb-0">{{i.jdate}}</p>
 									</div>
 								</div>
 							</div>
-
 							<!-- Divider -->
 							<hr class="my-3">
-
-							<!-- Blog item -->
-							<div class="col-12">
-								<div class="d-flex align-items-center position-relative">
-								<img class="w-60 rounded" src="{% static 'master/' %}images/blog/1by1/02.jpg" alt="product">
-									<div class="ms-3">
-										<a href="#" class="h6 stretched-link">فیلم‌های بالیوودی الگوی ضدانقلاب شده!</a>
-										<p class="small mb-0">11 دی، 1400</p>
-									</div>
-								</div>
-							</div>
-
-							<!-- Divider -->
-							<hr class="my-3">
-
-							<!-- Blog item -->
-							<div class="col-12">
-								<div class="d-flex align-items-center position-relative">
-								<img class="w-60 rounded" src="{% static 'master/' %}images/blog/1by1/03.jpg" alt="product">
-									<div class="ms-3">
-										<a href="#" class="h6 stretched-link">عادات بدی که افراد در صنعت باید آنها را ترک کنند!</a>
-										<p class="small mb-0">1 خرداد، 1400</p>
-									</div>
-								</div>
-							</div>
+							{% endfor %}
 						</div>
 					</div>
 					<!-- Card body END -->

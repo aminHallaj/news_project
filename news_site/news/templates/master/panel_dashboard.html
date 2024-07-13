@@ -3,7 +3,8 @@
 <html lang="fa" dir="rtl">
 
 <head>
-	<title>Blogzine - قالب HTML مجله خبری و وبلاگ</title>
+	{% block settings_tab_name %}
+	{% endblock settings_tab_name %}
 
 	<!-- Meta Tags -->
 	<meta charset="utf-8">
@@ -100,8 +101,8 @@ Header START -->
 		<div class="container">
 			<!-- Logo START -->
 			<a class="navbar-brand me-3" href="index.html">
-				<img class="navbar-brand-item light-mode-item" src="{% static 'master/' %}images/logo.svg" alt="logo">			
-				<img class="navbar-brand-item dark-mode-item" src="{% static 'master/' %}images/logo-light.svg" alt="logo">			
+				<img class="navbar-brand-item light-mode-item" src="{{settings.logo_header_menu.url}}" alt="logo">			
+				<img class="navbar-brand-item dark-mode-item" src="{{settings.logo_header_dark.url}}" alt="logo">			
 			</a>
 			<!-- Logo END -->
 
@@ -116,7 +117,7 @@ Header START -->
 				<ul class="navbar-nav navbar-nav-scroll mx-auto">
 
 					<!-- Nav item 1 Demos -->
-					<li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-house-door me-1"></i>پیشخوان</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'master_panel' %}"><i class="bi bi-house-door me-1"></i>پیشخوان</a></li>
 
 					<!-- Nav item 2 Post -->
 					<li class="nav-item dropdown">
@@ -139,12 +140,6 @@ Header START -->
 							<li> <a class="dropdown-item" href="dashboard-edit-profile.html">ویرایش حساب کاربری</a></li>
 							<li> <a class="dropdown-item" href="dashboard-reviews.html">نظرات</a></li>
 							<li> <a class="dropdown-item" href="dashboard-settings.html">تنظیمات</a></li>
-							<li class="dropdown-divider"></li>
-							<li> <a class="dropdown-item" href="#" target="_blank"> <i class="text-warning fa-fw bi bi-life-preserver me-2"></i>پشتیبانی</a></li>
-							<li> <a class="dropdown-item" href="../rtl/docs/index.html" target="_blank"> <i class="text-danger fa-fw bi bi-card-text me-2"></i>داکیومنت</a></li>
-							<li class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="../ltr/index.html" target="_blank"> <i class="text-info fa-fw bi bi-toggle-off me-2"></i>نسخه LTR</a></li>
-							<li><a class="dropdown-item" href="#" target="_blank"> <i class="text-success fa-fw bi bi-cloud-download-fill me-2"></i>خرید قالب</a> </li>
 						</ul>
 					</li>
 				</ul>
@@ -279,8 +274,6 @@ Header START -->
 						</li>
 						<!-- Links -->
 						<li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>ویرایش</a></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>تنظیمات</a></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>راهنما</a></li>
 						<li><a class="dropdown-item" href="{% url 'master_logout' %}"><i class="bi bi-power fa-fw me-2"></i>خروج</a></li>
 						<li class="dropdown-divider mb-3"></li>
 						<li>

@@ -3,6 +3,7 @@ from django.contrib.auth import login , authenticate , logout
 from django.contrib.auth.models import  User , Permission
 from django.contrib import messages
 from settings_site.models import *
+from news.models import *
 
 
 
@@ -10,9 +11,11 @@ def master_panel(request):
 
     settings = Settings.objects.get(id=1)
 
-    
+    show_news_list = News.objects.all().order_by('-id')[:3]
+
+
     list_dashboard = {
-        "settings":settings,
+        "settings":settings,"show_news_list":show_news_list,
     }
 
     return render(request, 'master/dashboard.html', list_dashboard)

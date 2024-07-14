@@ -4,6 +4,10 @@ from django.contrib.auth.models import  User , Permission
 from django.contrib import messages
 from settings_site.models import *
 from news.models import *
+from django.http import Http404, JsonResponse
+import time
+from datetime import date, datetime
+import jdatetime
 
 
 
@@ -65,8 +69,10 @@ def master_post_create(request):
 
     settings = Settings.objects.get(id=1)
 
+    show_subcategory = SubCategory.objects.all()
+
     list_post_create = {
-        "settings":settings,
+        "settings":settings,"show_subcategory":show_subcategory,
     }
 
     return render(request, 'master/dashboard-post-create.html', list_post_create)
@@ -74,4 +80,37 @@ def master_post_create(request):
 
 
 def master_post_create_submit(request):
-    pass
+
+    if request.method == 'POST':
+        title_news = request.POST.get('title_news')
+        text_news = request.POST.get('text_news')
+        sub_cat_news = request.POST.get('sub_cat_news')
+        img_news = request.FILES.get('img_news')
+
+        if not all([title_news, text_news, sub_cat_news]):
+            return JsonResponse({"success": False, "message": "اطلاعات را کامل کنید", "data": {}}, status=200)
+
+        try:
+            sub_category = SubCategory.objects.get(id=sub_cat_news)
+            create_news = News.objects.create(
+                user=request.user,
+                author=request.user,
+                sub_category=sub_category,
+                title=title_news,
+                text=text_news,
+                img=img_news,
+                date=time.time(),
+            )
+
+            return JsonResponse({
+                "success": True, 
+                "message": 'خبر با موفقیت ایجاد شد.',
+                "data": {'title_news': create_news.title}
+            }, status=200)
+
+        except SubCategory.DoesNotExist:
+            return JsonResponse({"success": False, "message": 'دسته بندی نامعتبر است', "data": {}}, status=200)
+        except Exception as e:
+            return JsonResponse({"success": False, "message": f'خطا در ایجاد خبر: {str(e)}', "data": {}}, status=200)
+
+    return redirect('master_post_create')

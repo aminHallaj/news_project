@@ -3,6 +3,9 @@
 {% block settings_tab_name %}
 <title>{{settings.tab_name}} | مدیریت</title>
 {% endblock settings_tab_name %} 
+{% block quill_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'master/' %}vendor/quill/css/quill.snow.css">
+{% endblock quill_css %}
 {% block contentpanel_dashboard %}
 
 <!-- =======================
@@ -22,20 +25,31 @@ Main contain START -->
 					<!-- Card body -->
 					<div class="card-body">
             <!-- Form START -->
-            <form>
+            <form action="{% url 'master_post_create_submit' %}" method="POST" enctype="multipart/form-data" id="form_all">
+              {% csrf_token %}
               <!-- Main form -->
               <div class="row">
                 <div class="col-12">
                   <!-- Post name -->
                   <div class="mb-3">
                     <label class="form-label">عنوان</label>
-                    <input required id="con-name" name="name" type="text" class="form-control" placeholder="عنوان خبر">
+                    <input required id="title_news" name="title_news" type="text" class="form-control" placeholder="عنوان خبر">
                     <small>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</small>
                   </div>
                 </div>
+
+                <div class="col-md-12">
+                  <!-- Subject -->
+                  <div class="mb-3">
+                    <label class="form-label">متن خبر</label>
+                    <!-- Editor toolbar -->
+                    <textarea id="text_news" name="text_news" class="form-control"></textarea>
+                      <!-- Main toolbar -->
+                    </div>	
+                </div>
             
               <!-- Main toolbar -->
-                <div class="col-md-12">
+                {% comment %} <div class="col-md-12">
                   <!-- Subject -->
                   <div class="mb-3">
                     <label class="form-label">متن خبر</label>
@@ -75,18 +89,18 @@ Main contain START -->
                       <div class="bg-body border rounded-bottom h-300 overflow-hidden" id="quilleditor">
                       </div>
                     </div>	
-                </div>
+                </div> {% endcomment %}
                 <div class="col-12">
                   <div class="mb-3">
                   <!-- Image -->
                   <div class="position-relative">
                     <h6 class="my-2">آپلود تصویر شاخص<a href="#!" class="text-primary"> آپلود از کامپیوتر</a></h6>
-					<label class="w-100" style="cursor:pointer;">
+					            <label class="w-100" style="cursor:pointer;">
                                         <div class="input-group flex-row-reverse">
                                                 <input type="text" class="form-control upload-name"/>
                                                 <span class="btn btn-custom cursor-pointer upload-button">آپلود فایل</span>
                                         </div> 
-                                        <input class="form-control stretched-link d-none hidden-upload" type="file" name="my-image" accept="image/gif, image/jpeg, image/png"/>
+                                        <input class="form-control stretched-link d-none hidden-upload" type="file" id="img_news" name="img_news" accept="image/gif, image/jpeg, image/png, image/webp"/>
 										</label>
                                        
                   </div>
@@ -95,32 +109,22 @@ Main contain START -->
                 </div>
                 <div class="col-lg-7">
                   <!-- Tags -->
-                  <div class="mb-3">
+                  {% comment %} <div class="mb-3">
                     <label class="form-label">برچسب</label>
                     <textarea class="form-control" rows="1" placeholder="ورزش، اقتصاد، ..."></textarea>
                     <small>حداکثر 14 کلمه کلیدی، کلمات کلیدی باید با حروف کوچک و با کاما از هم جدا شوند. به عنوان مثال، جاوا اسکریپت، واکنش، بازاریابی</small>
-                  </div>
+                  </div> {% endcomment %}
                 </div>
-                <div class="col-lg-5">
+                <div class="col-lg-12">
                   <!-- Message -->
                   <div class="mb-3">
                     <label class="form-label">دسته بندی</label>
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>اقتصاد</option>
-                      <option value="1">تکنولوژی</option>
-                      <option value="2">رسانه</option>
-                      <option value="3">گردشگری</option>
-                      <option value="4">ورزش</option>
-                      <option value="5">سیاست</option>
+                    <select class="form-select" id="sub_cat_news" name="sub_cat_news" aria-label="Default select example">
+                      <option selected>دسته خبر را انتخاب کنید</option>
+                      {% for i in show_subcategory %}
+                      <option value="{{i.id}}">{{i.category}} | {{i.title}}</option>
+                      {% endfor %}
                     </select>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" value="" id="postCheck">
-                    <label class="form-check-label" for="postCheck">
-                      این خبر ویژه شود؟
-                    </label>
                   </div>
                 </div>
                 <!-- Create post button -->
@@ -141,3 +145,24 @@ Main contain START -->
 Main contain END -->
 
 {% endblock contentpanel_dashboard %}
+
+{% block link_ajax_js %}
+<script src="{% static 'master/' %}js/ajax.js"></script>
+{% endblock link_ajax_js %}
+
+{% block quill_js %}
+<script src="{% static 'master/' %}vendor/quill/js/quill.min.js"></script>
+
+<script>
+  document.querySelector(".upload-button").addEventListener("click", () => {
+   //clicks on the file input
+   document.querySelector(".hidden-upload").click();
+ });
+ //adds event listener on the hidden file input to listen for any changes
+ document.querySelector(".hidden-upload").addEventListener("change", (event) => {
+   //gets the file name
+   document.querySelector(".upload-name").value = event.target.files[0].name;
+ });
+</script>
+
+{% endblock quill_js %}

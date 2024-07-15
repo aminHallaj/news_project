@@ -132,7 +132,7 @@ Header START -->
 						<ul class="dropdown-menu" aria-labelledby="postMenu">
 							<!-- dropdown submenu -->
 							<li> <a class="dropdown-item" href="dashboard-post-list.html">لیست</a> </li>
-							<li> <a class="dropdown-item" href="dashboard-post-categories.html">دسته بندی</a> </li>
+							<li> <a class="dropdown-item" href="{% url 'master_category_create' %}">دسته بندی</a> </li>
 							<li> <a class="dropdown-item" href="{% url 'master_post_create' %}">ایجاد</a> </li>
 							<li> <a class="dropdown-item" href="dashboard-post-edit.html">ویرایش</a> </li>
 						</ul>
@@ -343,8 +343,8 @@ JS libraries, plugins and custom scripts -->
 <!-- Bootstrap JS -->
 <script src="{% static 'master/' %}js/jquery.js"></script>
 <script src="{% static 'master/' %}js/toastr.js"></script>
-{% block link_ajax_js %}
-{% endblock link_ajax_js %}
+{% block link_js %}
+{% endblock link_js %}
 <script src="{% static 'master/' %}vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Vendors -->

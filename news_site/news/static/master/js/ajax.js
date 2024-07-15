@@ -25,9 +25,12 @@ $("#form_all").on("submit", function (e) {
             hideDuration: 200,
             positionClass: "toast-top-center"
           }
-        // $('#start-cart').load(window.location.href + ' #start-cart');
+        $('#all-section').load(window.location.href + ' #all-section > *');
         toastr.success(data.message)
         $('#form_all')[0].reset();
+
+        // بستن مودال
+        $('#modal_category').modal('hide');
 
         }
         else {

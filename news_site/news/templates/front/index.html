@@ -1,5 +1,7 @@
 {% extends 'front/panel.html' %}
 {% load static %}
+{% load custom_tags %}
+{% load news_tags %}
 {% block settings_tab_name %}
 <title>{{settings.tab_name}} | خانه</title>
 {% endblock settings_tab_name %}
@@ -283,11 +285,19 @@
 							<div id="category-container">
 								{% for i in category_menu %}
 								<!-- Category item -->
+								{% if i.img %}
 								<div class="text-center mb-3 card-bg-scale position-relative overflow-hidden rounded bg-dark-overlay-4 category-item" style="background-image:url({{i.img.url}}); background-position: center left; background-size: cover;">
 									<div class="p-3">
 										<a href="{% url 'front_post_list' id=i.id %}" class="stretched-link btn-link text-white h5">{{i.title}}</a>
 									</div>
 								</div>
+								{% else %}
+								<div class="text-center mb-3 card-bg-scale position-relative overflow-hidden rounded bg-dark-overlay-4 category-item" style="background-color: {{ i.color|hex_to_rgba:'0.15' }};">
+									<div class="p-3">
+										<a href="{% url 'front_post_list' id=i.id %}" class="stretched-link btn-link text-white h5">{{i.title}}</a>
+									</div>
+								</div>
+								{% endif %}
 								{% endfor %}
 							</div>
 							<!-- Load more button -->

@@ -3,7 +3,7 @@
 {% load news_tags %}
 {% load static %}
 {% block settings_tab_name %}
-<title>{{settings.tab_name}} | مدیریت</title>
+<title>{{settings.tab_name}} | دسته بندی</title>
 {% endblock settings_tab_name %} 
 {% block quill_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'master/' %}vendor/quill/css/quill.snow.css">
@@ -42,30 +42,30 @@ Main contain START -->
 									  </div>
 								  </div>
 								  <div class="row">
-								  <div class="col-6">
-									<div class="mb-3">
-									  <label class="form-label">رنگ پس زمینه</label>
-									  <input id="color_bg_category" name="color_bg_category" type="text" class="form-control" value="#f5f5f5" placeholder="حالت پیشفرض #f5f5f5">
-									  </div>
-								  </div>
-								  <div class="col-6">
-									<div class="mb-3">
-									  <label class="form-label">رنگ متن</label>
-									  <input id="color_text_category" name="color_text_category" type="text" class="form-control" value="#333" placeholder="حالت پیشفرض #333">
-									  </div>
-								  </div>
+									<div class="col-6">
+										<div class="mb-3">
+											<label class="form-label">رنگ پس زمینه</label>
+											<input id="color_bg_category" name="color_bg_category" type="color" class="form-control" value="#f5f5f5" placeholder="حالت پیشفرض #f5f5f5">
+										</div>
+									</div>
+									<div class="col-6">
+										<div class="mb-3">
+											<label class="form-label">رنگ متن</label>
+											<input id="color_text_category" name="color_text_category" type="color" class="form-control" value="#333" placeholder="حالت پیشفرض #333">
+										</div>
+									</div>
 								</div>
 								<div class="col-12">
 									<div class="mb-3">
 									<!-- Image -->
 									<div class="position-relative">
-									  <h6 class="my-2">آپلود تصویر شاخص</h6>
+										<h6 class="my-2">آپلود تصویر شاخص</h6>
 										<label class="w-100" style="cursor:pointer;">
 											<div class="input-group flex-row-reverse">
-													<input type="text" class="form-control upload-name"/>
-													<span class="btn btn-custom cursor-pointer upload-button">آپلود فایل</span>
-											</div> 
-											<input class="form-control stretched-link d-none hidden-upload" type="file" id="img_category" name="img_category" accept="image/gif, image/jpeg, image/png, image/webp"/>
+												<input type="text" class="form-control upload-name" id="upload-name-create"/>
+												<span class="btn btn-custom cursor-pointer upload-button" id="upload-button-create">آپلود فایل</span>
+											</div>
+											<input class="form-control stretched-link d-none hidden-upload" type="file" id="img_category_create" name="img_category" accept="image/gif, image/jpeg, image/png, image/webp"/>
 										</label>
 									</div>
 								</div>		
@@ -89,7 +89,9 @@ Main contain START -->
 					<!-- Card header -->
 					<div class="card-header border-bottom p-3" style="background-color: {{ i.color|hex_to_rgba:'0.15' }};">
 						<div class="d-flex align-items-center">
-							<div class="icon-lg shadow bg-body rounded-circle">⛰️</div>
+							<div type="button" class="icon-lg shadow btn-primary-soft rounded-circle" data-bs-toggle="modal" data-bs-target="#modal_category_edit_{{i.id}}">
+								<i class="fa fa-edit"></i> 
+							</div>
 							<h4 class="mb-0 ms-3">{{i.title}}</h4>
 						</div>
 					</div>
@@ -111,7 +113,7 @@ Main contain START -->
 
 					<!-- Card footer -->
 					<div class="card-footer border-top text-center p-3">
-            			<a href="#" class="btn btn-primary-soft w-90 mb-0">ایجاد</a>
+            			<a href="#" class="btn btn-primary-soft w-90 mb-0"><i class="fa fa-plus"></i>ایجاد</a>
 					
 						<button type="button" class="btn btn-danger-soft w-90 mb-0" onclick="del_category({{i.id}})">
 						<i class="fa fa-trash"></i>حذف </button>
@@ -127,13 +129,102 @@ Main contain START -->
 <!-- =======================
 Main contain END -->
 <!-- Button trigger modal -->
-
+{% for i in show_category %}
+<!-- Modal -->
+<div class="modal fade" id="modal_category_edit_{{i.id}}" tabindex="-1" aria-labelledby="modal_category_lLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modal_category_lLabel">ویرایش دسته بندی</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form action="{% url 'master_category_edit_submit' id=i.id %}" id="form_category_edit" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+			<div class="modal-body">
+				<div class="col-12">
+					<div class="mb-3">
+						<label class="form-label">ویرایش عنوان</label>
+						<input required id="title_category_edit" name="title_category_edit" type="text" class="form-control" value="{{i.title}}" placeholder="عنوان دسته بندی">
+					</div>
+				</div>
+					<div class="row">
+						<div class="col-6">
+							<div class="mb-3">
+								<label class="form-label">ویرایش رنگ پس زمینه</label>
+								<input id="color_bg_category_edit" name="color_bg_category_edit" type="color" class="form-control" value="{{i.color}}" placeholder="حالت پیشفرض #f5f5f5">
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="mb-3">
+								<label class="form-label">ویرایش رنگ متن</label>
+								<input id="color_text_category_edit" name="color_text_category_edit" type="color" class="form-control" value="{{i.color_text}}" placeholder="حالت پیشفرض #333">
+							</div>
+						</div>
+					</div>
+						<div class="col-12">
+							<div class="mb-3">
+							<!-- Image -->
+							<div class="position-relative">
+								<h6 class="my-2">ویرایش تصویر شاخص</h6>
+								<label class="w-100" style="cursor:pointer;">
+									<input class="form-control" type="file" id="img_category_edit" name="img_category_edit" accept="image/gif, image/jpeg, image/png, image/webp"/></label>
+							</div>
+						</div>		
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+						<button type="submit" class="btn btn-primary">ویرایش دسته بندی</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endfor %}
 {% endblock contentpanel_dashboard %}
 
+<script>
+	document.querySelectorAll('[data-bs-target="#modal_category_edit"]').forEach(button => {
+		button.addEventListener('click', function() {
+			const categoryId = this.getAttribute('data-category-id');
+			fetch(`/master/dashboard/category/get/${categoryId}/`)
+				.then(response => response.json())
+				.then(data => {
+					document.getElementById('title_category_edit').value = data.title;
+					document.getElementById('color_bg_category_edit').value = data.color;
+					document.getElementById('color_text_category_edit').value = data.color_text;
+					document.getElementById('edit_category_form').action = `/master/dashboard/category/edit/submit/${categoryId}/`;
+				});
+		});
+	});
+	
+	document.getElementById('edit_category_form').addEventListener('submit', function(e) {
+		e.preventDefault();
+		const formData = new FormData(this);
+		fetch(this.action, {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.success) {
+				// نمایش پیام موفقیت و بستن مودال
+				alert(data.message);
+				$('#modal_category_edit').modal('hide');
+			} else {
+				// نمایش پیام خطا
+				alert(data.message);
+			}
+		});
+	});
+	</script>
+
+
 {% block link_js %}
-<script src="{% static 'master/' %}js/ajax.js"></script>
 <script src="{% static 'master/' %}js/sweetalert.js"></script>
 <script src="{% static 'master/' %}js/delete_swal.js"></script>
+<script src="{% static 'master/' %}js/ajax.js"></script>
+
 
 <script>
 	document.querySelector(".upload-button").addEventListener("click", () => {
@@ -145,5 +236,6 @@ Main contain END -->
 	 //gets the file name
 	 document.querySelector(".upload-name").value = event.target.files[0].name;
    });
-  </script>
+</script>
+
 {% endblock link_js %}

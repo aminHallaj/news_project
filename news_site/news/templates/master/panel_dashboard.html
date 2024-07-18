@@ -82,13 +82,12 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}vendor/bootstrap-icons/bootstrap-icons.css">
 	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}vendor/apexcharts/css/apexcharts.css">
 	<link rel="stylesheet" type="text/css" href="{% static 'master/' %}vendor/overlay-scrollbar/css/OverlayScrollbars.min.css">
-
+	{% block link_css %}
+	{% endblock link_css %}
 	<!-- Theme CSS -->
 	<link id="style-switch" rel="stylesheet" type="text/css" href="{% static 'master/' %}css/style-rtl.css">
 	<link id="style-switch" rel="stylesheet" type="text/css" href="{% static 'master/' %}css/toastr.css">
-	<!-- Theme CSS -->
-	<link id="style-switch" rel="stylesheet" type="text/css" href="assets/css/style-rtl.css">
-	 
+	
 </head>
 
 <body>
@@ -131,10 +130,9 @@ Header START -->
 						<a class="nav-link dropdown-toggle" href="#" id="postMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-pencil me-1"></i>اخبار</a>
 						<ul class="dropdown-menu" aria-labelledby="postMenu">
 							<!-- dropdown submenu -->
-							<li> <a class="dropdown-item" href="dashboard-post-list.html">لیست</a> </li>
+							<li> <a class="dropdown-item" href="{% url 'master_post_list' %}">لیست خبرها</a> </li>
 							<li> <a class="dropdown-item" href="{% url 'master_category_create' %}">دسته بندی</a> </li>
-							<li> <a class="dropdown-item" href="{% url 'master_post_create' %}">ایجاد</a> </li>
-							<li> <a class="dropdown-item" href="dashboard-post-edit.html">ویرایش</a> </li>
+							<li> <a class="dropdown-item" href="{% url 'master_post_create' %}">ایجاد خبر</a> </li>
 						</ul>
 					</li>
 
@@ -343,8 +341,6 @@ JS libraries, plugins and custom scripts -->
 <!-- Bootstrap JS -->
 <script src="{% static 'master/' %}js/jquery.js"></script>
 <script src="{% static 'master/' %}js/toastr.js"></script>
-{% block link_js %}
-{% endblock link_js %}
 <script src="{% static 'master/' %}vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Vendors -->
@@ -353,6 +349,8 @@ JS libraries, plugins and custom scripts -->
 
 <!-- Template Functions -->
 <script src="{% static 'master/' %}js/functions.js"></script>
+{% block link_js %}
+{% endblock link_js %}
 
 {% block quill_js %}
 {% endblock quill_js %}

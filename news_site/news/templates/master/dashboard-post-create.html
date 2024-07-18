@@ -1,7 +1,7 @@
 {% extends 'master/panel_dashboard.html' %}
 {% load static %}
 {% block settings_tab_name %}
-<title>{{settings.tab_name}} | مدیریت</title>
+<title>{{settings.tab_name}} | ایجاد مدیریت</title>
 {% endblock settings_tab_name %} 
 {% block quill_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'master/' %}vendor/quill/css/quill.snow.css">
@@ -146,9 +146,9 @@ Main contain END -->
 
 {% endblock contentpanel_dashboard %}
 
-{% block link_ajax_js %}
+{% block link_js %}
 <script src="{% static 'master/' %}js/ajax.js"></script>
-{% endblock link_ajax_js %}
+{% endblock link_js %}
 
 {% block quill_js %}
 <script src="{% static 'master/' %}vendor/quill/js/quill.min.js"></script>

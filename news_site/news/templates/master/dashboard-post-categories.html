@@ -113,10 +113,11 @@ Main contain START -->
 
 					<!-- Card footer -->
 					<div class="card-footer border-top text-center p-3">
-            			<a href="#" class="btn btn-primary-soft w-90 mb-0"><i class="fa fa-plus"></i>ایجاد</a>
+            			<a href="#" class="btn btn-primary-soft w-90 mb-0" data-bs-toggle="modal" 
+						data-bs-target="#modal_add_subcategory_{{i.id}}"><i class="fa fa-plus mx-2"></i>ایجاد</a>
 					
 						<button type="button" class="btn btn-danger-soft w-90 mb-0" onclick="del_category({{i.id}})">
-						<i class="fa fa-trash"></i>حذف </button>
+						<i class="fa fa-trash mx-2"></i>حذف </button>
 					</div>
 				</div>
 				<!-- Category item END -->
@@ -179,6 +180,88 @@ Main contain END -->
 			</form>
 		</div>
 	</div>
+</div>
+{% endfor %}
+
+
+
+
+
+
+<!-- Button trigger modal -->
+{% for i in show_category %}
+<!-- Modal -->
+<div class="modal fade modal-lg" id="modal_add_subcategory_{{i.id}}" tabindex="-1" aria-labelledby="modal_category_lLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modal_category_lLabel">ریز دسته بندی</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form action="{% url 'master_category_edit_submit' id=i.id %}" id="form_category_edit" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+			<div class="modal-body">
+				<div class="col-12">
+					<div class="mb-3">
+						<label class="form-label">عنوان</label>
+						<input required id="title_subcategory_add" name="title_subcategory_add" type="text" class="form-control" placeholder="عنوان زیر دسته بندی">
+					</div>
+				</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+						<button type="submit" class="btn btn-primary">ایجاد</button>
+					</div>
+					<div class="table-responsive border-0">
+						<table class="table align-middle p-4 mb-0 table-hover table-shrink">
+						  <!-- Table head -->
+						  <thead class="table-dark">
+							<tr>
+							  <th scope="col" class="border-0 rounded-start">عنوان</th>
+							  <th scope="col" class="border-0 rounded-end">فعالیت</th>
+							</tr>
+						  </thead>
+			
+						  <!-- Table body START -->
+						  <tbody id="dt_table" class="border-top-0">
+							<!-- Table item -->
+							<tr>
+							  <!-- Table data -->
+							  <td>
+								<h6 class="course-title mt-2 mt-md-0 mb-0"><a href="#">test</a></h6>
+							  </td>
+							  <!-- Table data -->
+							  <td>
+								<div class="d-flex gap-2">
+								  <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="حذف"><i class="bi bi-trash"></i></a>
+								  <a href="dashboard-post-edit.html" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ویرایش"><i class="bi bi-pencil-square"></i></a>
+								</div>
+							  </td>
+							</tr>
+							<tr>
+								<!-- Table data -->
+								<td>
+								  <h6 class="course-title mt-2 mt-md-0 mb-0"><a href="#">test</a></h6>
+								</td>
+								<!-- Table data -->
+								<td>
+								  <div class="d-flex gap-2">
+									<a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="حذف"><i class="bi bi-trash"></i></a>
+									<a href="dashboard-post-edit.html" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ویرایش"><i class="bi bi-pencil-square"></i></a>
+								  </div>
+								</td>
+							  </tr>
+						  </tbody>
+						  <!-- Table body END -->
+						</table>
+					</div>
+				</div>
+				
+			</form>
+			
+		</div>
+		
+	</div>
+	
 </div>
 {% endfor %}
 {% endblock contentpanel_dashboard %}

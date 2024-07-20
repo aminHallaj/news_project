@@ -2,9 +2,10 @@ from django.shortcuts import render , get_object_or_404 , redirect
 from django.contrib.auth import login , authenticate , logout 
 from django.contrib.auth.models import  User , Permission
 from django.contrib import messages
+from django.urls import reverse
 from settings_site.models import *
 from news.models import *
-from django.http import Http404, JsonResponse
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 import time
 from datetime import date, datetime
 import jdatetime
@@ -19,10 +20,12 @@ from django.template.loader import render_to_string
 
 def master_panel(request):
 
+    if not request.user.is_authenticated:
+        return redirect('master_signin')
+
     settings = Settings.objects.get(id=1)
 
     show_news_list = News.objects.all().order_by('-id')[:3]
-
 
     list_dashboard = {
         "settings":settings,"show_news_list":show_news_list,
@@ -34,8 +37,10 @@ def master_panel(request):
 def master_signin(request):
 
     settings = Settings.objects.get(id=1)
-            
 
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('master_panel'))
+    
     list_signin = {
         "settings":settings,
     }
@@ -71,6 +76,8 @@ def master_logout(request):
 
 
 def master_post_list(request):
+    if not request.user.is_authenticated:
+        return redirect('master_signin')
     settings = Settings.objects.get(id=1)
     news_list_show = News.objects.all().order_by('-id')
 
@@ -118,6 +125,8 @@ def master_post_list(request):
 
 
 def master_post_create(request):
+    if not request.user.is_authenticated:
+        return redirect('master_signin')
 
     settings = Settings.objects.get(id=1)
 
@@ -170,6 +179,8 @@ def master_post_create_submit(request):
 
 
 def master_post_edit(request):
+    if not request.user.is_authenticated:
+        return redirect('master_signin')
 
     settings = Settings.objects.get(id=1)
 
@@ -222,6 +233,8 @@ def master_post_edit_submit(request):
 
 
 def master_category_create(request):
+    if not request.user.is_authenticated:
+        return redirect('master_signin')
 
     settings = Settings.objects.get(id=1)
 
@@ -302,6 +315,8 @@ def master_category_delete(request, id):
     
 
 def master_category_edit(request, id):
+    if not request.user.is_authenticated:
+        return redirect('master_signin')
 
     try:
         category = Category.objects.get(id=id)

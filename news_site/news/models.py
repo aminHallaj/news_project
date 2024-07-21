@@ -12,7 +12,7 @@ class Category(models.Model):
     title=models.CharField(max_length=500)
     img=models.FileField(upload_to='img_category',blank=True)
     color=models.CharField(max_length=500, default='#f5f5f5')
-    color_text=models.CharField(max_length=500, default='#333')
+    color_text=models.CharField(max_length=500, default='#000')
 
     def __str__(self):
             return f"{self.title}"
@@ -27,7 +27,11 @@ class SubCategory(models.Model):
             return f"{self.title} | {self.category}"
 
 
-
+SUBMINEWS=[
+    (0,"در حال انتظار"),
+    (1,"تایید شده"),
+    (2,"رد شده"),
+]
 class News(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="news")
     author=models.ForeignKey(User, on_delete=models.CASCADE, related_name="news_author")
@@ -36,6 +40,7 @@ class News(models.Model):
     img=models.FileField(upload_to='img_news',blank=True)
     date = models.FloatField(null=True , blank=True)
     text=models.TextField(null=True , blank=True)
+    status_news = models.IntegerField(default=0, choices=SUBMINEWS)
 
     def __str__(self):
             return f"{self.title} | {self.author} | {self.sub_category}"

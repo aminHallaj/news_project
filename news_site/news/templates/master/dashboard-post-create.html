@@ -43,7 +43,7 @@ Main contain START -->
                   <div class="mb-3">
                     <label class="form-label">متن خبر</label>
                     <!-- Editor toolbar -->
-                    <textarea id="text_news" name="text_news" class="form-control"></textarea>
+                    <textarea id="text_news" name="text_news" class="form-control" required></textarea>
                       <!-- Main toolbar -->
                     </div>	
                 </div>
@@ -100,7 +100,7 @@ Main contain START -->
                                 <input type="text" class="form-control upload-name"/>
                                 <span class="btn btn-custom cursor-pointer upload-button">آپلود فایل</span>
                         </div> 
-                        <input class="form-control stretched-link d-none hidden-upload" type="file" id="img_news" name="img_news" accept="image/gif, image/jpeg, image/png, image/webp"/>
+                        <input required class="form-control stretched-link d-none hidden-upload" type="file" id="img_news" name="img_news" accept="image/gif, image/jpeg, image/png, image/webp"/>
 										</label>
                                        
                   </div>
@@ -120,7 +120,7 @@ Main contain START -->
                   <div class="mb-3">
                     <label class="form-label">دسته بندی</label>
                     <select class="form-select" id="sub_cat_news" name="sub_cat_news" aria-label="Default select example">
-                      <option selected>دسته خبر را انتخاب کنید</option>
+                      <option value="" selected>دسته خبر را انتخاب کنید</option>
                       {% for i in show_subcategory %}
                       <option value="{{i.id}}">{{i.category}} | {{i.title}}</option>
                       {% endfor %}
@@ -152,7 +152,12 @@ Main contain END -->
 
 {% block quill_js %}
 <script src="{% static 'master/' %}vendor/quill/js/quill.min.js"></script>
-
+<script>
+  if ($("#sub_cat_news").val() === "") {
+    alert("لطفا یک دسته بندی انتخاب کنید");
+    return false;
+  }
+</script>
 <script>
   document.querySelector(".upload-button").addEventListener("click", () => {
    //clicks on the file input

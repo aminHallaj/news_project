@@ -17,6 +17,8 @@ urlpatterns = [
 
     # Page Post List
     path('master/dashboard/post/list/', views.master_post_list, name='master_post_list'),
+    path('master/dashboard/post/delete/<id>/', views.master_post_delete, name='master_post_delete'),
+
     # End Page Post List
 
     # Page Category Create And Category Edit

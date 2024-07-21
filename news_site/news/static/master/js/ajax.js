@@ -55,6 +55,73 @@ $("#form_all").on("submit", function (e) {
 
 
 
+
+
+  $("#form_post_edit").on("submit", function (e) {
+    e.preventDefault();
+    var form = $('#form_post_edit')[0];
+    var formdata = new FormData(form);
+
+    $.ajax({
+        type: "POST",
+        url: $(this).attr('action'),
+        data: formdata,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data.success) {
+                toastr.success(data.message, '', {
+                    timeOut: 2e3,
+                    progressBar: true,
+                    showMethod: "slideDown",
+                    hideMethod: "slideUp",
+                    showDuration: 200,
+                    hideDuration: 200,
+                    positionClass: "toast-top-center"
+                });
+                window.location.href = data.redirect_url;
+            } else {
+                toastr.error(data.message, '', {
+                    timeOut: 2e3,
+                    progressBar: true,
+                    showMethod: "slideDown",
+                    hideMethod: "slideUp",
+                    showDuration: 200,
+                    hideDuration: 200,
+                    positionClass: "toast-top-center"
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            toastr.error("An error occurred: " + error, '', {
+                timeOut: 2e3,
+                progressBar: true,
+                showMethod: "slideDown",
+                hideMethod: "slideUp",
+                showDuration: 200,
+                hideDuration: 200,
+                positionClass: "toast-top-center"
+            });
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $("#form_category_edit").on("submit", function (e) {
   e.preventDefault();
   var form = $('#form_category_edit')[0];

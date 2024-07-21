@@ -25,7 +25,7 @@ Main contain START -->
 					<!-- Card body -->
 					<div class="card-body">
             <!-- Form START -->
-            <form action="{% url 'master_post_create_submit' %}" method="POST" enctype="multipart/form-data" id="form_all">
+            <form action="{% url 'master_post_edit_submit' id=edit_news.id %}" method="POST" enctype="multipart/form-data" id="form_post_edit">
               {% csrf_token %}
               <!-- Main form -->
               <div class="row">
@@ -33,7 +33,7 @@ Main contain START -->
                   <!-- Post name -->
                   <div class="mb-3">
                     <label class="form-label">عنوان</label>
-                    <input required id="title_news" name="title_news" type="text" class="form-control" placeholder="عنوان خبر">
+                    <input required id="title_news_edit" name="title_news_edit" type="text" class="form-control" value="{{edit_news.title}}" placeholder="عنوان خبر">
                     <small>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</small>
                   </div>
                 </div>
@@ -43,7 +43,7 @@ Main contain START -->
                   <div class="mb-3">
                     <label class="form-label">متن خبر</label>
                     <!-- Editor toolbar -->
-                    <textarea id="text_news" name="text_news" class="form-control"></textarea>
+                    <textarea id="text_news_edit" name="text_news_edit" class="form-control">{{edit_news.text}}</textarea>
                       <!-- Main toolbar -->
                     </div>	
                 </div>
@@ -92,20 +92,27 @@ Main contain START -->
                 </div> {% endcomment %}
                 <div class="col-12">
                   <div class="mb-3">
-                  <!-- Image -->
-                  <div class="position-relative">
-                    <h6 class="my-2">آپلود تصویر شاخص<a href="#!" class="text-primary"> آپلود از کامپیوتر</a></h6>
-					            <label class="w-100" style="cursor:pointer;">
-                        <div class="input-group flex-row-reverse">
-                                <input type="text" class="form-control upload-name"/>
-                                <span class="btn btn-custom cursor-pointer upload-button">آپلود فایل</span>
-                        </div> 
-                        <input class="form-control stretched-link d-none hidden-upload" type="file" id="img_news" name="img_news" accept="image/gif, image/jpeg, image/png, image/webp"/>
+                    <!-- Image -->
+                    <div class="row align-items-center mb-2">
+                      <div class="col-4 col-md-2">
+                        <div class="position-relative">
+                          <img class="rounded" src="{{edit_news.img.url}}" alt="">
+                          
+                        </div>
+                      </div>
+                      <div class="col-sm-8 col-md-10 position-relative">
+                        <h6 class="my-2">ویرایش تصویر </h6>
+                        <label class="w-100" style="cursor:pointer;">
+                                        <div class="input-group flex-row-reverse">
+                                                <input type="text" class="form-control upload-name"/>
+                                                <span class="btn btn-custom cursor-pointer upload-button">آپلود فایل</span>
+                                        </div> 
+                                        <input class="form-control stretched-link d-none hidden-upload" type="file" id="img_news_edit" name="img_news_edit" accept="image/gif, image/jpeg, image/png, image/webp"/>
 										</label>
                                        
                   </div>
                   <p class="small mb-0 mt-2"><b>نکته:</b> فرمت های مجاز: JPG، JPEG و PNG و ابعاد پیشنهادی ما 600px * 450px است. تصاویر بزرگتر به اندازه 4:3 برش داده می شود تا با تصاویر کوچک/پیش نمایش ما مطابقت داشته باشد.</p>
-                  </div>
+                  </div></div>
                 </div>
                 <div class="col-lg-7">
                   <!-- Tags -->
@@ -119,17 +126,19 @@ Main contain START -->
                   <!-- Message -->
                   <div class="mb-3">
                     <label class="form-label">دسته بندی</label>
-                    <select class="form-select" id="sub_cat_news" name="sub_cat_news" aria-label="Default select example">
-                      <option selected>دسته خبر را انتخاب کنید</option>
+                    <select class="form-select" id="sub_cat_news_edit" name="sub_cat_news_edit" aria-label="Default select example">
+                      <option selected value="{{edit_news.sub_category.id}}">{{edit_news.sub_category}}</option>
                       {% for i in show_subcategory %}
-                      <option value="{{i.id}}">{{i.category}} | {{i.title}}</option>
+                        {% if i.id != edit_news.sub_category.id %}
+                          <option value="{{i.id}}">{{i.category}} | {{i.title}}</option>
+                        {% endif %}
                       {% endfor %}
                     </select>
                   </div>
                 </div>
                 <!-- Create post button -->
                 <div class="col-md-12 text-start">
-                  <button class="btn btn-primary w-100" type="submit">ایجاد خبر</button>
+                  <button class="btn btn-primary w-100" type="submit">ویرایش خبر</button>
                 </div>
               </div>
             </form>

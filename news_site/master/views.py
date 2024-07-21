@@ -124,6 +124,7 @@ def master_post_list(request):
     return render(request, 'master/dashboard-post-list.html', list_news)
 
 
+
 def master_post_create(request):
     if not request.user.is_authenticated:
         return redirect('master_signin')
@@ -139,7 +140,6 @@ def master_post_create(request):
     return render(request, 'master/dashboard-post-create.html', list_post_create)
 
 
-
 def master_post_create_submit(request):
 
     if request.method == 'POST':
@@ -148,7 +148,7 @@ def master_post_create_submit(request):
         sub_cat_news = request.POST.get('sub_cat_news')
         img_news = request.FILES.get('img_news')
 
-        if not all([title_news, text_news, sub_cat_news]):
+        if not all([title_news, text_news, sub_cat_news, img_news]):
             return JsonResponse({"success": False, "message": "اطلاعات را کامل کنید", "data": {}}, status=200)
 
         try:
@@ -172,67 +172,75 @@ def master_post_create_submit(request):
         except SubCategory.DoesNotExist:
             return JsonResponse({"success": False, "message": 'دسته بندی نامعتبر است', "data": {}}, status=200)
         except Exception as e:
-            return JsonResponse({"success": False, "message": f'خطا در ایجاد خبر: {str(e)}', "data": {}}, status=200)
+            return JsonResponse({"success": False, "message": f'خطا در ایجاد خبر: دسته بندی خود را انتخاب نکرده اید', "data": {}}, status=200)
 
     return redirect('master_post_create')
 
 
 
-def master_post_edit(request):
+def master_post_edit(request, id):
+    
     if not request.user.is_authenticated:
         return redirect('master_signin')
 
     settings = Settings.objects.get(id=1)
 
+    edit_news = News.objects.get(id=id)
+
     show_subcategory = SubCategory.objects.all()
 
     list_post_create = {
-        "settings":settings,"show_subcategory":show_subcategory,
+        "settings":settings,"edit_news":edit_news,"show_subcategory":show_subcategory,
     }
 
     return render(request, 'master/dashboard-post-edit.html', list_post_create)
 
 
 
-def master_post_edit_submit(request):
+def master_post_edit_submit(request ,id):
 
     if request.method == 'POST':
-        title_news = request.POST.get('title_news')
-        text_news = request.POST.get('text_news')
-        sub_cat_news = request.POST.get('sub_cat_news')
-        img_news = request.FILES.get('img_news')
+        edit_news = get_object_or_404(News, id=id)
+        
+        title_news_edit = request.POST.get('title_news_edit')
+        text_news_edit = request.POST.get('text_news_edit')
+        sub_cat_news_edit = request.POST.get('sub_cat_news_edit') or edit_news.sub_category.id
+        img_news_edit = request.FILES.get('img_news_edit')
 
-        if not all([title_news, text_news, sub_cat_news]):
-            return JsonResponse({"success": False, "message": "اطلاعات را کامل کنید", "data": {}}, status=200)
+        if not all([title_news_edit, text_news_edit]):
+            return JsonResponse({"success": False, "message": "لطفا تمام فیلدهای ضروری را پر کنید"}, status=400)
 
         try:
-            sub_category = SubCategory.objects.get(id=sub_cat_news)
-            create_news = News.objects.create(
-                user=request.user,
-                author=request.user,
-                sub_category=sub_category,
-                title=title_news,
-                text=text_news,
-                img=img_news,
-                date=time.time(),
-            )
+            sub_category = SubCategory.objects.get(id=sub_cat_news_edit)
+            
+            edit_news.title = title_news_edit
+            edit_news.text = text_news_edit
+            edit_news.sub_category = sub_category
+            edit_news.date = time.time()
+            
+            if img_news_edit:
+                edit_news.img = img_news_edit
+            
+            edit_news.save()
+            messages.success(request, 'خبر با موفقیت بروز شد')
 
             return JsonResponse({
-                "success": True, 
-                "message": 'خبر با موفقیت ایجاد شد.',
-                "data": {'title_news': create_news.title}
-            }, status=200)
+                "success": True,
+                "message": 'خبر با موفقیت ویرایش شد.',
+                "redirect_url": reverse('master_post_list')
+            })
 
         except SubCategory.DoesNotExist:
-            return JsonResponse({"success": False, "message": 'دسته بندی نامعتبر است', "data": {}}, status=200)
+            return JsonResponse({"success": False, "message": 'دسته بندی نامعتبر است'}, status=400)
         except Exception as e:
-            return JsonResponse({"success": False, "message": f'خطا در ایجاد خبر: {str(e)}', "data": {}}, status=200)
+            return JsonResponse({"success": False, "message": f'خطا در ویرایش خبر: {str(e)}'}, status=500)
 
-    return redirect('master_post_create')
+    return redirect('master_post_list')
 
 
 
 def master_category_create(request):
+
     if not request.user.is_authenticated:
         return redirect('master_signin')
 
@@ -373,3 +381,21 @@ def master_category_edit_submit(request, id):
             return JsonResponse({"success": False, "message": f'خطا در ویرایش دسته بندی: {str(e)}'}, status=200)
 
     return redirect('master_category_create')
+
+
+def master_post_delete(request, id):
+
+    try:
+        news_delete = News.objects.get(id=id)
+        try:
+            fs = FileSystemStorage()
+            fs.delete(news_delete.img)
+        except:
+            pass
+
+        news_delete.delete()
+
+        return JsonResponse({"success":True, "message":"حذف با موفقیت انجام شد ", "data":{}},status=200)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"success":False, "message":"حذف انجام نشد ", "data":{}},status=200)

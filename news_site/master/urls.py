@@ -34,6 +34,8 @@ urlpatterns = [
     path('master/dashboard/post/create/submit/', views.master_post_create_submit, name='master_post_create_submit'),
     path('master/dashboard/post/edit/<id>/', views.master_post_edit, name='master_post_edit'),
     path('master/dashboard/post/edit/submit/<id>/', views.master_post_edit_submit, name='master_post_edit_submit'),
+    path('master/dashboard/post/change-status/<id>/', views.master_change_news_status, name='master_change_news_status'),
+    path('master/dashboard/post/resubmit/<id>/', views.master_resubmit_news, name='master_resubmit_news'),
     # End Page Post Create And Post Edit
 
 ]

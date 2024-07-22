@@ -239,6 +239,28 @@ def master_post_edit_submit(request ,id):
 
 
 
+def master_change_news_status(request, id):
+    news = get_object_or_404(News, id=id)
+    status = request.POST.get('status')
+    reason = request.POST.get('reason', '')
+
+    if status in ['0', '1', '2']:
+        news.status_news = int(status)
+        if status == '2':
+            news.reject_reason = reason
+        news.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+
+def master_resubmit_news(request, id):
+    news = get_object_or_404(News, id=id)
+    if news.status_news == 2:  # اگر رد شده است
+        news.status_news = 0  # به حالت در حال انتظار تغییر می‌دهد
+        news.save()
+    return redirect('master_post_edit', id=news.id)
+
+
 def master_category_create(request):
 
     if not request.user.is_authenticated:

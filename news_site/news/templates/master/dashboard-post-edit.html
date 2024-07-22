@@ -142,6 +142,17 @@ Main contain START -->
                 </div>
               </div>
             </form>
+            <div class="action-buttons">
+              {% if edit_news.status_news == 0 %}
+                  <button class="btn btn-success" id="approveBtn" onclick="approveNews({{ edit_news.id }})">تایید</button>
+                  <button type="button" class="btn btn-danger" id="rejectBtn" onclick="showRejectModal()">رد خبر</button>
+              {% elif edit_news.status_news == 1 %}
+                  <!-- هیچ دکمه‌ای نمایش داده نمی‌شود -->
+              {% elif edit_news.status_news == 2 %}
+                  <button class="btn btn-success" id="approveBtn" onclick="approveNews({{ edit_news.id }})" disabled>تایید</button>
+                  <button type="button" class="btn btn-danger" id="rejectBtn" onclick="showRejectModal()">ویرایش دلیل رد</button>
+              {% endif %}
+            </div>
             <!-- Form END -->
 					</div>
 				</div>
@@ -152,11 +163,39 @@ Main contain START -->
 </section>
 <!-- =======================
 Main contain END -->
-
+<!-- مودال رد خبر -->
+<!-- Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header bg-light">
+              <h5 class="modal-title" id="rejectModalLabel">دلیل رد خبر</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form>
+                  <div class="mb-3">
+                      <label for="rejectReason" class="form-label">توضیحات</label>
+                      <textarea class="form-control" id="rejectReason" rows="4" required></textarea>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+              <button type="button" class="btn btn-danger" onclick="rejectNews({{ edit_news.id }})">ثبت و رد خبر</button>
+          </div>
+      </div>
+  </div>
+</div>
 {% endblock contentpanel_dashboard %}
 
 {% block link_js %}
+<script>
+  var statusNews = {{ edit_news.status_news|default:0 }};
+  var rejectReason = "{{ edit_news.reject_reason|default:''|escapejs }}";
+</script>
 <script src="{% static 'master/' %}js/ajax.js"></script>
+<script src="{% static 'master/' %}js/news_management.js"></script>
 {% endblock link_js %}
 
 {% block quill_js %}

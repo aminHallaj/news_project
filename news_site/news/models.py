@@ -41,9 +41,18 @@ class News(models.Model):
     date = models.FloatField(null=True , blank=True)
     text=models.TextField(null=True , blank=True)
     status_news = models.IntegerField(default=0, choices=SUBMINEWS)
+    reject_reason = models.TextField(blank=True, null=True)
 
     def __str__(self):
             return f"{self.title} | {self.author} | {self.sub_category}"
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:  # اگر خبر جدید است
+            if self.user.is_superuser:  # اگر کاربر ادمین اصلی است
+                self.status_news = 1
+            else:
+                self.status_news = 0
+        super().save(*args, **kwargs)
     
 
     @property

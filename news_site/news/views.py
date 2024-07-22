@@ -19,17 +19,17 @@ def front_index(request):
 
     category_menu2 = Category.objects.all()[:12]
     
-    popular = News.objects.all().order_by('-id')[:4]
+    popular = News.objects.filter(status_news=1).order_by('-id')[:4]
 
-    news_slider = News.objects.all().order_by('-id')[:10]
+    news_slider = News.objects.filter(status_news=1).order_by('-id')[:10]
 
-    news_slider2 = News.objects.all().order_by('-id')[:4]
+    news_slider2 = News.objects.filter(status_news=1).order_by('-id')[:4]
 
-    news_list = News.objects.all().order_by('-id')
+    news_list = News.objects.filter(status_news=1).order_by('-id')
 
-    menu_news_list = News.objects.all().order_by('-id')[:4]
+    menu_news_list = News.objects.filter(status_news=1).order_by('-id')[:4]
 
-    footer_news_list = News.objects.all().order_by('-id')[:2]
+    footer_news_list = News.objects.filter(status_news=1).order_by('-id')[:2]
 
     list_index = {
         "category_menu2":category_menu2, "menu_news_list":menu_news_list,
@@ -51,9 +51,9 @@ def front_about_us(request):
 
     category_menu2 = Category.objects.all()[:12]
 
-    menu_news_list = News.objects.all().order_by('-id')[:4]
+    menu_news_list = News.objects.filter(status_news=1).order_by('-id')[:4]
 
-    footer_news_list = News.objects.all().order_by('-id')[:2]
+    footer_news_list = News.objects.filter(status_news=1).order_by('-id')[:2]
 
 
     list_about_us = {
@@ -73,11 +73,11 @@ def front_contact_us(request):
 
     category_menu2 = Category.objects.all()[:12]
 
-    menu_news_list = News.objects.all().order_by('-id')[:4]
+    menu_news_list = News.objects.filter(status_news=1).order_by('-id')[:4]
 
     contact_us=ContactUsSettings.objects.get(id=1)
 
-    footer_news_list = News.objects.all().order_by('-id')[:2]
+    footer_news_list = News.objects.filter(status_news=1).order_by('-id')[:2]
 
     list_contact_us = {
         'settings':settings,"category_menu":category_menu,
@@ -134,13 +134,13 @@ def front_post_single(request,id):
 
     category_show_list = Category.objects.all()[:12]
 
-    menu_news_list = News.objects.all().order_by('-id')[:4]
+    menu_news_list = News.objects.filter(status_news=1).order_by('-id')[:4]
 
     news_show = News.objects.get(id=id)
 
     comment_show = PointOfView.objects.filter(news_id=id).order_by('-id')
 
-    footer_news_list = News.objects.all().order_by('-id')[:2]
+    footer_news_list = News.objects.filter(status_news=1).order_by('-id')[:2]
 
     # category_post_counts = {category.id: category.news_set.count() for category in category_show_list}
 
@@ -197,11 +197,11 @@ def front_all_post_list(request):
 
     category_menu2 = Category.objects.all()[:12]
 
-    menu_news_list = News.objects.all().order_by('-id')[:4]
+    menu_news_list = News.objects.filter(status_news=1).order_by('-id')[:4]
 
-    news_list=News.objects.all().order_by('-id')
+    news_list=News.objects.filter(status_news=1).order_by('-id')
 
-    footer_news_list = News.objects.all().order_by('-id')[:2]
+    footer_news_list = News.objects.filter(status_news=1).order_by('-id')[:2]
 
 
     paginator = Paginator (news_list,8)
@@ -236,7 +236,7 @@ def front_post_list(request,id=None):
 
     category_menu2 = Category.objects.all()[:12]
 
-    menu_news_list = News.objects.all().order_by('-id')[:4]
+    menu_news_list = News.objects.filter(status_news=1).order_by('-id')[:4]
     if id:
         category_list=Category.objects.get(id=id)
 
@@ -246,9 +246,9 @@ def front_post_list(request,id=None):
     else:
         category_list = None
 
-        news_list=News.objects.all().order_by('-id')
+        news_list=News.objects.filter(status_news=1).order_by('-id')
 
-    footer_news_list = News.objects.all().order_by('-id')[:2]
+    footer_news_list = News.objects.filter(status_news=1).order_by('-id')[:2]
 
 
     paginator = Paginator (news_list,8)

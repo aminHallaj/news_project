@@ -17,7 +17,13 @@
         </td>
         <!-- Table data -->
         <td>
-        <span class="badge bg-success bg-opacity-10 text-success mb-2">فعال</span>
+            {% if i.status_news == 0 %}
+                <span class="badge bg-warning bg-opacity-10 text-warning mb-2">در انتظار</span>
+            {% elif i.status_news == 1 %}
+                <span class="badge bg-success bg-opacity-10 text-success mb-2">تایید شده</span>
+            {% elif i.status_news == 2 %}
+                <span class="badge bg-danger bg-opacity-10 text-danger mb-2">رد شده</span>
+            {% endif %}
         </td>
         <!-- Table data -->
         <td>

@@ -44,4 +44,8 @@ urlpatterns = [
     path('master/dashboard/post/resubmit/<id>/', views.master_resubmit_news, name='master_resubmit_news'),
     # End Page Post Create And Post Edit
 
+    # Page reviews Create And reviews Edit
+    path('master/dashboard/reviews/', views.master_reviews, name='master_reviews'),
+    # End Page Post Create And Post Edit
+
 ]

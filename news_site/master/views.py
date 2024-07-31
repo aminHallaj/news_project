@@ -36,10 +36,47 @@ def master_panel(request):
     # تعداد کاربران
     user_count = User.objects.count()
 
+
+    news_list_show = News.objects.all().order_by('-id')
+
+    search_query = request.GET.get('search')
+
+    if search_query:
+        news_list_show = news_list_show.annotate(
+        full_name=Concat('author__first_name', V(' '), 'author__last_name')
+        ).filter(
+            Q(title__icontains=search_query) |
+            Q(full_name__icontains=search_query) |
+            Q(sub_category__title__icontains=search_query) |
+            Q(sub_category__category__title__icontains=search_query)
+        )
+
+    paginator = Paginator(news_list_show, 8)
+    page = request.GET.get('page', 1)
+    news_list_show = paginator.get_page(page)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string(
+            template_name="master/includes/news_list_table.html",
+            context={"news_list_show": news_list_show}
+        )
+        pagination_html = render_to_string(
+            template_name="master/includes/pagination.html",
+            context={"news_list_show": news_list_show}
+        )
+        data_dict = {
+            "html_from_view": html,
+            "pagination_html": pagination_html,
+            "start_index": news_list_show.start_index(),
+            "end_index": news_list_show.end_index(),
+            "total_count": paginator.count,
+        }
+        return JsonResponse(data=data_dict, safe=False)
+
     list_dashboard = {
         "settings":settings,"show_news_list":show_news_list,
         "news_count":news_count,"comment_count":comment_count,
-        "user_count":user_count,
+        "user_count":user_count,"news_list_show":news_list_show,
     }
 
     return render(request, 'master/dashboard.html', list_dashboard)
@@ -598,3 +635,43 @@ def master_post_delete(request, id):
     except Exception as e:
         print(e)
         return JsonResponse({"success":False, "message":"حذف انجام نشد ", "data":{}},status=200)
+
+
+def master_reviews(request):
+
+    if not request.user.is_authenticated:
+        return redirect('master_signin')
+
+    settings = Settings.objects.get(id=1)
+
+    show_reviews_list = PointOfView.objects.all().order_by('-id')
+
+
+    paginator = Paginator(show_reviews_list, 8)
+    page = request.GET.get('page', 1)
+    show_reviews_list = paginator.get_page(page)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string(
+            template_name="master/includes/reviews_list_table.html",
+            context={"show_reviews_list": show_reviews_list}
+        )
+        pagination_html = render_to_string(
+            template_name="master/includes/reviews_pagination.html",
+            context={"show_reviews_list": show_reviews_list}
+        )
+        data_dict = {
+            "html_from_view": html,
+            "pagination_html": pagination_html,
+            "start_index": show_reviews_list.start_index(),
+            "end_index": show_reviews_list.end_index(),
+            "total_count": paginator.count,
+        }
+        return JsonResponse(data=data_dict, safe=False)
+
+
+    list_reviews = {
+    "settings":settings,"show_reviews_list":show_reviews_list,
+    "paginator":paginator,
+    }
+    return render(request, 'master/dashboard-reviews.html', list_reviews)

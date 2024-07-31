@@ -1,0 +1,69 @@
+{% extends 'master/panel_dashboard.html' %}
+{% load static %}
+{% block settings_tab_name %}
+<title>{{settings.tab_name}} | مدیریت</title>
+{% endblock settings_tab_name %} 
+{% block contentpanel_dashboard %}
+
+<!-- =======================
+Reviews START -->
+<section class="py-4">
+	<div class="container">
+    <div class="row pb-4">
+			<div class="col-12">
+        <!-- Title -->
+				<div class="d-sm-flex justify-content-sm-between align-items-center">
+					<h1 class="mb-2 mb-sm-0 h3">لیست نظرات <span class="badge bg-primary bg-opacity-10 text-primary">301</span></h1>			
+					<a href="#" class="btn btn-sm btn-primary mb-0"><i class="fas fa-plus me-2"></i>ثبت نظر</a>
+				</div>
+			</div>
+		</div>
+		<div class="row g-4">
+			<div class="col-12">
+          <!-- Blog list table START -->
+          <div class="card border bg-transparent rounded-3">
+            <!-- Card body START -->
+            <div class="card-body py-3">
+              <!-- Blog list table START -->
+              <div class="table-responsive border-0">
+                <table class="table p-4 mb-0 table-shrink">
+                  <!-- Table head -->
+                  <thead class="table-dark">
+                    <tr>
+                      <th scope="col" class="border-0 rounded-start">عنوان خبر</th>
+                      <th scope="col" class="border-0">نظردهنده</th>
+                      <th scope="col" class="border-0">امتیاز</th>
+                      <th scope="col" class="border-0">نمایش</th>
+                      <th scope="col" class="border-0 rounded-end">عملیات</th>
+                    </tr>
+                  </thead>
+                  <!-- Table body START -->
+                  <tbody class="border-top-0">
+                    <!-- Table item -->
+                    {% include 'master/includes/reviews_list_table.html' %}
+                  </tbody>
+                  <!-- Table body END -->
+                </table>
+              </div>
+              <!-- Blog list table END -->
+
+              <!-- Pagination START -->
+              <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+                <p class="mb-sm-0 text-center text-sm-start">
+                    نمایش {{ show_reviews_list.start_index }} تا {{ show_reviews_list.end_index }} از {{ show_reviews_list.paginator.count }}
+                </p>
+                <nav class="mb-sm-0 d-flex justify-content-center" aria-label="navigation">
+                  {% include 'master/includes/pagination.html' %}
+                </nav>
+            </div>
+              <!-- Pagination END -->
+            </div>
+          </div>
+          <!-- Blog list table END -->
+        </div>
+			</div>
+  </div>
+</section>
+<!-- =======================
+Main contain END -->
+{% endblock contentpanel_dashboard %}

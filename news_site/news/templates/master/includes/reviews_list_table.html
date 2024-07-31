@@ -1,0 +1,46 @@
+{% load static %}
+{% for i in show_reviews_list %}
+    <tr id="del_{{i.id}}">
+        <!-- Table data -->
+        <td>
+            <h6 class="course-title mb-0"><a href="#">رازهای کوچک کثیف در مورد صنعت تجارت </a></h6>
+        </td>
+        <!-- Table data -->
+        <td>
+            با مریم ترابی
+        </td>
+        <!-- Table data -->
+        <td>
+            <ul class="list-inline mb-2">
+            <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+            <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+            <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+            <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+            <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+            </ul>
+            <p class="small course-title">این راست نیست که هرچه عاشق‌ تر باشی بهتر درک می‌کنی. همه‌ی آنچه عشق و عاشقی از من می‌ خواهد فقط درکِ این حکمت است: دیگری نشناختنی است؛ ماتیِ او پرده‌ی ابهامی به روی یک راز نیست <a href="#" data-bs-toggle="modal" data-bs-target="#viewReview"> مشاهده بیشتر</a> </p>
+        </td>
+        <!-- Table data -->
+        <td>
+            <div class="form-check form-switch form-check-md">
+            <input class="form-check-input" type="checkbox" id="checkReview1">
+            </div>
+        </td>
+        <!-- Table data -->
+        <td>
+            <div class="dropdown">
+            <a href="#" class="btn btn-light btn-round mb-0" role="button" id="dropdownReview" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots fa-fw"></i>
+            </a>
+            <!-- dropdown button -->
+            <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownReview">
+                <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square fa-fw me-2"></i>ویرایش</a></li>
+                <li><a class="dropdown-item" href="#"><i class="bi bi-trash fa-fw me-2"></i>حذف</a></li>
+            </ul>
+            </div>
+        </td>
+    </tr>  
+{% endfor %}
+<script src="{% static 'master/' %}js/jquery.js"></script>
+<script src="{% static 'master/' %}js/delete_swal_news.js"></script>
+<script src="{% static 'master/' %}js/sweetalert.js"></script>

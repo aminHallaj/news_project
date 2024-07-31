@@ -3,7 +3,7 @@ function del_category(id) {
   var csrftoken = $('[name=csrfmiddlewaretoken]').val();
   swal({
     title: "مطمئن هستید؟",
-    text: "در صورت پاک کردن فایل نمیتوانید به آن دسترسی داشته باشید",
+    text: "با حذف کردن دسته بندی تمامی زیرمجموعه های مربوط به این دسته حذف میشود!",
     icon: "warning",
     buttons: {
       cancel: "انصراف",
@@ -38,6 +38,54 @@ function del_category(id) {
     }
   });
 }
+
+
+
+
+
+function del_sub_category(id) {
+  let row = $(`#row_${id}`);
+  var csrftoken = $('[name=csrfmiddlewaretoken]').val();
+  swal({
+    title: "مطمئن هستید؟",
+    text: "در صورت پاک کردن فایل نمیتوانید به آن دسترسی داشته باشید",
+    icon: "warning",
+    buttons: {
+      cancel: "انصراف",
+      confirm: "بله، حذف کن"
+    },
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      $.ajax({
+        type: "POST",
+        url: `/master/dashboard/sub/category/delete/${id}/`,
+        data: { id },
+        headers: { 
+          'X-CSRFToken': csrftoken
+        },
+        success: function (data) {
+          row.remove();
+          $(`#del_${id}`).remove();
+          console.log(data);
+        }
+      });
+      //alert();
+      swal(" زیرمجوعه با موفقیت حذف شد. ", {
+        icon: "success",
+      });
+    }
+    else {
+      swal("زیرمجوعه هنوز وجود دارد !", {
+        icon: "error",
+      });
+    }
+  });
+}
+
+
+
 
 
 

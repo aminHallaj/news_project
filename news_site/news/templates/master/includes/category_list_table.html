@@ -1,0 +1,22 @@
+{% load custom_tags %}
+{% load news_tags %}
+{% load static %}
+{% for i in show_list_category %}
+    <tr id="del_{{i.id}}">
+        <!-- Table data -->
+        <td>
+        <h6 class="course-title mt-2 mt-md-0 mb-0"><a href="#">{{i.title}}</a></h6>
+        </td>
+        <td>{{ i|post_count }}</td>
+        <td>
+        <div class="d-flex gap-2">
+            <a type="button" class="btn btn-light btn-round mb-0" title="حذف" onclick="del_category({{i.id}})"><i class="bi bi-trash"></i></a>
+
+            <div type="button" class="btn btn-light btn-round mb-0" data-bs-toggle="modal" data-bs-target="#modal_category_edit_{{i.id}}" title="ویرایش"><i class="bi bi-pencil-square"></i></div>
+        </div>
+        </td>
+    </tr>
+{% endfor %}
+<script src="{% static 'master/' %}js/jquery.js"></script>
+<script src="{% static 'master/' %}js/delete_swal.js"></script>
+<script src="{% static 'master/' %}js/sweetalert.js"></script>

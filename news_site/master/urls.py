@@ -18,7 +18,6 @@ urlpatterns = [
     # Page Post List
     path('master/dashboard/post/list/', views.master_post_list, name='master_post_list'),
     path('master/dashboard/post/delete/<id>/', views.master_post_delete, name='master_post_delete'),
-
     # End Page Post List
 
     # Page Category Create And Category Edit
@@ -28,6 +27,13 @@ urlpatterns = [
     path('master/dashboard/category/edit/submit/<id>/', views.master_category_edit_submit, name='master_category_edit_submit'),
     path('master/dashboard/category/delete/<id>/', views.master_category_delete, name='master_category_delete'),
     # End Page Category Create And Category Edit
+
+    # Page Sub Category Create And Sub Category Edit
+    path('master/dashboard/sub/category/create/submit/', views.master_sub_category_create_submit, name='master_sub_category_create_submit'),
+    path('master/dashboard/sub/category/edit/<id>/', views.master_sub_category_edit, name='master_sub_category_edit'),
+    path('master/dashboard/sub/category/edit/submit/<id>/', views.master_sub_category_edit_submit, name='master_sub_category_edit_submit'),
+    path('master/dashboard/sub/category/delete/<id>/', views.master_sub_category_delete, name='master_sub_category_delete'),
+    # End Page Sub Category Create And Sub Category Edit
 
     # Page Post Create And Post Edit
     path('master/dashboard/post/create/', views.master_post_create, name='master_post_create'),

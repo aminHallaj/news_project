@@ -27,8 +27,19 @@ def master_panel(request):
 
     show_news_list = News.objects.all().order_by('-id')[:3]
 
+    # تعداد خبرها
+    news_count = News.objects.count()
+
+    # تعداد نظرها
+    comment_count = PointOfView.objects.count()
+
+    # تعداد کاربران
+    user_count = User.objects.count()
+
     list_dashboard = {
         "settings":settings,"show_news_list":show_news_list,
+        "news_count":news_count,"comment_count":comment_count,
+        "user_count":user_count,
     }
 
     return render(request, 'master/dashboard.html', list_dashboard)
@@ -261,24 +272,78 @@ def master_resubmit_news(request, id):
     return redirect('master_post_edit', id=news.id)
 
 
-def master_category_create(request):
 
+def master_category_create(request):
     if not request.user.is_authenticated:
         return redirect('master_signin')
 
     settings = Settings.objects.get(id=1)
+    show_add_category = Category.objects.all().order_by('-id')
 
-    show_subcategory = SubCategory.objects.all()
+    # Category logic
+    show_list_category = Category.objects.all().order_by('-id')
+    category_search_query = request.GET.get('category_search')
+    if category_search_query:
+        show_list_category = show_list_category.filter(Q(title__icontains=category_search_query))
 
-    show_category = Category.objects.all().order_by('-id')
+    category_paginator = Paginator(show_list_category, 8)
+    category_page = request.GET.get('category_page', 1)
+    show_list_category = category_paginator.get_page(category_page)
 
-    list_post_create = {
-        "settings":settings,"show_subcategory":show_subcategory,
-        "show_category":show_category,
+    # Subcategory logic
+    show_list_sub_category = SubCategory.objects.all().order_by('-id')
+    subcategory_search_query = request.GET.get('subcategory_search')
+    if subcategory_search_query:
+        show_list_sub_category = show_list_sub_category.filter(Q(title__icontains=subcategory_search_query) |
+        Q(category__title__icontains=subcategory_search_query))
+
+    subcategory_paginator = Paginator(show_list_sub_category, 8)
+    subcategory_page = request.GET.get('subcategory_page', 1)
+    show_list_sub_category = subcategory_paginator.get_page(subcategory_page)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.GET.get('table') == 'category':
+            html = render_to_string(
+                template_name="master/includes/category_list_table.html",
+                context={"show_list_category": show_list_category}
+            )
+            pagination_html = render_to_string(
+                template_name="master/includes/category_pagination.html",
+                context={"show_list_category": show_list_category}
+            )
+            data_dict = {
+                "html_from_view": html,
+                "pagination_html": pagination_html,
+                "start_index": show_list_category.start_index(),
+                "end_index": show_list_category.end_index(),
+                "total_count": category_paginator.count,
+            }
+        elif request.GET.get('table') == 'subcategory':
+            html = render_to_string(
+                template_name="master/includes/sub_category_list_table.html",
+                context={"show_list_sub_category": show_list_sub_category}
+            )
+            pagination_html = render_to_string(
+                template_name="master/includes/sub_category_pagination.html",
+                context={"show_list_sub_category": show_list_sub_category}
+            )
+            data_dict = {
+                "html_from_view": html,
+                "pagination_html": pagination_html,
+                "start_index": show_list_sub_category.start_index(),
+                "end_index": show_list_sub_category.end_index(),
+                "total_count": subcategory_paginator.count,
+            }
+        return JsonResponse(data=data_dict, safe=False)
+
+    list_cat_and_sub_cat_create = {
+        "settings": settings,
+        "show_add_category": show_add_category,
+        "show_list_category": show_list_category,
+        "show_list_sub_category": show_list_sub_category,
     }
 
-    return render(request, 'master/dashboard-post-categories.html', list_post_create)
-
+    return render(request, 'master/dashboard-post-categories.html', list_cat_and_sub_cat_create)
 
 def is_valid_hex_color(color):
     return re.match(r'^#(?:[0-9a-fA-F]{3}){1,2}$', color) is not None
@@ -360,6 +425,118 @@ def master_category_edit(request, id):
 
 
 def master_category_edit_submit(request, id):
+
+    if request.method == 'POST':
+        title_category_edit = request.POST.get('title_category_edit')
+        color_bg_category_edit = request.POST.get('color_bg_category_edit')
+        color_text_category_edit = request.POST.get('color_text_category_edit')
+        img_category_edit = request.FILES.get('img_category_edit')
+
+        if not title_category_edit:
+            return JsonResponse({"success": False, "message": "اطلاعات را کامل کنید"}, status=200)
+        
+        if not is_valid_hex_color(color_bg_category_edit) or not is_valid_hex_color(color_text_category_edit):
+            return JsonResponse({"success": False, "message": "کد رنگ نامعتبر است"}, status=200)
+
+
+        try:
+            edit_category = Category.objects.get(id=id)
+            edit_category.title = title_category_edit
+            edit_category.color = color_bg_category_edit
+            edit_category.color_text = color_text_category_edit
+            
+            if img_category_edit:
+                edit_category.img = img_category_edit
+            
+            edit_category.save()
+
+            return JsonResponse({
+                "success": True,
+                "message": 'دسته بندی با موفقیت ویرایش شد',
+                "data": {
+                    'title_category_edit': edit_category.title,
+                    'color_bg_category_edit': edit_category.color,
+                    'color_text_category_edit': edit_category.color_text,
+                    'img_category_edit': edit_category.img.url if edit_category.img else None,
+                    'id': edit_category.id
+                }
+            }, status=200)
+
+        except Category.DoesNotExist:
+            return JsonResponse({"success": False, "message": 'دسته بندی نامعتبر است'}, status=200)
+        except Exception as e:
+            return JsonResponse({"success": False, "message": f'خطا در ویرایش دسته بندی: {str(e)}'}, status=200)
+
+    return redirect('master_category_create')
+
+
+
+def master_sub_category_create_submit(request):
+
+    if request.method == 'POST':
+        title_subcategory_add = request.POST.get('title_subcategory_add')
+        category_add_show = request.POST.get('category_add_show')
+
+        if not all([title_subcategory_add, category_add_show]):
+            return JsonResponse({"success": False, "message": "اطلاعات را کامل کنید", "data": {}}, status=200)
+
+        if SubCategory.objects.filter(title=title_subcategory_add).exists():
+            return JsonResponse({"success": False, "message": 'دسته بندی وارد شده تکراری میباشد'}, status=200)
+
+        try:
+            category = Category.objects.get(id=category_add_show)
+            create_sub_category = SubCategory.objects.create(
+                user=request.user,
+                category=category,
+                title=title_subcategory_add,
+            )
+
+            return JsonResponse({
+                "success": True, 
+                "message": 'زیر دسته بندی با موفقیت ایجاد شد.',
+                "data": {
+                    'title_subcategory_add': create_sub_category.title,
+                    'category_title': create_sub_category.category.title
+                }
+            }, status=200)
+
+        except Category.DoesNotExist:
+            return JsonResponse({"success": False, "message": 'دسته بندی اصلی یافت نشد', "data": {}}, status=200)
+        except Exception as e:
+            return JsonResponse({"success": False, "message": f'خطا در ایجاد زیر دسته بندی: {str(e)}', "data": {}}, status=200)
+
+    return redirect('master_category_create')
+
+
+def master_sub_category_delete(request, id):
+
+    try:
+        sub_category_delete = SubCategory.objects.get(id=id)
+
+        sub_category_delete.delete()
+
+        return JsonResponse({"success":True, "message":"حذف با موفقیت انجام شد ", "data":{}},status=200)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"success":False, "message":"حذف انجام نشد ", "data":{}},status=200)
+    
+
+def master_sub_category_edit(request, id):
+    if not request.user.is_authenticated:
+        return redirect('master_signin')
+
+    try:
+        category = Category.objects.get(id=id)
+        return JsonResponse({
+            'title': category.title,
+            'color': category.color,
+            'color_text': category.color_text,
+        })
+    except Category.DoesNotExist:
+        return JsonResponse({'error': 'دسته‌بندی یافت نشد'}, status=404)
+
+
+def master_sub_category_edit_submit(request, id):
 
     if request.method == 'POST':
         title_category_edit = request.POST.get('title_category_edit')

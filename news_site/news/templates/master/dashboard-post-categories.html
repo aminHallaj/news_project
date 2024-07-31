@@ -12,125 +12,243 @@
 
   <!-- =======================
 Main contain START -->
+
+<!-- List Show Category START -->
 <section class="py-4">
-	<div class="container">
-    <div class="row pb-4">
-			<div class="col-12">
-        <!-- Title -->
-				<div class="d-sm-flex justify-content-sm-between align-items-center">
-					<h1 class="mb-2 mb-sm-0 h3">دسته بندی ها </h1>			
-					{% comment %} <a href="#" class="btn btn-sm btn-primary mb-0"><i class="fas fa-plus me-2"></i>ثبت دسته بندی جدید</a> {% endcomment %}
-					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-sm btn-primary mb-0" data-bs-toggle="modal" data-bs-target="#modal_category">
-						ثبت دسته بندی جدید
-					</button>
-					<!-- Modal -->
-					<div class="modal fade" id="modal_category" tabindex="-1" aria-labelledby="modal_category_lLabel" aria-hidden="true">
-						<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-							<h5 class="modal-title" id="modal_category_lLabel">ایجاد دسته بندی</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<form action="{% url 'master_category_create_submit' %}" method="POST" enctype="multipart/form-data" id="form_all">
-							{% csrf_token %}
-							<div class="modal-body">
-								<div class="col-12">
-									<div class="mb-3">
-									  <label class="form-label">عنوان</label>
-									  <input required id="title_category" name="title_category" type="text" class="form-control" placeholder="عنوان دسته بندی">
-									  </div>
-								  </div>
-								  <div class="row">
-									<div class="col-6">
-										<div class="mb-3">
-											<label class="form-label">رنگ پس زمینه</label>
-											<input id="color_bg_category" name="color_bg_category" type="color" class="form-control" value="#f5f5f5" placeholder="حالت پیشفرض #f5f5f5">
-										</div>
-									</div>
-									<div class="col-6">
-										<div class="mb-3">
-											<label class="form-label">رنگ متن</label>
-											<input id="color_text_category" name="color_text_category" type="color" class="form-control" value="#333" placeholder="حالت پیشفرض #333">
-										</div>
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="mb-3">
-									<!-- Image -->
-									<div class="position-relative">
-										<h6 class="my-2">آپلود تصویر شاخص</h6>
-										<label class="w-100" style="cursor:pointer;">
-											<div class="input-group flex-row-reverse">
-												<input type="text" class="form-control upload-name" id="upload-name-create"/>
-												<span class="btn btn-custom cursor-pointer upload-button" id="upload-button-create">آپلود فایل</span>
-											</div>
-											<input class="form-control stretched-link d-none hidden-upload" type="file" id="img_category_create" name="img_category" accept="image/gif, image/jpeg, image/png, image/webp"/>
-										</label>
-									</div>
-								</div>		
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
-							<button type="submit" class="btn btn-primary">ایجاد دسته بندی</button>
-						</div>
-					</div>
-				</form>
-						</div>
-					</div>
-				</div>
-			</div>
+    <div class="container">
+        <div class="row pb-4">
+            <div class="col-12">
+                <!-- Title -->
+                <div class="d-sm-flex justify-content-sm-between align-items-center">
+                    <h1 class="mb-2 mb-sm-0 h3">لیست دسته ها </h1>          
+                    <button type="button" class="btn btn-sm btn-primary mb-0" data-bs-toggle="modal" data-bs-target="#modal_category">
+                        ثبت دسته بندی جدید
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <!-- Post list table START -->
+                <div class="card border bg-transparent rounded-3">
+                    <!-- Card body START -->
+                    <div class="card-body p-3">
+                        <div class="row g-3 align-items-center justify-content-between mb-3">
+                            <div class="col-md-8">
+                                <form id="category-search-form" class="rounded position-relative" method="GET" action="{% url 'master_category_create' %}">
+                                    <input id="category-search-input" class="form-control pe-5 bg-transparent" type="search" name="category_search" placeholder="جستجو" aria-label="Search">
+                                    <button class="btn bg-transparent border-0 px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6 "></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Post list table START -->
+                        <div class="table-responsive border-0">
+                            <table class="table align-middle p-4 mb-0 table-hover table-shrink">
+                                <!-- Table head -->
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col" class="border-0 rounded-start">عنوان</th>
+                                        <th scope="col" class="border-0">تعداد خبر</th>
+                                        <th scope="col" class="border-0 rounded-end">فعالیت</th>
+                                    </tr>
+                                </thead>
+                                <!-- Table body START -->
+                                <tbody id="category-table-body" class="border-top-0">
+                                    {% include 'master/includes/category_list_table.html' %}
+                                </tbody>
+                                <!-- Table body END -->
+                            </table>
+                        </div>
+                        <!-- Post list table END -->
+                        <!-- Pagination START -->
+                        <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+                            <p id="category-item-count" class="mb-sm-0 text-center text-sm-start">
+                                نمایش {{ show_list_category.start_index }} تا {{ show_list_category.end_index }} از {{ show_list_category.paginator.count }}
+                            </p>
+                            <nav id="category-pagination" class="mb-sm-0 d-flex justify-content-center" aria-label="navigation">
+                                {% include 'master/includes/category_pagination.html' %}
+                            </nav>
+                        </div>
+                        <!-- Pagination END -->
+                    </div>
+                </div>
+                <!-- Post list table END -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- List Show Category END -->
+
+<!-- List Show Sub Category START -->
+<section class="py-4">
+    <div class="container">
+        <div class="row pb-4">
+            <div class="col-12">
+                <!-- Title -->
+                <div class="d-sm-flex justify-content-sm-between align-items-center">
+                    <h1 class="mb-2 mb-sm-0 h3">لیست زیرمجموعه ها </h1>        
+                    <button type="button" class="btn btn-sm btn-primary mb-0" data-bs-toggle="modal" data-bs-target="#modal_sub_category_add">
+                        ثبت زیرمجموعه جدید
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <!-- Post list table START -->
+                <div class="card border bg-transparent rounded-3">
+                    <!-- Card body START -->
+                    <div class="card-body p-3">
+                        <div class="row g-3 align-items-center justify-content-between mb-3">
+                            <div class="col-md-8">
+                                <form id="subcategory-search-form" class="rounded position-relative" method="GET" action="{% url 'master_category_create' %}">
+                                    <input id="subcategory-search-input" class="form-control pe-5 bg-transparent" type="search" name="subcategory_search" placeholder="جستجو" aria-label="Search">
+                                    <button class="btn bg-transparent border-0 px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6 "></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Post list table START -->
+                        <div class="table-responsive border-0">
+                            <table class="table align-middle p-4 mb-0 table-hover table-shrink">
+                                <!-- Table head -->
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col" class="border-0 rounded-start">عنوان</th>
+                                        <th scope="col" class="border-0">دسته بندی</th>
+                                        <th scope="col" class="border-0 rounded-end">فعالیت</th>
+                                    </tr>
+                                </thead>
+                                <!-- Table body START -->
+                                <tbody id="sub-category-table-body" class="border-top-0">
+                                    {% include 'master/includes/sub_category_list_table.html' %}
+                                </tbody>
+                                <!-- Table body END -->
+                            </table>
+                        </div>
+                        <!-- Post list table END -->
+                        <!-- Pagination START -->
+                        <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+                            <p id="subcategory-item-count" class="mb-sm-0 text-center text-sm-start">
+                                نمایش {{ show_list_sub_category.start_index }} تا {{ show_list_sub_category.end_index }} از {{ show_list_sub_category.paginator.count }}
+                            </p>
+                            <nav id="subcategory-pagination" class="mb-sm-0 d-flex justify-content-center" aria-label="navigation">
+                                {% include 'master/includes/sub_category_pagination.html' %}
+                            </nav>
+                        </div>
+                        <!-- Pagination END -->
+                    </div>
+                </div>
+                <!-- Post list table END -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- List Show Sub Category END -->
+
+
+<!-- Modal Add Category -->
+<div class="modal fade" id="modal_category" tabindex="-1" aria-labelledby="modal_category_lLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+		<h5 class="modal-title" id="modal_category_lLabel">ایجاد دسته بندی</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		</div>
-		<div class="row g-4" id="all-section">
-			{% for i in show_category %}
-			<div class="col-md-6 col-xl-4" id="del_{{i.id}}">
-				<!-- Category item START -->
-				<div class="card border h-100">
-					<!-- Card header -->
-					<div class="card-header border-bottom p-3" style="background-color: {{ i.color|hex_to_rgba:'0.15' }};">
-						<div class="d-flex align-items-center">
-							<div type="button" class="icon-lg shadow btn-primary-soft rounded-circle" data-bs-toggle="modal" data-bs-target="#modal_category_edit_{{i.id}}">
-								<i class="fa fa-edit"></i> 
-							</div>
-							<h4 class="mb-0 ms-3">{{i.title}}</h4>
-						</div>
-					</div>
-
-					<!-- Card body START -->
-					<div class="card-body p-3">
-
-						<!-- Followers and Post -->
-						<div class="d-flex justify-content-between">
-							<!-- Total post -->
-							<div>
-								<h5 class="mb-0">{{ i|post_count }}</h5>
-								<h6 class="mb-0 fw-light">کل اخبار</h6>
-							</div>
-						</div>
-						
-					</div>
-					<!-- Card body END -->
-
-					<!-- Card footer -->
-					<div class="card-footer border-top text-center p-3">
-            			<a href="#" class="btn btn-primary-soft w-90 mb-0" data-bs-toggle="modal" 
-						data-bs-target="#modal_add_subcategory_{{i.id}}"><i class="fa fa-plus mx-2"></i>ایجاد</a>
-					
-						<button type="button" class="btn btn-danger-soft w-90 mb-0" onclick="del_category({{i.id}})">
-						<i class="fa fa-trash mx-2"></i>حذف </button>
+		<form action="{% url 'master_category_create_submit' %}" method="POST" enctype="multipart/form-data" id="form_all">
+		{% csrf_token %}
+		<div class="modal-body">
+			<div class="col-12">
+				<div class="mb-3">
+				  <label class="form-label">عنوان</label>
+				  <input required id="title_category" name="title_category" type="text" class="form-control" placeholder="عنوان دسته بندی">
+				  </div>
+			  </div>
+			  <div class="row">
+				<div class="col-6">
+					<div class="mb-3">
+						<label class="form-label">رنگ پس زمینه</label>
+						<input id="color_bg_category" name="color_bg_category" type="color" class="form-control" value="#f5f5f5" placeholder="حالت پیشفرض #f5f5f5">
 					</div>
 				</div>
-				<!-- Category item END -->
+				<div class="col-6">
+					<div class="mb-3">
+						<label class="form-label">رنگ متن</label>
+						<input id="color_text_category" name="color_text_category" type="color" class="form-control" value="#333" placeholder="حالت پیشفرض #333">
+					</div>
+				</div>
 			</div>
-			{% endfor %}
+			<div class="col-12">
+				<div class="mb-3">
+				<!-- Image -->
+				<div class="position-relative">
+					<h6 class="my-2">آپلود تصویر شاخص</h6>
+					<label class="w-100" style="cursor:pointer;">
+						<div class="input-group flex-row-reverse">
+							<input type="text" class="form-control upload-name" id="upload-name-create"/>
+							<span class="btn btn-custom cursor-pointer upload-button" id="upload-button-create">آپلود فایل</span>
+						</div>
+						<input class="form-control stretched-link d-none hidden-upload" type="file" id="img_category_create" name="img_category" accept="image/gif, image/jpeg, image/png, image/webp"/>
+					</label>
+				</div>
+			</div>		
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+		<button type="submit" class="btn btn-primary">ایجاد دسته بندی</button>
+	</div>
+	</div>
+	</form>
 		</div>
 	</div>
+</div>
 
-</section>
+
+
+<!-- Modal Add SUB Category -->
+<div class="modal fade" id="modal_sub_category_add" tabindex="-1" aria-labelledby="modal_sub_category_lLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+		<h5 class="modal-title" id="modal_category_lLabel">ایجاد دسته بندی</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<form action="{% url 'master_sub_category_create_submit' %}" id="sub_cat_add" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+		<div class="modal-body">
+			<div class="row">
+			<div class="col-6">
+				<div class="mb-3">
+					<label class="form-label">عنوان</label>
+					<input required id="title_subcategory_add" name="title_subcategory_add" type="text" class="form-control" placeholder="عنوان زیر دسته بندی">
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="mb-3">
+					<label class="form-label">انتخاب دسته اصلی</label>
+					<select class="form-select" id="category_add_show" name="category_add_show" aria-label="Default select example">
+						<option value="" selected>دسته خبر را انتخاب کنید</option>
+						{% for i in show_add_category %}
+						<option value="{{i.id}}">{{i.title}}</option>
+						{% endfor %}
+					  </select></div>
+			</div>
+		</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+					<button type="submit" class="btn btn-primary">ایجاد</button>
+				</div>
+			</div>
+			
+		</form>
+		</div>
+	</div>
+</div>
+
+
 <!-- =======================
 Main contain END -->
 <!-- Button trigger modal -->
-{% for i in show_category %}
+{% for i in show_list_category %}
 <!-- Modal -->
 <div class="modal fade" id="modal_category_edit_{{i.id}}" tabindex="-1" aria-labelledby="modal_category_lLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -189,19 +307,25 @@ Main contain END -->
 
 
 <!-- Button trigger modal -->
-{% for i in show_category %}
+{% for i in show_list_category %}
 <!-- Modal -->
-<div class="modal fade modal-lg" id="modal_add_subcategory_{{i.id}}" tabindex="-1" aria-labelledby="modal_category_lLabel" aria-hidden="true">
+<div class="modal fade" id="modal_sub_category_edit" tabindex="-1" aria-labelledby="modal_sub_category_lLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="modal_category_lLabel">ریز دسته بندی</h5>
+				<h5 class="modal-title" id="modal_sub_category_lLabel">ریز دسته بندی</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<form action="{% url 'master_category_edit_submit' id=i.id %}" id="form_category_edit" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 			<div class="modal-body">
-				<div class="col-12">
+				<div class="col-6">
+					<div class="mb-3">
+						<label class="form-label">عنوان</label>
+						<input required id="title_subcategory_add" name="title_subcategory_add" type="text" class="form-control" placeholder="عنوان زیر دسته بندی">
+					</div>
+				</div>
+				<div class="col-6">
 					<div class="mb-3">
 						<label class="form-label">عنوان</label>
 						<input required id="title_subcategory_add" name="title_subcategory_add" type="text" class="form-control" placeholder="عنوان زیر دسته بندی">
@@ -210,49 +334,6 @@ Main contain END -->
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
 						<button type="submit" class="btn btn-primary">ایجاد</button>
-					</div>
-					<div class="table-responsive border-0">
-						<table class="table align-middle p-4 mb-0 table-hover table-shrink">
-						  <!-- Table head -->
-						  <thead class="table-dark">
-							<tr>
-							  <th scope="col" class="border-0 rounded-start">عنوان</th>
-							  <th scope="col" class="border-0 rounded-end">فعالیت</th>
-							</tr>
-						  </thead>
-			
-						  <!-- Table body START -->
-						  <tbody id="dt_table" class="border-top-0">
-							<!-- Table item -->
-							<tr>
-							  <!-- Table data -->
-							  <td>
-								<h6 class="course-title mt-2 mt-md-0 mb-0"><a href="#">test</a></h6>
-							  </td>
-							  <!-- Table data -->
-							  <td>
-								<div class="d-flex gap-2">
-								  <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="حذف"><i class="bi bi-trash"></i></a>
-								  <a href="dashboard-post-edit.html" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ویرایش"><i class="bi bi-pencil-square"></i></a>
-								</div>
-							  </td>
-							</tr>
-							<tr>
-								<!-- Table data -->
-								<td>
-								  <h6 class="course-title mt-2 mt-md-0 mb-0"><a href="#">test</a></h6>
-								</td>
-								<!-- Table data -->
-								<td>
-								  <div class="d-flex gap-2">
-									<a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="حذف"><i class="bi bi-trash"></i></a>
-									<a href="dashboard-post-edit.html" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ویرایش"><i class="bi bi-pencil-square"></i></a>
-								  </div>
-								</td>
-							  </tr>
-						  </tbody>
-						  <!-- Table body END -->
-						</table>
 					</div>
 				</div>
 				
@@ -304,9 +385,18 @@ Main contain END -->
 
 
 {% block link_js %}
+
+<script>
+	
+  </script>
+
+
+
 <script src="{% static 'master/' %}js/sweetalert.js"></script>
 <script src="{% static 'master/' %}js/delete_swal.js"></script>
 <script src="{% static 'master/' %}js/ajax.js"></script>
+<script src="{% static 'master/' %}js/ajax_tabel_category.js"></script>
+<script src="{% static 'master/' %}js/ajax_tabel_subcategory.js"></script>
 
 
 <script>

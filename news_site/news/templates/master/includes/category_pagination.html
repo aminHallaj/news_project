@@ -1,0 +1,17 @@
+<ul class="pagination pagination-sm pagination-bordered mb-0" id="category-pagination">
+    {% if show_list_category.has_previous %}
+        <li class="page-item"><a class="page-link" href="?category_page={{ show_list_category.previous_page_number }}&table=category">قبل</a></li>
+    {% endif %}
+   
+    {% for i in show_list_category.paginator.page_range %}
+        {% if show_list_category.number == i %}
+            <li class="page-item active"><a class="page-link" href="?category_page={{ i }}&table=category">{{ i }}</a></li>
+        {% else %}
+            <li class="page-item"><a class="page-link" href="?category_page={{ i }}&table=category">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+   
+    {% if show_list_category.has_next %}
+        <li class="page-item"><a class="page-link" href="?category_page={{ show_list_category.next_page_number }}&table=category">بعد</a></li>
+    {% endif %}
+</ul>

@@ -46,6 +46,9 @@ urlpatterns = [
 
     # Page reviews Create And reviews Edit
     path('master/dashboard/reviews/', views.master_reviews, name='master_reviews'),
+    path('master/dashboard/toggle-review-active/', views.master_toggle_review_active, name='master_toggle_review_active'),
+    path('master/dashboard/reviews/edit/submit/<id>/', views.master_reviews_edit_submit, name='master_reviews_edit_submit'),
+    path('master/dashboard/reviews/delete/<id>/', views.master_reviews_delete, name='master_reviews_delete'),
     # End Page Post Create And Post Edit
 
 ]

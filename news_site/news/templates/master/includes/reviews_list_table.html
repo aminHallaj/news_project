@@ -3,27 +3,20 @@
     <tr id="del_{{i.id}}">
         <!-- Table data -->
         <td>
-            <h6 class="course-title mb-0"><a href="#">رازهای کوچک کثیف در مورد صنعت تجارت </a></h6>
+            <h6 class="course-title mb-0"><a href="{% url 'master_post_edit' id=i.news.id %}">{{i.news.title|truncatewords:8}}</a></h6>
         </td>
         <!-- Table data -->
         <td>
-            با مریم ترابی
+            {{i.user.get_full_name}}
         </td>
         <!-- Table data -->
         <td>
-            <ul class="list-inline mb-2">
-            <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
-            <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
-            <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
-            <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
-            <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
-            </ul>
-            <p class="small course-title">این راست نیست که هرچه عاشق‌ تر باشی بهتر درک می‌کنی. همه‌ی آنچه عشق و عاشقی از من می‌ خواهد فقط درکِ این حکمت است: دیگری نشناختنی است؛ ماتیِ او پرده‌ی ابهامی به روی یک راز نیست <a href="#" data-bs-toggle="modal" data-bs-target="#viewReview"> مشاهده بیشتر</a> </p>
+            <p class="small course-title">{{i.text|truncatewords:15}}<a href="#" data-bs-toggle="modal" data-bs-target="#viewReview_{{i.id}}"> مشاهده بیشتر</a> </p>
         </td>
         <!-- Table data -->
         <td>
             <div class="form-check form-switch form-check-md">
-            <input class="form-check-input" type="checkbox" id="checkReview1">
+                <input class="form-check-input toggle-review" type="checkbox" id="checkReview{{i.id}}" data-review-id="{{i.id}}" {% if i.active %}checked{% endif %}>
             </div>
         </td>
         <!-- Table data -->
@@ -34,13 +27,56 @@
             </a>
             <!-- dropdown button -->
             <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownReview">
-                <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square fa-fw me-2"></i>ویرایش</a></li>
-                <li><a class="dropdown-item" href="#"><i class="bi bi-trash fa-fw me-2"></i>حذف</a></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editReview_{{i.id}}"><i class="bi bi-pencil-square fa-fw me-2"></i>ویرایش</a></li>
+                <li><a type="button" class="btn dropdown-item" onclick="del_reviews({{i.id}})"><i class="bi bi-trash fa-fw me-2"></i>حذف</a></li>
             </ul>
             </div>
         </td>
     </tr>  
 {% endfor %}
 <script src="{% static 'master/' %}js/jquery.js"></script>
-<script src="{% static 'master/' %}js/delete_swal_news.js"></script>
+<script src="{% static 'master/' %}js/delete_swal_reviews.js"></script>
 <script src="{% static 'master/' %}js/sweetalert.js"></script>
+<script>
+    $(document).ready(function() {
+        // تنظیمات toastr
+        toastr.options = {
+            timeOut: 2e3,
+            progressBar: true,
+            showMethod: "slideDown",
+            hideMethod: "slideUp",
+            showDuration: 200,
+            hideDuration: 200,
+            positionClass: "toast-top-center"
+        };
+    
+        $('.toggle-review').change(function() {
+            var reviewId = $(this).data('review-id');
+            var isActive = $(this).prop('checked');
+            
+            $.ajax({
+                url: '{% url "master_toggle_review_active" %}',
+                method: 'POST',
+                data: {
+                    'review_id': reviewId,
+                    'is_active': isActive,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        if (isActive) {
+                            toastr.success('نظر با موفقیت فعال شد');
+                        } else {
+                            toastr.warning('نظر با موفقیت غیرفعال شد');
+                        }
+                    } else {
+                        toastr.error('خطا در تغییر وضعیت نظر');
+                    }
+                },
+                error: function() {
+                    toastr.error('خطا در ارتباط با سرور');
+                }
+            });
+        });
+    });
+    </script>

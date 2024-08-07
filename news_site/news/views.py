@@ -138,7 +138,7 @@ def front_post_single(request,id):
 
     news_show = News.objects.get(id=id)
 
-    comment_show = PointOfView.objects.filter(news_id=id).order_by('-id')
+    comment_show = PointOfView.objects.filter(news_id=id, active=True).order_by('-id')
 
     footer_news_list = News.objects.filter(status_news=1).order_by('-id')[:2]
 
@@ -182,8 +182,9 @@ def front_post_single_comment_submit(request, id):
             'email':comment_add.email ,'comment':comment_add.text, 'id':comment_add.id }},status=200)
 
 
-            except:
-                return JsonResponse({"success":False, "message":'لطفا تمامی فیلد ها را پر کنید', "data":{}},status=200)
+            except Exception as e:
+                print(e)
+                return JsonResponse({"success":False, "message":'لطفا اول در سایت ثبت نام کنید', "data":{}},status=200)
 
     return redirect('front_post_single', id=id)
 

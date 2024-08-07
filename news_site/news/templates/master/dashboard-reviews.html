@@ -13,8 +13,7 @@ Reviews START -->
 			<div class="col-12">
         <!-- Title -->
 				<div class="d-sm-flex justify-content-sm-between align-items-center">
-					<h1 class="mb-2 mb-sm-0 h3">لیست نظرات <span class="badge bg-primary bg-opacity-10 text-primary">301</span></h1>			
-					<a href="#" class="btn btn-sm btn-primary mb-0"><i class="fas fa-plus me-2"></i>ثبت نظر</a>
+					<h1 class="mb-2 mb-sm-0 h3">لیست نظرات </h1>
 				</div>
 			</div>
 		</div>
@@ -32,13 +31,13 @@ Reviews START -->
                     <tr>
                       <th scope="col" class="border-0 rounded-start">عنوان خبر</th>
                       <th scope="col" class="border-0">نظردهنده</th>
-                      <th scope="col" class="border-0">امتیاز</th>
+                      <th scope="col" class="border-0">نظر</th>
                       <th scope="col" class="border-0">نمایش</th>
                       <th scope="col" class="border-0 rounded-end">عملیات</th>
                     </tr>
                   </thead>
                   <!-- Table body START -->
-                  <tbody class="border-top-0">
+                  <tbody id="reviews-table-body" class="border-top-0">
                     <!-- Table item -->
                     {% include 'master/includes/reviews_list_table.html' %}
                   </tbody>
@@ -53,7 +52,7 @@ Reviews START -->
                     نمایش {{ show_reviews_list.start_index }} تا {{ show_reviews_list.end_index }} از {{ show_reviews_list.paginator.count }}
                 </p>
                 <nav class="mb-sm-0 d-flex justify-content-center" aria-label="navigation">
-                  {% include 'master/includes/pagination.html' %}
+                  {% include 'master/includes/reviews_pagination.html' %}
                 </nav>
             </div>
               <!-- Pagination END -->
@@ -66,4 +65,90 @@ Reviews START -->
 </section>
 <!-- =======================
 Main contain END -->
+<!-- Popup modal for reviwe START -->
+{% for i in show_reviews_list %}
+<div class="modal fade" id="viewReview_{{i.id}}" tabindex="-1" aria-labelledby="viewReviewLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<!-- Modal header -->
+			<div class="modal-header">
+				<h5 class="modal-title" id="viewReviewLabel">نظرات</h5>
+				<button type="button" class="btn btn-sm btn-light text-dark mb-0" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x fs-5"></i></button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="d-md-flex">
+					<!-- Avatar -->
+          {% if i.user.profile_image %}
+            <div class="avatar avatar-md me-4 flex-shrink-0">
+              <img class="avatar-img rounded-circle" src="{{i.user.profile_image.url}}" alt="avatar">
+            </div>
+          {% else %}
+            <div class="avatar avatar-md me-4 flex-shrink-0">
+              <img class="avatar-img rounded-circle" src="{% static 'front/' %}images/admin-news.png" alt="avatar">
+            </div>
+          {% endif %}
+					<!-- Text -->
+					<div>
+						<div class="d-sm-flex mt-1 mt-md-0 align-items-center">
+							<h5 class="me-3 mb-0">{{i.user.get_full_name}}</h5>
+						</div>
+						<p class="mb-2">{{i.text}}</p>
+					</div>	
+				</div>
+			</div>
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger-soft my-0" data-bs-dismiss="modal">بستن</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+<!-- Popup modal for reviwe END -->
+
+
+<!-- edit modal for reviwe START -->
+{% for i in show_reviews_list %}
+<div class="modal fade" id="editReview_{{i.id}}" tabindex="-1" aria-labelledby="editReviewLabel_{{i.id}}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editReviewLabel_{{i.id}}">ویرایش نظر کاربر</h5>
+                <button type="button" class="btn btn-sm btn-light text-dark mb-0" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x fs-5"></i></button>
+            </div>
+            <form action="{% url 'master_reviews_edit_submit' id=i.id %}" method="POST" enctype="multipart/form-data" id="form_reviwe_edit_{{i.id}}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="d-md-flex">
+                        <div class="avatar avatar-md me-4 flex-shrink-0">
+                            <img class="avatar-img rounded-circle" src="{% if i.user.profile_image %}{{i.user.profile_image.url}}{% else %}{% static 'front/images/admin-news.png' %}{% endif %}" alt="تصویر پروفایل {{i.user.get_full_name}}" loading="lazy">
+                        </div>
+                        <div>
+                            <div class="d-sm-flex mt-1 mt-md-0 align-items-center">
+                                <h5 class="me-3 mb-0">{{i.user.get_full_name}}</h5>
+                            </div>
+                            <div class="col-12">
+                                <label for="text_reviews_edit_{{i.id}}" class="form-label">متن نظر:</label>
+                                <textarea id="text_reviews_edit_{{i.id}}" name="text_reviews_edit" class="form-control">{{i.text}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger-soft my-0" data-bs-dismiss="modal">بستن</button>
+                    <button type="submit" class="btn btn-primary-soft my-0">ویرایش</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!-- edit modal for reviwe END -->
+
 {% endblock contentpanel_dashboard %}
+
+{% block link_js %}
+<script src="{% static 'master/' %}js/sweetalert.js"></script>
+<script src="{% static 'master/' %}js/ajax.js"></script>
+{% endblock link_js %}

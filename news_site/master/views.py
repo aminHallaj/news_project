@@ -675,3 +675,56 @@ def master_reviews(request):
     "paginator":paginator,
     }
     return render(request, 'master/dashboard-reviews.html', list_reviews)
+
+
+def master_toggle_review_active(request):
+    if request.method == 'POST':
+        review_id = request.POST.get('review_id')
+        is_active = request.POST.get('is_active') == 'true'
+        
+        try:
+            review = PointOfView.objects.get(id=review_id)
+            review.active = is_active
+            review.save()
+            return JsonResponse({'status': 'success'})
+        except PointOfView.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Review not found'}, status=404)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
+
+def master_reviews_delete(request, id):
+
+    try:
+        reviews_delete = PointOfView.objects.get(id=id)
+        reviews_delete.delete()
+
+        return JsonResponse({"success":True, "message":"حذف با موفقیت انجام شد ", "data":{}},status=200)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"success":False, "message":"حذف انجام نشد ", "data":{}},status=200)
+    
+
+def master_reviews_edit_submit(request, id):
+    if request.method == 'POST':
+        edit_reviews = get_object_or_404(PointOfView, id=id)
+        text_reviews_edit = request.POST.get('text_reviews_edit')
+
+        if not text_reviews_edit:
+            return JsonResponse({"success": False, "message": "لطفا متن نظر را وارد کنید"}, status=400)
+
+        try:
+            edit_reviews.text = text_reviews_edit
+            edit_reviews.save()
+            return JsonResponse({
+                "success": True,
+                "message": 'نظر کاربر با موفقیت ویرایش شد.',
+                "data": {
+                    'text_reviews_edit': edit_reviews.text,
+                    'id': edit_reviews.id
+                }
+            })
+        except Exception as e:
+            return JsonResponse({"success": False, "message": f'خطا در ویرایش نظر کاربر: {str(e)}'}, status=500)
+
+    return JsonResponse({"success": False, "message": "درخواست نامعتبر"}, status=405)

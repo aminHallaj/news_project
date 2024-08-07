@@ -227,7 +227,49 @@ $("#sub_cat_add").on("submit", function (e) {
 
 
 
+$(document).ready(function() {
+    $("[id^='form_reviwe_edit_']").on("submit", function (e) {
+        e.preventDefault();
+        var form = $(this)[0];
+        var formdata = new FormData(form);
 
+        $.ajax({
+            type: "POST",
+            url: $(this).attr('action'),
+            data: formdata,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log("پاسخ سرور:", data);
+                if (data.success) {
+                    $('#reviews-table-body').load(window.location.href + ' #reviews-table-body > *');
+                    form.reset();
+                    $(form).closest('.modal').modal('hide');
+                    showToast(data.message, 'success');
+                } else {
+                    showToast(data.message, 'error');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("خطا در درخواست:", xhr.responseText);
+                showToast("خطایی رخ داده است: " + error, 'error');
+            }
+        });
+    });
+
+    function showToast(message, type) {
+        toastr.options = {
+            timeOut: 2000,
+            progressBar: true,
+            showMethod: "slideDown",
+            hideMethod: "slideUp",
+            showDuration: 200,
+            hideDuration: 200,
+            positionClass: "toast-top-center"
+        };
+        toastr[type](message);
+    }
+});
 
 
 

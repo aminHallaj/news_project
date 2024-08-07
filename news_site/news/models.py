@@ -77,6 +77,7 @@ class PointOfView(models.Model):
     email=models.CharField(max_length=500)
     date = models.FloatField(null=True , blank=True)
     text=models.TextField(null=True , blank=True)
+    active = models.BooleanField(default=False)
 
     def __str__(self):
             return f"{self.first_name_and_last_name} | {self.email} | {self.text}"
@@ -89,3 +90,10 @@ class PointOfView(models.Model):
         except:
             return '-'
 
+    def save(self, *args, **kwargs):
+        if not self.pk: 
+            if self.user.is_superuser:  # اگر کاربر ادمین اصلی است
+                self.active = True
+            else:
+                self.active = False
+        super().save(*args, **kwargs)

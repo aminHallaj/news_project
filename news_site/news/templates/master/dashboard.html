@@ -136,84 +136,36 @@ Main contain START -->
 					<!-- Card body START -->
 					<div class="card-body p-3">
 
+						{% for i in show_reviews_list %}
 						<div class="row">
 							<!-- Comment item -->
 							<div class="col-12">
 								<div class="d-flex align-items-center position-relative">
 									<!-- Avatar -->
 									<div class="avatar avatar-lg flex-shrink-0">
-									<img class="avatar-img rounded-2" src="{% static 'master/' %}images/avatar/06.jpg" alt="avatar">
+									{% if i.user.profile_image %}
+										<div class="avatar avatar-lg flex-shrink-0">
+										<img class="avatar-img rounded-2" src="{{i.user.profile_image.url}}" alt="avatar">
+										</div>
+									{% else %}
+										<div class="avatar avatar-lg flex-shrink-0">
+										<img class="avatar-img rounded-2" src="{% static 'front/' %}images/admin-news.png" alt="avatar">
+										</div>
+									{% endif %}
 									</div>
 									<!-- Info -->
 									<div class="ms-3">
-										<p class="mb-1"> <a class="h6 fw-normal stretched-link" href="#"> وقتی ثروت‌ های بزرگ به دست برخی مردم می‌افتد... </a></p>
+										<p class="mb-1"> <a class="h6 fw-normal stretched-link" href="{% url 'master_reviews' %}">{{i.text|truncatewords:8}}</a></p>
 										<div class="d-flex justify-content-between">
-											<p class="small mb-0">با الهام کریمی</p>
+											<p class="small mb-0">با {{i.user.get_full_name}}</p>
 										</div>
 									</div>
 								</div>
 							</div>
-
 							<!-- Divider -->
 							<hr class="my-3">
-
-							<!-- Comment item -->
-							<div class="col-12">
-								<div class="d-flex align-items-center position-relative">
-									<!-- Avatar -->
-									<div class="avatar avatar-lg flex-shrink-0">
-									<img class="avatar-img rounded-2" src="{% static 'master/' %}images/avatar/08.jpg" alt="avatar">
-									</div>
-									<!-- Info -->
-									<div class="ms-3">
-										<p class="mb-1"> <a class="h6 fw-normal stretched-link" href="#"> وقتی ثروت‌ های بزرگ به دست برخی مردم می‌افتد... </a></p>
-										<div class="d-flex justify-content-between">
-											<p class="small mb-0">با سارا موحد</p>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Divider -->
-							<hr class="my-3">
-
-							<!-- Comment item -->
-							<div class="col-12">
-								<div class="d-flex align-items-center position-relative">
-									<!-- Avatar -->
-									<div class="avatar avatar-lg flex-shrink-0">
-									<img class="avatar-img rounded-2" src="{% static 'master/' %}images/avatar/04.jpg" alt="avatar">
-									</div>
-									<!-- Info -->
-									<div class="ms-3">
-										<p class="mb-1"> <a class="h6 fw-normal stretched-link" href="#"> وقتی ثروت‌ های بزرگ به دست برخی مردم می‌افتد </a></p>
-										<div class="d-flex justify-content-between">
-											<p class="small mb-0">با سهراب رضایی</p>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Divider -->
-							<hr class="my-3">
-
-							<!-- Comment item -->
-							<div class="col-12">
-								<div class="d-flex align-items-center position-relative">
-									<!-- Avatar -->
-									<div class="avatar avatar-lg flex-shrink-0">
-									<img class="avatar-img rounded-2" src="{% static 'master/' %}images/avatar/05.jpg" alt="avatar">
-									</div>
-									<!-- Info -->
-									<div class="ms-3">
-										<p class="mb-1"> <a class="h6 fw-normal stretched-link" href="#"> وقتی ثروت‌ های بزرگ به دست برخی مردم می‌افتد </a></p>
-										<div class="d-flex justify-content-between">
-											<p class="small mb-0">با نگین جوان</p>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
+						{% endfor %}
 					</div>
 					<!-- Card body END -->
 				</div>
@@ -301,6 +253,21 @@ Main contain START -->
 								</div>
 
 								<!-- Divider -->
+								<hr class="my-3">
+
+								<!-- Notice board item -->
+								<div class="col-12">
+									<div class="d-flex justify-content-between position-relative">
+										<div class="d-sm-flex">
+											<div class="icon-lg bg-primary bg-opacity-10 text-primary rounded-2 flex-shrink-0"><i class="fas fa-globe fs-5"></i></div>
+											<!-- Info -->
+											<div class="ms-0 ms-sm-3 mt-2 mt-sm-0">
+												<h6 class="mb-0"><a href="#" class="stretched-link">بروزرسانی ویژگی های جدید</a></h6>
+												<span class="small">3 روز پیش</span>
+											</div>
+										</div>
+									</div>
+								</div>
 								<hr class="my-3">
 
 								<!-- Notice board item -->

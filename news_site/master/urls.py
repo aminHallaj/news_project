@@ -51,4 +51,8 @@ urlpatterns = [
     path('master/dashboard/reviews/delete/<id>/', views.master_reviews_delete, name='master_reviews_delete'),
     # End Page Post Create And Post Edit
 
+    # Page author Create And author Edit
+    path('master/dashboard/author/list/', views.master_author_list, name='master_author_list'),
+    # End Page Post Create And Post Edit
+
 ]

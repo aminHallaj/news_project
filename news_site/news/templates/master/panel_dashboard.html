@@ -140,7 +140,7 @@ Header START -->
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="pagesMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-folder me-1"></i>صفحات</a>
 						<ul class="dropdown-menu" aria-labelledby="pagesMenu">
-							<li> <a class="dropdown-item" href="dashboard-author-list.html">لیست نویسندگان</a></li>
+							<li> <a class="dropdown-item" href="{% url 'master_author_list' %}">لیست نویسندگان</a></li>
 							<li> <a class="dropdown-item" href="dashboard-author-single.html">جزئیات نویسنده</a></li>
 							<li> <a class="dropdown-item" href="dashboard-edit-profile.html">ویرایش حساب کاربری</a></li>
 							<li> <a class="dropdown-item" href="{% url 'master_reviews' %}">نظرات</a></li>
@@ -258,7 +258,11 @@ Header START -->
 				<div class="nav-item ms-2 ms-md-3 dropdown">
 					<!-- Avatar -->
 					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-circle" src="{% static 'master/' %}images/avatar/03.jpg" alt="avatar">
+						{% if user.profile_image %}
+						<img class="avatar-img rounded-circle" src="{{ user.profile_image.url }}" alt="avatar">
+						{% else %}
+						<img class="avatar-img rounded-circle" src="{% static 'front/' %}images/admin-news.png" alt="avatar">
+						{% endif %}
 					</a>
 
 					<!-- Profile dropdown START -->
@@ -268,11 +272,15 @@ Header START -->
 							<div class="d-flex align-items-center">
 								<!-- Avatar -->
 								<div class="avatar me-3">
-									<img class="avatar-img rounded-circle shadow" src="{% static 'master/' %}images/avatar/03.jpg" alt="avatar">
+									{% if user.profile_image %}
+									<img class="avatar-img rounded-circle shadow" src="{{ user.profile_image.url }}" alt="avatar">
+									{% else %}
+									<img class="avatar-img rounded-circle shadow" src="{% static 'front/' %}images/admin-news.png" alt="avatar">
+									{% endif %}
 								</div>
 								<div>
-									<a class="h6 mt-2 mt-sm-0" href="#"> علیرضا مرادی</a>
-									<p class="small m-0">example@gmail.com</p>
+									<a class="h6 mt-2 mt-sm-0">{{ user.get_full_name }}</a>
+									<p class="small m-0">{{ user.email }}</p>
 								</div>
 							</div>
 							<hr>

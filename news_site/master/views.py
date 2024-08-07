@@ -36,6 +36,7 @@ def master_panel(request):
     # تعداد کاربران
     user_count = User.objects.count()
 
+    show_reviews_list = PointOfView.objects.all().order_by('-id')[:4]
 
     news_list_show = News.objects.all().order_by('-id')
 
@@ -77,6 +78,7 @@ def master_panel(request):
         "settings":settings,"show_news_list":show_news_list,
         "news_count":news_count,"comment_count":comment_count,
         "user_count":user_count,"news_list_show":news_list_show,
+        "show_reviews_list":show_reviews_list,
     }
 
     return render(request, 'master/dashboard.html', list_dashboard)
@@ -711,7 +713,7 @@ def master_reviews_edit_submit(request, id):
         text_reviews_edit = request.POST.get('text_reviews_edit')
 
         if not text_reviews_edit:
-            return JsonResponse({"success": False, "message": "لطفا متن نظر را وارد کنید"}, status=400)
+            return JsonResponse({"success": False, "message": "لطفا متن نظر را وارد کنید"}, status=200)
 
         try:
             edit_reviews.text = text_reviews_edit
@@ -725,6 +727,19 @@ def master_reviews_edit_submit(request, id):
                 }
             })
         except Exception as e:
-            return JsonResponse({"success": False, "message": f'خطا در ویرایش نظر کاربر: {str(e)}'}, status=500)
+            return JsonResponse({"success": False, "message": f'خطا در ویرایش نظر کاربر: {str(e)}'}, status=200)
 
-    return JsonResponse({"success": False, "message": "درخواست نامعتبر"}, status=405)
+    return JsonResponse({"success": False, "message": "درخواست نامعتبر"}, status=200)
+
+
+def master_author_list(request):
+    if not request.user.is_authenticated:
+        return redirect('master_signin')
+
+    settings = Settings.objects.get(id=1)
+
+    list_author_show = {
+        "settings":settings,
+    }
+
+    return render(request, 'master/dashboard-author-list.html', list_author_show)

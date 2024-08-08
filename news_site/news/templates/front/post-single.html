@@ -108,7 +108,11 @@ Main START -->
 					<!-- Comment level 1-->
 					{% for i in comment_show %}
 					<div class="my-4 d-flex">
-					  <img class="avatar avatar-md rounded-circle float-start me-3" src="{% static 'front/' %}images/admin-news.png" alt="avatar">
+					  {% if i.user.profile_image %}
+								<img class="avatar avatar-md rounded-circle float-start me-3" src="{{i.user.profile_image.url}}" alt="avatar">
+							{% else %}
+								<img class="avatar avatar-md rounded-circle float-start me-3" src="{% static 'front/' %}images/admin-news.png" alt="avatar">
+						{% endif %}
 					  <div>
 					    <div class="mb-2">
 					    	<h5 class="m-0">{{i.user.get_full_name}}</h5>

@@ -1,0 +1,145 @@
+{% load static %}
+<link id="style-switch" rel="stylesheet" type="text/css" href="{% static 'master/' %}css/toastr.css">
+{% for i in author_status %}
+    <tr id="author-{{i.id}}">
+        <!-- Table data -->
+        <td>
+            <div class="d-flex align-items-center position-relative">
+                <!-- Image -->
+                <div class="avatar avatar-md">
+                    {% if i.profile_image %}
+                    <img src="{{i.profile_image.url}}" class="rounded-circle" alt="">
+                    {% else %}
+                    <img src="{% static 'front/' %}images/admin-news.png" class="rounded-circle" alt="">
+                    {% endif %}
+                </div>
+                <div class="mb-0 ms-2">
+                    <!-- Title -->
+                    <h6 class="mb-0"><a href="#" class="stretched-link">{{i.get_full_name}}</a></h6>
+                </div>
+            </div>
+        </td>
+        <!-- Table data -->
+        <td>{{i.email}}</td>
+        <!-- Table data -->
+        <td>
+            {% if i.status_author == 0 %}
+                <a class="btn btn-sm btn-success-soft me-1 mb-1 mb-lg-0" onclick="changeStatus({{ i.id }}, 1)">پذیرفتن</a>
+                <a class="btn btn-sm btn-danger-soft me-1 mb-1 mb-lg-0" onclick="changeStatus({{ i.id }}, 2)">رد</a>
+                <a class="btn btn-sm btn-primary-soft me-1 mb-0" data-bs-toggle="modal" data-bs-target="#viewAuthor_{{i.id}}">مشاهده</a>
+            {% elif i.status_author == 1 %}
+                <span class="btn btn-sm btn-success me-1 mb-1 mb-lg-0" disabled>تایید شده</span>
+                <a class="btn btn-sm btn-primary-soft me-1 mb-0" data-bs-toggle="modal" data-bs-target="#viewAuthor_{{i.id}}">مشاهده</a>
+            {% elif i.status_author == 2 %}
+                <span class="btn btn-sm btn-danger me-1 mb-1 mb-lg-0" disabled>رد شده</span>
+                <a href="{% url 'master_resubmit_author' i.id %}" class="btn btn-sm btn-warning-soft me-1 mb-1 mb-lg-0">ارسال مجدد</a>
+                <a class="btn btn-sm btn-primary-soft me-1 mb-0" data-bs-toggle="modal" data-bs-target="#viewAuthor_{{i.id}}">مشاهده</a>
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
+
+
+<script src="{% static 'master/' %}js/jquery.js"></script>
+<script src="{% static 'master/' %}js/delete_swal.js"></script>
+<script src="{% static 'master/' %}js/sweetalert.js"></script>
+<script src="{% static 'master/' %}vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'master/' %}js/toastr.js"></script>
+
+{% if  messages %}
+<script>
+	toastr.options = {
+		timeOut: 2e3,
+		progressBar: !0,
+		showMethod: "slideDown",
+		hideMethod: "slideUp",
+		showDuration: 200,
+		hideDuration: 200,
+		positionClass: "toast-top-center"
+	}
+    {% for message in messages %} 
+    toastr.{{message.tags}}('{{message}}')
+    {% endfor %}
+</script>
+{% endif %}
+
+<script>
+    toastr.options = {
+        timeOut: 2e3,
+        progressBar: true,
+        showMethod: "slideDown",
+        hideMethod: "slideUp",
+        showDuration: 200,
+        hideDuration: 200,
+        positionClass: "toast-top-center"
+    };
+    
+    function changeStatus(authorId, status) {
+        fetch(`/master/dashboard/author/change-status/${authorId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: `status=${status}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateAuthorStatusTable(authorId, status);
+                updateAuthorListTable();
+                
+                if (status == 1) {
+                    toastr.success('نویسنده تایید شد');
+                } else if (status == 2) {
+                    toastr.warning('نویسنده رد شد');
+                }
+            }
+        });
+    }
+    
+    function updateAuthorStatusTable(authorId, status) {
+        const row = document.querySelector(`#author-${authorId}`);
+        const statusCell = row.querySelector('td:last-child');
+        
+        if (status == 1) {
+            statusCell.innerHTML = `
+                <span class="btn btn-sm btn-success me-1 mb-1 mb-lg-0" disabled>تایید شده</span>
+                <a href="#" class="btn btn-sm btn-primary-soft me-1 mb-0">مشاهده</a>
+            `;
+        } else if (status == 2) {
+            statusCell.innerHTML = `
+                <span class="btn btn-sm btn-danger me-1 mb-1 mb-lg-0" disabled>رد شده</span>
+                <a href="/master/dashboard/author/change-resubmit/${authorId}/" class="btn btn-sm btn-warning-soft me-1 mb-1 mb-lg-0">ارسال مجدد</a>
+                <a href="#" class="btn btn-sm btn-primary-soft me-1 mb-0">مشاهده</a>
+            `;
+        }
+    }
+    
+    function updateAuthorListTable() {
+        fetch('/master/dashboard/author/list/?page=1', {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('author-table-body').innerHTML = data.html_from_view;
+        });
+    }
+    
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    </script>

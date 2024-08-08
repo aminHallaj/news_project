@@ -53,6 +53,10 @@ urlpatterns = [
 
     # Page author Create And author Edit
     path('master/dashboard/author/list/', views.master_author_list, name='master_author_list'),
+    path('master/dashboard/author/create/submit/', views.master_author_create_submit, name='master_author_create_submit'),
+    path('master/dashboard/author/change-status/<id>/', views.master_change_author_status, name='master_change_author_status'),
+    path('master/dashboard/author/change-resubmit/<id>/', views.master_resubmit_author, name='master_resubmit_author'),
+    path('master/dashboard/toggle_author_active/', views.master_toggle_author_active, name='master_toggle_author_active'),
     # End Page Post Create And Post Edit
 
 ]

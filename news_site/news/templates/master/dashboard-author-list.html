@@ -13,7 +13,7 @@ Author list START -->
 			<div class="col-12">
 				<div class="d-sm-flex justify-content-between align-items-center">
 					<h1 class="mb-sm-0 h3">لیست نویسندگان</h1>			
-					<a href="#" class="btn btn-sm btn-primary mb-0"><i class="fas fa-plus me-2"></i>ثبت نویسنده جدید</a>
+					<a class="btn btn-sm btn-primary mb-0" data-bs-toggle="modal" data-bs-target="#AddAuthor_Modal"><i class="fas fa-plus me-2"></i>ثبت نویسنده جدید</a>
 				</div>
 			</div>
 		</div>
@@ -32,25 +32,6 @@ Author list START -->
 									<input class="form-control bg-transparent" type="search" placeholder="جستجو" aria-label="Search">
 									<button class="btn bg-transparent border-0 px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6 "></i></button>
 								</form>
-							</div>
-							<!-- Tab buttons -->
-							<div class="col-md-3">
-								<!-- Tabs START -->
-								<ul class="list-inline mb-0 nav nav-pills nav-pill-dark-soft border-0 justify-content-end" id="pills-tab" role="tablist">
-									<!-- Grid tab -->
-									<li class="nav-item">
-										<a href="#nav-list-tab" class="nav-link mb-0 me-2 active" data-bs-toggle="tab">
-											<i class="fas fa-fw fa-list-ul"></i>
-										</a>
-									</li>
-									<!-- List tab -->
-									<li class="nav-item">
-										<a href="#nav-grid-tab" class="nav-link mb-0" data-bs-toggle="tab">
-											<i class="fas fa-fw fa-th-large"></i>
-										</a>
-									</li>
-								</ul>
-								<!-- Tabs end -->
 							</div>
 						</div>
 						<!-- Search and select END -->
@@ -71,735 +52,22 @@ Author list START -->
 										<thead class="table-dark">
 											<tr>
 												<th scope="col" class="border-0 rounded-start">نام نویسنده</th>
-												<th scope="col" class="border-0">تاریخ عضویت</th>
+												<th scope="col" class="border-0">تاریخ تولد</th>
 												<th scope="col" class="border-0">تعداد اخبار</th>
-												<th scope="col" class="border-0">تعداد دنبال کننده</th>
-												<th scope="col" class="border-0">وضعیت</th>
+												<th scope="col" class="border-0">ایمیل</th>
 												<th scope="col" class="border-0 rounded-end">فعالیت</th>
 											</tr>
 										</thead>
 
 										<!-- Table body START -->
-										<tbody class="border-top-0">
+										<tbody id="author-table-body" class="border-top-0">
 											<!-- Table row -->
-											<tr>
-												<!-- Table data -->
-												<td>
-													<div class="d-flex align-items-center position-relative">
-														<!-- Image -->
-														<div class="avatar avatar-md">
-															<img src="assets/images/avatar/09.jpg" class="rounded-circle" alt="">
-														</div>
-														<div class="mb-0 ms-2">
-															<!-- Title -->
-															<h6 class="mb-0"><a href="#" class="stretched-link">مریم ترابی</a></h6>
-														</div>
-													</div>
-												</td>
-												<!-- Table data -->
-												<td>22 آذر، 1400</td>
-												<!-- Table data -->
-												<td>256</td>
-												<!-- Table data -->
-												<td>5,354</td>
-												<!-- Table data -->
-												<td>
-													<span class="badge bg-success bg-opacity-10 text-success mb-2">پرداخت شده</span>
-												</td>
-												<!-- Table data -->
-												<td>
-                          <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Message" aria-label="Message">
-                              <i class="bi bi-envelope"></i>
-                            </a>
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Block" aria-label="Block">
-                              <i class="fas fa-ban"></i>
-                            </a>
-                          </div>
-												</td>
-											</tr>
-
-											<!-- Table row -->
-											<tr>
-												<!-- Table data -->
-												<td>
-													<div class="d-flex align-items-center position-relative">
-														<!-- Image -->
-														<div class="avatar avatar-md">
-															<img src="assets/images/avatar/01.jpg" class="rounded-circle" alt="">
-														</div>
-														<div class="mb-0 ms-2">
-															<!-- Title -->
-															<h6 class="mb-0"><a href="#" class="stretched-link">شادی علیزاده</a></h6>
-														</div>
-													</div>
-												</td>
-												<!-- Table data -->
-												<td>19 آبان، 1400</td>
-												<!-- Table data -->
-												<td>56</td>
-												<!-- Table data -->
-												<td>15,523</td>
-												<!-- Table data -->
-												<td>
-													<span class="badge bg-success bg-opacity-10 text-success mb-2">پرداخت شده</span>
-												</td>
-												<!-- Table data -->
-												<td>
-                          <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Message" aria-label="Message">
-                              <i class="bi bi-envelope"></i>
-                            </a>
-                            <a href="#" class="btn btn-danger-soft btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Unبلاک" aria-label="بلاک">
-                              <i class="fas fa-ban"></i>
-                            </a>
-                          </div>
-												</td>
-											</tr>
-
-											<!-- Table row -->
-											<tr>
-												<!-- Table data -->
-												<td>
-													<div class="d-flex align-items-center position-relative">
-														<!-- Image -->
-														<div class="avatar avatar-md">
-															<img src="assets/images/avatar/03.jpg" class="rounded-circle" alt="">
-														</div>
-														<div class="mb-0 ms-2">
-															<!-- Title -->
-															<h6 class="mb-0"><a href="#" class="stretched-link">محمد بابایی</a></h6>
-														</div>
-													</div>
-												</td>
-												<!-- Table data -->
-												<td>11 دی، 1400</td>
-												<!-- Table data -->
-												<td>98</td>
-												<!-- Table data -->
-												<td>2,546</td>
-												<!-- Table data -->
-												<td>
-													<span class="badge bg-warning bg-opacity-15 text-warning mb-2">در انتظار پرداخت</span>
-												</td>
-												<!-- Table data -->
-												<td>
-                          <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Message" aria-label="Message">
-                              <i class="bi bi-envelope"></i>
-                            </a>
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Block" aria-label="Block">
-                              <i class="fas fa-ban"></i>
-                            </a>
-                          </div>
-												</td>
-											</tr>
-
-											<!-- Table row -->
-											<tr>
-												<!-- Table data -->
-												<td>
-													<div class="d-flex align-items-center position-relative">
-														<!-- Image -->
-														<div class="avatar avatar-md">
-															<img src="assets/images/avatar/04.jpg" class="rounded-circle" alt="">
-														</div>
-														<div class="mb-0 ms-2">
-															<!-- Title -->
-															<h6 class="mb-0"><a href="#" class="stretched-link">سهراب نوری</a></h6>
-														</div>
-													</div>
-												</td>
-												<!-- Table data -->
-												<td>22 آذر، 1400</td>
-												<!-- Table data -->
-												<td>1258</td>
-												<!-- Table data -->
-												<td>12,786</td>
-												<!-- Table data -->
-												<td>
-													<span class="badge bg-success bg-opacity-10 text-success mb-2">پرداخت شده</span>
-												</td>
-												<!-- Table data -->
-												<td>
-                          <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Message" aria-label="Message">
-                              <i class="bi bi-envelope"></i>
-                            </a>
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Block" aria-label="Block">
-                              <i class="fas fa-ban"></i>
-                            </a>
-                          </div>
-												</td>
-											</tr>
-
-											<!-- Table row -->
-											<tr>
-												<!-- Table data -->
-												<td>
-													<div class="d-flex align-items-center position-relative">
-														<!-- Image -->
-														<div class="avatar avatar-md">
-															<img src="assets/images/avatar/05.jpg" class="rounded-circle" alt="">
-														</div>
-														<div class="mb-0 ms-2">
-															<!-- Title -->
-															<h6 class="mb-0"><a href="#" class="stretched-link">نیلوفر حقیقت نژاد</a></h6>
-														</div>
-													</div>
-												</td>
-												<!-- Table data -->
-												<td>28 بهمن، 1400</td>
-												<!-- Table data -->
-												<td>2568</td>
-												<!-- Table data -->
-												<td>21,245</td>
-												<!-- Table data -->
-												<td>
-													<span class="badge bg-success bg-opacity-10 text-success mb-2">پرداخت شده</span>
-												</td>
-												<!-- Table data -->
-												<td>
-                          <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Message" aria-label="Message">
-                              <i class="bi bi-envelope"></i>
-                            </a>
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Block" aria-label="Block">
-                              <i class="fas fa-ban"></i>
-                            </a>
-                          </div>
-												</td>
-											</tr>
-
-											<!-- Table row -->
-											<tr>
-												<!-- Table data -->
-												<td>
-													<div class="d-flex align-items-center position-relative">
-														<!-- Image -->
-														<div class="avatar avatar-md">
-															<img src="assets/images/avatar/06.jpg" class="rounded-circle" alt="">
-														</div>
-														<div class="mb-0 ms-2">
-															<!-- Title -->
-															<h6 class="mb-0"><a href="#" class="stretched-link">فاطمه قنبرزاده</a></h6>
-														</div>
-													</div>
-												</td>
-												<!-- Table data -->
-												<td class="text-center text-sm-start">25 خرداد، 1400</td>
-												<!-- Table data -->
-												<td>895</td>
-												<!-- Table data -->
-												<td>8,546</td>
-												<!-- Table data -->
-												<td>
-													<span class="badge bg-success bg-opacity-10 text-success mb-2">پرداخت شده</span>
-												</td>
-												<!-- Table data -->
-												<td>
-                          <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Message" aria-label="Message">
-                              <i class="bi bi-envelope"></i>
-                            </a>
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Block" aria-label="Block">
-                              <i class="fas fa-ban"></i>
-                            </a>
-                          </div>
-												</td>
-											</tr>
-
-											<!-- Table row -->
-											<tr>
-												<!-- Table data -->
-												<td>
-													<div class="d-flex align-items-center position-relative">
-														<!-- Image -->
-														<div class="avatar avatar-md">
-															<img src="assets/images/avatar/07.jpg" class="rounded-circle" alt="">
-														</div>
-														<div class="mb-0 ms-2">
-															<!-- Title -->
-															<h6 class="mb-0"><a href="#" class="stretched-link">نیلوفر خالدی</a></h6>
-														</div>
-													</div>
-												</td>
-												<!-- Table data -->
-												<td>17 مهر، 1400</td>
-												<!-- Table data -->
-												<td>856</td>
-												<!-- Table data -->
-												<td>5,354</td>
-												<!-- Table data -->
-												<td>
-													<span class="badge bg-danger bg-opacity-10 text-danger mb-2">کنسل</span>
-												</td>
-												<!-- Table data -->
-												<td>
-                          <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Message" aria-label="Message">
-                              <i class="bi bi-envelope"></i>
-                            </a>
-                            <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Block" aria-label="Block">
-                              <i class="fas fa-ban"></i>
-                            </a>
-                          </div>
-												</td>
-											</tr>
-
+											{% include 'master/includes/author_list_table.html' %}
 										</tbody>
 										<!-- Table body END -->
 									</table>
 								</div>
 								<!-- Table END -->
-							</div>
-							<!-- Tabs content item END -->
-
-							<!-- Tabs content item START -->
-							<div class="tab-pane fade" id="nav-grid-tab">
-								<div class="row g-4">
-
-									<!-- Card item START -->
-									<div class="col-md-6 col-xl-4">
-										<div class="card border p-2">
-											<div class="card-body">
-												<div class="d-flex align-items-center justify-content-between">
-													<!-- avatar -->
-													<div class="avatar avatar-lg me-3 flex-shrink-0">
-														<img class="avatar-img rounded-circle" src="assets/images/avatar/10.jpg" alt="">
-													</div>
-													<!-- Connections holder -->
-													<div class="flex-grow-1 d-block">
-														<h5 class="mb-1"><a href="#">سارا محبی</a></h5>
-														<div class="small">روزنامه نگار</div>
-													</div>
-												</div>
-
-												<!-- Followers and Post -->
-												<div class="d-sm-flex justify-content-sm-between mt-3">
-													<!-- Followers -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-people-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">5,354</h5>
-															<h6 class="mb-0 fw-light">دنبال کننده ها</h6>
-														</div>
-													</div>
-
-													<!-- Total post -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-file-earmark-text-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">846</h5>
-															<h6 class="mb-0 fw-light">تعداد اخبار</h6>
-														</div>
-													</div>
-												</div>
-
-												<!-- Buttons -->
-												<div class="d-sm-flex gap-2 mt-4">
-													<a href="#" class="btn btn-primary-soft w-100">
-														<i class="fab fa-facebook-messenger pe-2"></i> ارسال پیام
-													</a>
-													<a href="#" class="btn btn-danger-soft w-100">
-														<i class="fas fa-ban pe-2"></i> بلاک
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- Card item END -->
-
-									<!-- Card item START -->
-									<div class="col-md-6 col-xl-4">
-										<div class="card border p-2">
-											<div class="card-body">
-												<div class="d-flex align-items-center justify-content-between">
-													<!-- avatar -->
-													<div class="avatar avatar-lg me-3 flex-shrink-0">
-														<img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="">
-													</div>
-													<!-- Connections holder -->
-													<div class="flex-grow-1 d-block">
-														<h5 class="mb-1"><a href="#">شادی علیزاده</a></h5>
-														<div class="small">روزنامه نگار</div>
-													</div>
-												</div>
-
-												<!-- Followers and Post -->
-												<div class="d-sm-flex justify-content-sm-between mt-3">
-													<!-- Followers -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-people-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">2,545</h5>
-															<h6 class="mb-0 fw-light">دنبال کننده ها</h6>
-														</div>
-													</div>
-
-													<!-- Total post -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-file-earmark-text-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">586</h5>
-															<h6 class="mb-0 fw-light">تعداد اخبار</h6>
-														</div>
-													</div>
-												</div>
-
-												<!-- Buttons -->
-												<div class="d-sm-flex gap-2 mt-4">
-													<a href="#" class="btn btn-primary-soft w-100">
-														<i class="fab fa-facebook-messenger pe-2"></i> ارسال پیام
-													</a>
-													<a href="#" class="btn btn-danger-soft w-100">
-														<i class="fas fa-ban pe-2"></i> بلاک
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- Card item END -->
-
-									<!-- Card item START -->
-									<div class="col-md-6 col-xl-4">
-										<div class="card border p-2">
-											<div class="card-body">
-												<div class="d-flex align-items-center justify-content-between">
-													<!-- avatar -->
-													<div class="avatar avatar-lg me-3 flex-shrink-0">
-														<img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt="">
-													</div>
-													<!-- Connections holder -->
-													<div class="flex-grow-1 d-block">
-														<h5 class="mb-1"><a href="#">مهدی اکبری</a></h5>
-														<div class="small">روزنامه نگار</div>
-													</div>
-												</div>
-
-												<!-- Followers and Post -->
-												<div class="d-sm-flex justify-content-sm-between mt-3">
-													<!-- Followers -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-people-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">3,546</h5>
-															<h6 class="mb-0 fw-light">دنبال کننده ها</h6>
-														</div>
-													</div>
-
-													<!-- Total post -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-file-earmark-text-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">786</h5>
-															<h6 class="mb-0 fw-light">تعداد اخبار</h6>
-														</div>
-													</div>
-												</div>
-
-												<!-- Buttons -->
-												<div class="d-sm-flex gap-2 mt-4">
-													<a href="#" class="btn btn-primary-soft w-100">
-														<i class="fab fa-facebook-messenger pe-2"></i> ارسال پیام
-													</a>
-													<a href="#" class="btn btn-danger-soft w-100">
-														<i class="fas fa-ban pe-2"></i> بلاک
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- Card item END -->
-
-									<!-- Card item START -->
-									<div class="col-md-6 col-xl-4">
-										<div class="card border p-2">
-											<div class="card-body">
-												<div class="d-flex align-items-center justify-content-between">
-													<!-- avatar -->
-													<div class="avatar avatar-lg me-3 flex-shrink-0">
-														<img class="avatar-img rounded-circle" src="assets/images/avatar/03.jpg" alt="">
-													</div>
-													<!-- Connections holder -->
-													<div class="flex-grow-1 d-block">
-														<h5 class="mb-1"><a href="#">محمد بابایی</a></h5>
-														<div class="small">روزنامه نگار</div>
-													</div>
-												</div>
-
-												<!-- Followers and Post -->
-												<div class="d-sm-flex justify-content-sm-between mt-3">
-													<!-- Followers -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-people-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">6,586</h5>
-															<h6 class="mb-0 fw-light">دنبال کننده ها</h6>
-														</div>
-													</div>
-
-													<!-- Total post -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-file-earmark-text-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">1,235</h5>
-															<h6 class="mb-0 fw-light">تعداد اخبار</h6>
-														</div>
-													</div>
-												</div>
-
-												<!-- Buttons -->
-												<div class="d-sm-flex gap-2 mt-4">
-													<a href="#" class="btn btn-primary-soft w-100">
-														<i class="fab fa-facebook-messenger pe-2"></i> ارسال پیام
-													</a>
-													<a href="#" class="btn btn-danger-soft w-100">
-														<i class="fas fa-ban pe-2"></i> بلاک
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- Card item END -->
-
-									<!-- Card item START -->
-									<div class="col-md-6 col-xl-4">
-										<div class="card border p-2">
-											<div class="card-body">
-												<div class="d-flex align-items-center justify-content-between">
-													<!-- avatar -->
-													<div class="avatar avatar-lg me-3 flex-shrink-0">
-														<img class="avatar-img rounded-circle" src="assets/images/avatar/04.jpg" alt="">
-													</div>
-													<!-- Connections holder -->
-													<div class="flex-grow-1 d-block">
-														<h5 class="mb-1"><a href="#">سهراب نوری</a></h5>
-														<div class="small">روزنامه نگار</div>
-													</div>
-												</div>
-
-												<!-- Followers and Post -->
-												<div class="d-sm-flex justify-content-sm-between mt-3">
-													<!-- Followers -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-people-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">996</h5>
-															<h6 class="mb-0 fw-light">دنبال کننده ها</h6>
-														</div>
-													</div>
-
-													<!-- Total post -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-file-earmark-text-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">156</h5>
-															<h6 class="mb-0 fw-light">تعداد اخبار</h6>
-														</div>
-													</div>
-												</div>
-
-												<!-- Buttons -->
-												<div class="d-sm-flex gap-2 mt-4">
-													<a href="#" class="btn btn-primary-soft w-100">
-														<i class="fab fa-facebook-messenger pe-2"></i> ارسال پیام
-													</a>
-													<a href="#" class="btn btn-danger-soft w-100">
-														<i class="fas fa-ban pe-2"></i> بلاک
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- Card item END -->
-
-									<!-- Card item START -->
-									<div class="col-md-6 col-xl-4">
-										<div class="card border p-2">
-											<div class="card-body">
-												<div class="d-flex align-items-center justify-content-between">
-													<!-- avatar -->
-													<div class="avatar avatar-lg me-3 flex-shrink-0">
-														<img class="avatar-img rounded-circle" src="assets/images/avatar/06.jpg" alt="">
-													</div>
-													<!-- Connections holder -->
-													<div class="flex-grow-1 d-block">
-														<h5 class="mb-1"><a href="#">فاطمه قنبرزاده</a></h5>
-														<div class="small">روزنامه نگار</div>
-													</div>
-												</div>
-
-												<!-- Followers and Post -->
-												<div class="d-sm-flex justify-content-sm-between mt-3">
-													<!-- Followers -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-people-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">2,586</h5>
-															<h6 class="mb-0 fw-light">دنبال کننده ها</h6>
-														</div>
-													</div>
-
-													<!-- Total post -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-file-earmark-text-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">665</h5>
-															<h6 class="mb-0 fw-light">تعداد اخبار</h6>
-														</div>
-													</div>
-												</div>
-
-												<!-- Buttons -->
-												<div class="d-sm-flex gap-2 mt-4">
-													<a href="#" class="btn btn-primary-soft w-100">
-														<i class="fab fa-facebook-messenger pe-2"></i> ارسال پیام
-													</a>
-													<a href="#" class="btn btn-danger-soft w-100">
-														<i class="fas fa-ban pe-2"></i> بلاک
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- Card item END -->
-
-									<!-- Card item START -->
-									<div class="col-md-6 col-xl-4">
-										<div class="card border p-2">
-											<div class="card-body">
-												<div class="d-flex align-items-center justify-content-between">
-													<!-- avatar -->
-													<div class="avatar avatar-lg me-3 flex-shrink-0">
-														<img class="avatar-img rounded-circle" src="assets/images/avatar/07.jpg" alt="">
-													</div>
-													<!-- Connections holder -->
-													<div class="flex-grow-1 d-block">
-														<h5 class="mb-1"><a href="#">نیلوفر خالدی</a></h5>
-														<div class="small">روزنامه نگار</div>
-													</div>
-												</div>
-
-												<!-- Followers and Post -->
-												<div class="d-sm-flex justify-content-sm-between mt-3">
-													<!-- Followers -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-people-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">1,586</h5>
-															<h6 class="mb-0 fw-light">دنبال کننده ها</h6>
-														</div>
-													</div>
-
-													<!-- Total post -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-file-earmark-text-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">458</h5>
-															<h6 class="mb-0 fw-light">تعداد اخبار</h6>
-														</div>
-													</div>
-												</div>
-
-												<!-- Buttons -->
-												<div class="d-sm-flex gap-2 mt-4">
-													<a href="#" class="btn btn-primary-soft w-100">
-														<i class="fab fa-facebook-messenger pe-2"></i> ارسال پیام
-													</a>
-													<a href="#" class="btn btn-danger-soft w-100">
-														<i class="fas fa-ban pe-2"></i> بلاک
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- Card item END -->
-
-									<!-- Card item START -->
-									<div class="col-md-6 col-xl-4">
-										<div class="card border p-2">
-											<div class="card-body">
-												<div class="d-flex align-items-center justify-content-between">
-													<!-- avatar -->
-													<div class="avatar avatar-lg me-3 flex-shrink-0">
-														<img class="avatar-img rounded-circle" src="assets/images/avatar/12.jpg" alt="">
-													</div>
-													<!-- Connections holder -->
-													<div class="flex-grow-1 d-block">
-														<h5 class="mb-1"><a href="#">مهناز رزاق</a></h5>
-														<div class="small">روزنامه نگار</div>
-													</div>
-												</div>
-
-												<!-- Followers and Post -->
-												<div class="d-sm-flex justify-content-sm-between mt-3">
-													<!-- Followers -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-people-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">9,586</h5>
-															<h6 class="mb-0 fw-light">دنبال کننده ها</h6>
-														</div>
-													</div>
-
-													<!-- Total post -->
-													<div class="d-flex text-start align-items-center mt-3">
-														<div class="icon-md bg-light text-body rounded-circle flex-shrink-0">
-															<i class="bi bi-file-earmark-text-fill fa-fw"></i>
-														</div>
-														<div class="ms-2">
-															<h5 class="mb-0">2,586</h5>
-															<h6 class="mb-0 fw-light">تعداد اخبار</h6>
-														</div>
-													</div>
-												</div>
-
-												<!-- Buttons -->
-												<div class="d-sm-flex gap-2 mt-4">
-													<a href="#" class="btn btn-primary-soft w-100">
-														<i class="fab fa-facebook-messenger pe-2"></i> ارسال پیام
-													</a>
-													<a href="#" class="btn btn-danger-soft w-100">
-														<i class="fas fa-ban pe-2"></i> بلاک
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- Card item END -->
-
-								</div> <!-- Row END -->
 							</div>
 							<!-- Tabs content item END -->
 
@@ -813,21 +81,12 @@ Author list START -->
 						<!-- Pagination START -->
 						<div class="d-sm-flex justify-content-sm-between align-items-sm-center">
 							<!-- Content -->
-							<p class="mb-sm-0 text-center text-sm-start">نمایش 1 تا 8 از 20</p>
+							<p class="mb-sm-0 text-center text-sm-start">
+								نمایش {{ author.start_index }} تا {{ author.end_index }} از {{ author.paginator.count }}
+							</p>
 							<!-- Pagination -->
-							<nav class="mb-sm-0 d-flex justify-content-center" aria-label="navigation">
-								<ul class="pagination pagination-sm pagination-bordered mb-0">
-									<li class="page-item disabled">
-										<a class="page-link" href="#" tabindex="-1" aria-disabled="true">قبل</a>
-									</li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item active"><a class="page-link" href="#">2</a></li>
-									<li class="page-item disabled"><a class="page-link" href="#">..</a></li>
-									<li class="page-item"><a class="page-link" href="#">15</a></li>
-									<li class="page-item">
-										<a class="page-link" href="#">بعد</a>
-									</li>
-								</ul>
+							<nav id="author-pagination" class="mb-sm-0 d-flex justify-content-center" aria-label="navigation">
+								{% include 'master/includes/author_pagination.html' %}
 							</nav>
 						</div>
 						<!-- Pagination END -->
@@ -856,119 +115,15 @@ Author list START -->
 								<thead class="table-dark">
 									<tr>
 										<th scope="col" class="border-0 rounded-start">نام نویسنده</th>
-										<th scope="col" class="border-0">تاریخ</th>
-										<th scope="col" class="border-0">نام شرکت</th>
+										<th scope="col" class="border-0">ایمیل</th>
 										<th scope="col" class="border-0 rounded-end">عملیات</th>
 									</tr>
 								</thead>
 
 								<!-- Table body START -->
-								<tbody class="border-top-0">
+								<tbody id="author_table" class="border-top-0">
 									<!-- Table row -->
-									<tr>
-										<!-- Table data -->
-										<td>
-											<div class="d-flex align-items-center position-relative">
-												<!-- Image -->
-												<div class="avatar avatar-md">
-													<img src="assets/images/avatar/04.jpg" class="rounded-circle" alt="">
-												</div>
-												<div class="mb-0 ms-2">
-													<!-- Title -->
-													<h6 class="mb-0"><a href="#" class="stretched-link">سهراب نوری</a></h6>
-												</div>
-											</div>
-										</td>
-										<!-- Table data -->
-										<td>22 خرداد 1400</td>
-										<!-- Table data -->
-										<td>تابناک</td>
-										<!-- Table data -->
-										<td>
-											<a href="#" class="btn btn-sm btn-success-soft me-1 mb-1 mb-lg-0">پذیرفتن</a>
-											<a href="#" class="btn btn-sm btn-secondary-soft me-1 mb-1 mb-lg-0">رد</a>
-											<a href="#" class="btn btn-sm btn-primary-soft me-1 mb-0">مشاهده</a>
-										</td>
-									</tr>
-
-									<!-- Table row -->
-									<tr>
-										<!-- Table data -->
-										<td>
-											<div class="d-flex align-items-center position-relative">
-												<!-- Image -->
-												<div class="avatar avatar-md">
-													<img src="assets/images/avatar/05.jpg" class="rounded-circle" alt="">
-												</div>
-												<div class="mb-0 ms-2">
-													<!-- Title -->
-													<h6 class="mb-0"><a href="#" class="stretched-link">نیلوفر حقیقت نژاد</a></h6>
-												</div>
-											</div>
-										</td>
-										<!-- Table data -->
-										<td>29 آذر 1400</td>
-										<!-- Table data -->
-										<td>مشرق نیوز</td>
-										<!-- Table data -->
-										<td>
-											<a href="#" class="btn btn-sm btn-success-soft me-1 mb-1 mb-lg-0">پذیرفتن</a>
-											<a href="#" class="btn btn-sm btn-secondary-soft me-1 mb-1 mb-lg-0">رد</a>
-											<a href="#" class="btn btn-sm btn-primary-soft me-1 mb-0">مشاهده</a>
-										</td>
-									</tr>
-
-									<!-- Table row -->
-									<tr>
-										<!-- Table data -->
-										<td>
-											<div class="d-flex align-items-center position-relative">
-												<!-- Image -->
-												<div class="avatar avatar-md">
-													<img src="assets/images/avatar/06.jpg" class="rounded-circle" alt="">
-												</div>
-												<div class="mb-0 ms-2">
-													<!-- Title -->
-													<h6 class="mb-0"><a href="#" class="stretched-link">فاطمه قنبرزاده</a></h6>
-												</div>
-											</div>
-										</td>
-										<!-- Table data -->
-										<td class="text-center text-sm-start">25 مهر 1400</td>
-										<!-- Table data -->
-										<td>تسنیم</td>
-										<!-- Table data -->
-										<td>
-											<a href="#" class="btn btn-sm btn-success me-1 mb-1 mb-md-0 disabled">پذیرفته شده</a>
-											<a href="#" class="btn btn-sm btn-primary-soft me-1 mb-0" data-bs-toggle="modal" data-bs-target="#appDetail">مشاهده</a>
-										</td>
-									</tr>
-
-									<!-- Table row -->
-									<tr>
-										<!-- Table data -->
-										<td>
-											<div class="d-flex align-items-center position-relative">
-												<!-- Image -->
-												<div class="avatar avatar-md">
-													<img src="assets/images/avatar/07.jpg" class="rounded-circle" alt="">
-												</div>
-												<div class="mb-0 ms-2">
-													<!-- Title -->
-													<h6 class="mb-0"><a href="#" class="stretched-link">نیلوفر خالدی</a></h6>
-												</div>
-											</div>
-										</td>
-										<!-- Table data -->
-										<td>14 دی 1400</td>
-										<!-- Table data -->
-										<td>خبر آنلاین</td>
-										<!-- Table data -->
-										<td>
-											<a href="#" class="btn btn-sm btn-secondary me-1 mb-1 mb-md-0 disabled">رد شده</a>
-											<a href="#" class="btn btn-sm btn-primary-soft me-1 mb-0" data-bs-toggle="modal" data-bs-target="#appDetail">مشاهده</a>
-										</td>
-									</tr>
+									{% include 'master/includes/author_status_list_table.html' %}
 								</tbody>
 								<!-- Table body END -->
 							</table>
@@ -976,6 +131,20 @@ Author list START -->
 						<!-- Table END -->
 					</div>
 					<!-- Card body END -->
+					<div class="card-footer p-3">
+						<!-- Pagination START -->
+						<div class="d-sm-flex justify-content-sm-between align-items-sm-center">
+							<!-- Content -->
+							<p class="mb-sm-0 text-center text-sm-start">
+								نمایش {{ author2.start_index }} تا {{ author2.end_index }} از {{ author2.paginator.count }}
+							</p>
+							<!-- Pagination -->
+							<nav class="mb-sm-0 d-flex justify-content-center" aria-label="navigation">
+								{% include 'master/includes/author_pagination2.html' %}
+							</nav>
+						</div>
+						<!-- Pagination END -->
+					</div>
 				</div>
 				<!-- Card END -->
 			</div>
@@ -984,4 +153,148 @@ Author list START -->
 </section>
 <!-- =======================
 Author list END -->
+
+<div class="modal fade" id="AddAuthor_Modal" tabindex="-1" aria-labelledby="AddAuthorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="AddAuthorLabel">ثبت نویسنده</h5>
+                <button type="button" class="btn btn-sm btn-light text-dark mb-0" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x fs-5"></i></button>
+            </div>
+            <!-- Modal body -->
+			<form action="{% url 'master_author_create_submit' %}" method="POST" enctype="multipart/form-data" id="addAuthorForm">
+				{% csrf_token %}
+            <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">نام</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">نام خانوادگی</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nationalCode" class="form-label">کد ملی</label>
+                            <input type="text" class="form-control" id="nationalCode" name="nationalCode" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">شماره تلفن</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">ایمیل</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="username" class="form-label">نام کاربری</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="birthdate" class="form-label">تاریخ تولد</label>
+                            <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">جنسیت</label>
+                            <div class="d-flex">
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+                                    <label class="form-check-label" for="male">مرد</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+                                    <label class="form-check-label" for="female">زن</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="address" class="form-label">آدرس</label>
+                            <textarea class="form-control" id="address" name="address" rows="2"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label for="biography" class="form-label">بیوگرافی</label>
+                            <textarea class="form-control" id="biography" name="biography" rows="3"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="profile" class="form-label">تصویر پروفایل</label>
+                            <input type="file" class="form-control" id="profile" name="profile" accept="image/*">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="slug" class="form-label">Slug</label>
+                            <input type="text" class="form-control" id="slug" name="slug" required>
+                        </div>
+                    </div>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">ثبت</button>
+					<button type="button" class="btn btn-danger-soft my-0" data-bs-dismiss="modal">بستن</button>
+				</div>
+			</form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Popup modal for reviwe START -->
+{% for i in author_status %}
+<div class="modal fade" id="viewAuthor_{{i.id}}" tabindex="-1" aria-labelledby="viewAuthorLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<!-- Modal header -->
+			<div class="modal-header">
+				<h5 class="modal-title" id="viewAuthorLabel">اطلاعات نویسنده</h5>
+				<button type="button" class="btn btn-sm btn-light text-dark mb-0" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x fs-5"></i></button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="row g-3">
+                    <div class="col-sm-6">
+                        <p><strong>نام و نام خانوادگی:</strong> {{i.get_full_name}}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>شماره تلفن:</strong> {{i.mobile}}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>تاریخ تولد:</strong> {{i.date_birth}}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>ایمیل:</strong> {{i.email}}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>کد ملی:</strong> {{i.national_id}}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>نام کاربری:</strong> {{i.username}}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>جنسیت:</strong> {{i.get_gender_display}}</p>
+                    </div>
+					<div class="col-12">
+                        <p><strong>بیوگرافی:</strong></p>
+                        <p>{{i.bio}}</p>
+                    </div>
+                </div>
+			</div>
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger-soft my-0" data-bs-dismiss="modal">بستن</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+<!-- Popup modal for Author END -->
+
+
 {% endblock contentpanel_dashboard %}
+{% block link_js %}
+
+<script src="{% static 'master/' %}js/sweetalert.js"></script>
+<script src="{% static 'master/' %}js/delete_swal.js"></script>
+<script src="{% static 'master/' %}js/ajax.js"></script>
+<script src="{% static 'master/' %}js/ajax_tabel_author.js"></script>
+
+
+{% endblock link_js %}

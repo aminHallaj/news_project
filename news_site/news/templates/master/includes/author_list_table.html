@@ -1,0 +1,104 @@
+{% load static %}
+<link id="style-switch" rel="stylesheet" type="text/css" href="{% static 'master/' %}css/toastr.css">
+{% csrf_token %}
+{% for i in author %}
+    <tr id="del_{{i.id}}">
+        <!-- Table data -->
+        <td>
+            <div class="d-flex align-items-center position-relative">
+                <!-- Image -->
+                <div class="avatar avatar-md">
+                    {% if i.profile_image %}
+                    <img src="{{i.profile_image.url}}" class="rounded-circle" alt="">
+                    {% else %}
+                    <img src="{% static 'front/' %}images/admin-news.png" class="rounded-circle" alt="">
+                    {% endif %}
+                </div>
+                <div class="mb-0 ms-2">
+                    <!-- Title -->
+                    <h6 class="mb-0"><a href="#" class="stretched-link">{{i.get_full_name}}</a></h6>
+                </div>
+            </div>
+        </td>
+        <!-- Table data -->
+        <td>{{i.get_persian_birth_date}}</td>
+        <!-- Table data -->
+        <td>{{i.news_count}}</td>
+        <!-- Table data -->
+        <td>{{i.email}}</td>
+        <!-- Table data -->
+        <td>
+            <div class="d-flex gap-2">
+                <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Person" aria-label="Person">
+                    <i class="bi bi-person-fill"></i>
+                </a>
+                <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" aria-label="Edit">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Message" aria-label="Message">
+                <i class="bi bi-envelope"></i>
+                </a>
+                <a href="#" class="btn {% if i.is_active %}btn-light{% else %}btn-danger{% endif %} btn-round mb-0 toggle-active" 
+                    data-author-id="{{ i.id }}" 
+                    data-is-active="{{ i.is_active|yesno:'true,false' }}"
+                    data-bs-toggle="tooltip" data-bs-placement="top" 
+                    title="{% if i.is_active %}Block{% else %}Unblock{% endif %}" 
+                    aria-label="{% if i.is_active %}Block{% else %}Unblock{% endif %}">
+                        <i class="fas fa-ban"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+{% endfor %}
+
+
+<script src="{% static 'master/' %}js/jquery.js"></script>
+<script src="{% static 'master/' %}js/delete_swal.js"></script>
+<script src="{% static 'master/' %}js/sweetalert.js"></script>
+<script src="{% static 'master/' %}js/toastr.js"></script>
+
+<script>
+    $(document).ready(function() {
+        toastr.options = {
+            timeOut: 2e3,
+            progressBar: true,
+            showMethod: "slideDown",
+            hideMethod: "slideUp",
+            showDuration: 200,
+            hideDuration: 200,
+            positionClass: "toast-top-center"
+        };
+    
+        $('.toggle-active').on('click', function(e) {
+            e.preventDefault();
+            var button = $(this);
+            var authorId = button.data('author-id');
+            var isActive = button.data('is-active') === true;
+    
+            $.ajax({
+                url: '/master/dashboard/toggle_author_active/',
+                type: 'POST',
+                data: {
+                    'author_id': authorId,
+                    'is_active': !isActive,
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        isActive = !isActive;
+                        button.data('is-active', isActive);
+                        if (isActive) {
+                            button.removeClass('btn-danger').addClass('btn-light');
+                            button.attr('title', 'Block').attr('aria-label', 'Block');
+                            toastr.success('نویسنده با موفقیت فعال شد');
+                        } else {
+                            button.removeClass('btn-light').addClass('btn-danger');
+                            button.attr('title', 'Unblock').attr('aria-label', 'Unblock');
+                            toastr.warning('نویسنده با موفقیت غیرفعال شد');
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>

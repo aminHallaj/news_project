@@ -144,13 +144,9 @@ Main contain START -->
 									<!-- Avatar -->
 									<div class="avatar avatar-lg flex-shrink-0">
 									{% if i.user.profile_image %}
-										<div class="avatar avatar-lg flex-shrink-0">
 										<img class="avatar-img rounded-2" src="{{i.user.profile_image.url}}" alt="avatar">
-										</div>
 									{% else %}
-										<div class="avatar avatar-lg flex-shrink-0">
 										<img class="avatar-img rounded-2" src="{% static 'front/' %}images/admin-news.png" alt="avatar">
-										</div>
 									{% endif %}
 									</div>
 									<!-- Info -->

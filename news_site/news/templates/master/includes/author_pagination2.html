@@ -1,0 +1,16 @@
+<ul class="pagination pagination-sm pagination-bordered mb-0" id="pagination2">
+    {% if author.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ author.previous_page_number }}">قبل</a></li>
+    {% endif %}
+    
+    {% for i in author.paginator.page_range %}
+        {% if author.number == i %}
+            <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+    
+    {% if author.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ author.next_page_number }}">بعد</a></li>
+    {% endif %}

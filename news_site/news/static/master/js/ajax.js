@@ -273,3 +273,70 @@ $(document).ready(function() {
 
 
 
+
+
+
+$(document).ready(function() {
+    $("#addAuthorForm").on("submit", function (e) {
+        e.preventDefault();
+        submitAuthorForm();
+    });
+});
+
+function submitAuthorForm() {
+    var form = $('#addAuthorForm')[0];
+    var formData = new FormData(form);
+
+    $.ajax({
+        type: "POST",
+        url: form.action,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log("پاسخ سرور:", response);
+            if (response.success) {
+                updateAuthorTable();
+                resetForm(form);
+                closeModal();
+                showToast('success', response.message);
+            } else {
+                showToast('error', response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("خطا در درخواست:", xhr.responseText);
+            showToast('error', "خطایی رخ داده است: " + error);
+        }
+    });
+}
+
+function updateAuthorTable() {
+    $('#author_table').load(window.location.href + ' #author_table > *', function() {
+        // اینجا می‌توانید کدهای اضافی برای بعد از بارگذاری جدول اضافه کنید
+    });
+}
+
+function resetForm(form) {
+    form.reset();
+}
+
+function closeModal() {
+    $('#AddAuthor_Modal').modal('hide');
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+}
+
+function showToast(type, message) {
+    toastr.options = {
+        timeOut: 2000,
+        progressBar: true,
+        showMethod: "slideDown",
+        hideMethod: "slideUp",
+        showDuration: 200,
+        hideDuration: 200,
+        positionClass: "toast-top-center"
+    };
+    toastr[type](message);
+}
+

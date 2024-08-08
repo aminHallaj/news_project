@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.urls import reverse
 from settings_site.models import *
 from news.models import *
+from customer.models import *
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 import time
 from datetime import date, datetime
@@ -15,6 +16,7 @@ from django.db.models import Q, Value as V
 import re
 from django.db.models.functions import Concat
 from django.template.loader import render_to_string
+from django.utils.text import slugify
 
 
 
@@ -737,9 +739,131 @@ def master_author_list(request):
         return redirect('master_signin')
 
     settings = Settings.objects.get(id=1)
+    author = Author.objects.filter(status_author=1).order_by('-id')
+    author_status = Author.objects.all().order_by('-id')
+
+    paginator = Paginator(author, 8)
+    page = request.GET.get('page', 1)
+    author = paginator.get_page(page)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string(
+            template_name="master/includes/author_list_table.html",
+            context={"author": author}
+        )
+        pagination_html = render_to_string(
+            template_name="master/includes/author_pagination.html",
+            context={"author": author}
+        )
+        data_dict = {
+            "html_from_view": html,
+            "pagination_html": pagination_html,
+            "start_index": author.start_index(),
+            "end_index": author.end_index(),
+            "total_count": paginator.count,
+        }
+        return JsonResponse(data=data_dict, safe=False)
 
     list_author_show = {
-        "settings":settings,
+        "settings": settings, "author": author, "author_status": author_status,
     }
 
     return render(request, 'master/dashboard-author-list.html', list_author_show)
+
+def master_change_author_status(request, id):
+    author = get_object_or_404(Author, id=id)
+    status = request.POST.get('status')
+
+    if status in ['0', '1', '2']:
+        author.status_author = int(status)
+        author.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+
+def master_resubmit_author(request, id):
+    author = get_object_or_404(Author, id=id)
+    if author.status_author == 2:  # اگر رد شده است
+        author.status_author = 0  # به حالت در حال انتظار تغییر می‌دهد
+        author.save()
+    return redirect('master_post_edit', id=author.id)
+
+
+def master_toggle_author_active(request):
+    if request.method == 'POST':
+        print("Received POST request:", request.POST)
+        author_id  = request.POST.get('author_id')
+        is_active = request.POST.get('is_active') == 'true'
+        
+        try:
+            author = Author.objects.get(id=author_id)
+            author.is_active = is_active
+            author.save()
+            return JsonResponse({'success': True})
+        except Author.DoesNotExist:
+            return JsonResponse({'success': False}, status=404)
+    else:
+        return JsonResponse({'success': False, 'message': 'روش درخواست نامعتبر است'}, status=400)
+
+
+
+def master_author_create_submit(request):
+
+    if request.method == 'POST':
+        # دریافت داده‌های فرم
+        first_name = request.POST.get('firstName')
+        last_name = request.POST.get('lastName')
+        national_code = request.POST.get('nationalCode')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        birthdate = request.POST.get('birthdate')
+        gender = request.POST.get('gender')
+        address = request.POST.get('address')
+        biography = request.POST.get('biography')
+        slug = request.POST.get('slug')
+        profile_image = request.FILES.get('profile')
+
+         # بررسی اطلاعات ضروری
+        if not all([first_name, last_name, national_code, phone, email, username, birthdate, gender]):
+            return JsonResponse({"success": False, "message": "لطفاً تمام فیلدهای ضروری را پر کنید.", "data": {}}, status=400)
+
+        try:
+            # ایجاد کاربر جدید
+            user = User.objects.create_user(username=username, email=email, password=national_code)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+
+            # تبدیل جنسیت به عدد مناسب
+            gender_map = {'male': 1, 'female': 2}
+            gender_num = gender_map.get(gender, 3)
+
+            # ایجاد نویسنده جدید
+            author = Author.objects.create(
+                user_made=request.user,
+                user=user,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                profile_image=profile_image,
+                username=username,
+                national_id=national_code,
+                date_birth=birthdate,
+                mobile=phone,
+                gender=gender_num,
+                address=address,
+                bio=biography,
+                slug=slug or slugify(f"{first_name}-{last_name}")
+            )
+
+            return JsonResponse({
+                "success": True,
+                "message": 'نویسنده با موفقیت ثبت شد.',
+                "data": {}
+            }, status=200)
+
+        except Exception as e:
+            return JsonResponse({"success": False, "message": f'خطا در ثبت نام نویسنده: {str(e)}', "data": {}}, status=500)
+
+    return redirect('master_author_list')

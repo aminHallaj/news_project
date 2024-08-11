@@ -225,8 +225,6 @@ $("#sub_cat_add").on("submit", function (e) {
 
 
 
-
-
 $(document).ready(function() {
     $("[id^='form_reviwe_edit_']").on("submit", function (e) {
         e.preventDefault();
@@ -281,6 +279,12 @@ $(document).ready(function() {
         e.preventDefault();
         submitAuthorForm();
     });
+
+    // اضافه کردن event listener برای پاک کردن خطاها هنگام تایپ مجدد
+    $(document).on('input', '#addAuthorForm input', function() {
+        $(this).removeClass('is-invalid');
+        $(this).next('.invalid-feedback').remove();
+    });
 });
 
 function submitAuthorForm() {
@@ -302,11 +306,21 @@ function submitAuthorForm() {
                 showToast('success', response.message);
             } else {
                 showToast('error', response.message);
+                if (response.field) {
+                    showFieldError(response.field, response.message);
+                }
             }
         },
         error: function(xhr, status, error) {
             console.error("خطا در درخواست:", xhr.responseText);
-            showToast('error', "خطایی رخ داده است: " + error);
+            if (xhr.responseJSON) {
+                showToast('error', xhr.responseJSON.message);
+                if (xhr.responseJSON.field) {
+                    showFieldError(xhr.responseJSON.field, xhr.responseJSON.message);
+                }
+            } else {
+                showToast('error', "خطایی رخ داده است: " + error);
+            }
         }
     });
 }
@@ -319,6 +333,9 @@ function updateAuthorTable() {
 
 function resetForm(form) {
     form.reset();
+    // پاک کردن تمام پیام‌های خطا و کلاس‌های is-invalid
+    $(form).find('.is-invalid').removeClass('is-invalid');
+    $(form).find('.invalid-feedback').remove();
 }
 
 function closeModal() {
@@ -340,3 +357,9 @@ function showToast(type, message) {
     toastr[type](message);
 }
 
+function showFieldError(fieldName, errorMessage) {
+    var field = $(`#${fieldName}`);
+    field.addClass('is-invalid');
+    field.next('.invalid-feedback').remove(); // حذف پیام‌های خطای قبلی
+    field.after(`<div class="invalid-feedback">${errorMessage}</div>`);
+}

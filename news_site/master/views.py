@@ -808,7 +808,6 @@ def master_toggle_author_active(request):
 
 
 def master_author_create_submit(request):
-
     if request.method == 'POST':
         # دریافت داده‌های فرم
         first_name = request.POST.get('firstName')
@@ -824,9 +823,41 @@ def master_author_create_submit(request):
         slug = request.POST.get('slug')
         profile_image = request.FILES.get('profile')
 
-         # بررسی اطلاعات ضروری
+        # بررسی اطلاعات ضروری
         if not all([first_name, last_name, national_code, phone, email, username, birthdate, gender]):
             return JsonResponse({"success": False, "message": "لطفاً تمام فیلدهای ضروری را پر کنید.", "data": {}}, status=400)
+
+        # بررسی وجود یوزرنیم
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({
+                "success": False,
+                "message": "این نام کاربری قبلاً استفاده شده است.",
+                "field": "username"
+            }, status=400)
+
+        # بررسی وجود ایمیل
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({
+                "success": False,
+                "message": "این ایمیل قبلاً استفاده شده است.",
+                "field": "email"
+            }, status=400)
+
+        # بررسی وجود کد ملی
+        if Author.objects.filter(national_id=national_code).exists():
+            return JsonResponse({
+                "success": False,
+                "message": "این کد ملی قبلاً ثبت شده است.",
+                "field": "nationalCode"
+            }, status=400)
+
+        # بررسی وجود شماره تلفن
+        if Author.objects.filter(mobile=phone).exists():
+            return JsonResponse({
+                "success": False,
+                "message": "این شماره تلفن قبلاً ثبت شده است.",
+                "field": "phone"
+            }, status=400)
 
         try:
             # ایجاد کاربر جدید
